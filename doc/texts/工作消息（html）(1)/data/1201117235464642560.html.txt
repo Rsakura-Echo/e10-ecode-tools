@@ -1,0 +1,77 @@
+功能介绍
+我们APP的离线推送，理想状态下APP的未读角标数是和实际的未读数是完全一致的，但实际情况下，会根据不同的手机，对应的效果也是不一样的。
+1、手机推送厂商不支持未读数减-n的接口
+2、要更新未读数，必须有新消息触发。
+因此造成角标的更新有以下说明：
+1. app的角标，只会在推送新消息时进行修改，所以正常的其他端已读消息，app的离线角标是不会变的。只有下一个新消息到达，推送了离线消息到app，app才会更新角标。
+2.更新角标的方式有多种，只有支持更新设置总数的手机类型，app才有可能会更新和实际未读数一致。因为在其他设备已读，未有的未读到来之前，还是会不准确，只有来了下一条未读消息才会更新一致。
+3. 打开APP后，看到的消息列表未读数是实际的未读数，和PC也是一致的，APP每次打开，我们会将APP内部的未读数去重置APP的角标。
+手机类型
+推送厂商
+更新角标规则
+是否支持（新消息后和PC未读保持一致，即是否支持推送未读总数）
+华为手机
+华为
+可推送总数N，可+N
+支持
+小米手机
+小米
+不支持设置，每次推送自动+1，点击app后自动清除
+不支持
+苹果手机
+apns
+可推送总数N
+支持
+oppo手机
+oppo
+可推送总数N，可+N
+支持 (但需要企业单独申请才支持)
+vivo手机
+vivo
+不支持设置，每次推送自动+1，点击app后自动清除
+不支持
+荣耀
+荣耀
+可推送总数N，可+N
+支持
+具体推送厂商的官方文档说明
+华为推送角标
+1、支持设置角标，支持递增
+2、接口角标参数说明
+3、参考 [华为推送接口文档]
+https://developer.huawei.com/consumer/cn/doc/HMSCore-References/https-send-api-0000001050986197#section165641411103315
+小米推送角标
+1、不支持主动设置
+2、参考 [小米推送接口文档]
+https://dev.mi.com/console/doc/detail?pId=1278#_2_0
+苹果apns推送角标
+1、支持设置角标，不支持递增
+2、接口角标参数说明
+3、参考 [苹果apns推送接口文档
+https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html#//apple_ref/doc/uid/TP40008194-CH17-SW1
+oppo推送角标
+1、支持主动设置、递增，但该参数字段为厂商内部参数，需要单独申请
+2、接口角标参数说明
+3、参考 [oppo推送角标说明文档]
+https://www.e-cology.com.cn/sp/file/filePreview/2360504499508926825?pauuid=6393c6d85ce946b9b8c157ac9516c2aa
+vivo推送角标
+1、支持主动递增，但该参数字段为厂商内部参数，需要单独申请
+2、接口角标参数说明
+3、参考 [vivo推送角标说明文档]
+https://www.e-cology.com.cn/sp/file/filePreview/2359389604124265505?pauuid=d987fc9ef26c43348aa2bd4ecd50a495
+极光推送角标
+1、部分厂商支持：支持设置角标，支持递增
+2、接口角标参数说明
+3、参考 [极光推送接口文档]
+https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push#options%EF%BC%9A%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0
+荣耀推送角标
+1、支持设置角标，支持递增
+2、接口角标参数说明
+3、参考 [荣耀推送接口文档]
+https://developer.hihonor.com/cn/kitdoc?category=%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1&kitId=11002&navigation=guides&docId=cloud-base-api.md&token=
+常见问题
+1、什么是APP的离线角标？
+EM app未打开时，处于非活跃状态，此时消息接收都采用手机自带的离线推送机制，我们称此时的app图标上的未读数为 APP的离线角标。
+2、APP的离线角标什么时候会变？
+只在APP收到新的消息时才会变，在PC已读消息时，是不会变的。
+作者：泛微帮助中心——IM消息模块

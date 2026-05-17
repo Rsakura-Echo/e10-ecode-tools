@@ -1,0 +1,20 @@
+E10-LDAP集成支持LDAP密码迁移同步-操作说明
+修改LDAP认证服务配置
+1、登录nacos配置中心
+1、
+搜索配置文件
+找到weaver-ldap-auth-service.properties配置文件，编辑
+2、
+修改配置并发布
+将weaver.ldap.auth.sendLoginSuccessMsg配置项的值置为1后发布配置
+修改LDAP反向同步服务配置
+1、获取LDAP集成配置id
+打开 后端管理中心-LDAP集成-基础设置，浏览器开启f12，点击需要同步密码的LDAP集成配置名称，查看getFormData接口的传参，复制id值
+3、
+搜索配置文件
+找到weaver-ldap-syncout-service.properties配置文件，编辑
+4、
+修改配置并发布
+将weaver.ldap.syncout.loginSuccess.updatePwd.ldapIds配置上刚刚复制的LDPA配置id，多个以英文逗号分隔
+测试
+使用域账号密码登录OA后，连接需要修改密码的LDAP，验证密码是否被修改成功

@@ -1,0 +1,56 @@
+问题1：组件报文中提示：此功能繁忙，请稍后再试
+处理方案：提问题到性能组排查
+问题2：组件报文执行后报文中出现：instance does not exist
+例如：
+errMsg ==> [[ATTEND/com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface/machineRuleSyncv1] instance does not exist.]
+处理方案：
+1.
+检查serverless 组件配置的分组标识以及版本号 是否和二开发布接口匹配。分组标识要和发布的接口相同，如果二开发布的接口有版本号就必须添加，没有版本号则不能多加。
+2. 二开没注册成功导致，可按照下面的文档先排查下
+https://weaverecode.feishu.cn/docx/IwTQd3omCoBicmxFMcVcHSiHn5b#CCm2dIMWiotVHHx2FVoceGNBnad
+3.上面两步检查完还是不行的，可以提问题流程到 e-code模块 排查
+问题3：组件报文执行后报文中出现：Unable to find service name based on
+例如：
+"message": "二开服务:(分组标识:createJsonString 版本号:null):执行失败:ServerlessAction发生异常，失败原因：Unable to find service name based on
+处理方案：
+1. 检查serverless 组件配置的分组标识以及版本号 是否和二开发布接口匹配。分组标识要和发布的接口相同，如果二开发布的接口有版本号就必须添加，没有版本号则不能多加。
+2. 二开没注册成功导致，可按照下面的文档中3.1先排查下
+https://weaverecode.feishu.cn/docx/IwTQd3omCoBicmxFMcVcHSiHn5b#CCm2dIMWiotVHHx2FVoceGNBnad
+3.上面两步检查完还是不行的，可以提问题流程到 e-code模块 排查
+问题4：组件报文执行后报文中出现 timeout; nested exception is java.net.SocketTimeoutException: timeout
+例如：
+errMsg ==> [I/O error on POST request for \"http://WEAVER-SUB-PREFIX-START-TBIT022/com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface/1.0&REST_RPC-WEAVER-SUB-PREFIX-END/sapi/framework/service/rpc/rest/handler\": timeout; nested exception is java.net.SocketTimeoutException: timeout]
+处理方案：该提示是指二开超时，可分同步和异步两种方案实现
+同步：serverless组件本身默认是同步执行的，配置超时可下载组件上的使用规范文档，在文档的最下面有提供修改超时的配置方案。具体配置方式如下，需要配置两个地方（缺一不可）：
+1、修改二开接口发布的dubbo接口超时时间
+2、修改weaver-esb-server-service.properties 配置文件 ，格式如下：
+文件地址：
+单体部署 ： 服务器E10项目路径  + /webapps/ROOT/WEB-INF/classes/weaver/config/config-center
+组合部署 ： nacos中修改
+注：修改以上配置后，需要重启二开服务（weaver-secondev）以及ESB的服务（如果是单体就重启E10，如果是组合微服务就重启ESB所在的服务）
+group对应 的 二开发布接口的group，   dubboapi 即实现的接口 此处固定为 com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface ， version 是 二开发布接口的版本哈version  如果没有 则不用加。  时间单位是毫秒（1s = 1000ms）
+weaver.rest.web.restRpc.[group/dubboapi全路径/
+version].restProperties.connectTimeOut=300000
+weaver.rest.web.restRpc.[group/dubboapi全路径
+/version].restProperties.writeTimeOut=300000
+weaver.rest.web.restRpc.[group/dubboapi全路径
+/version].restProperties.readTimeOut=300000
+例：如 group :esb_test_new ,  version : seconddev1.0  将超时时间改成五分钟（即300000ms）
+weaver.rest.web.restRpc.[esb_test_new/
+com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface/seconddev1.0].restProperties.connectTimeOut=300000
+weaver.rest.web.restRpc.[esb_test_new/
+com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface/seconddev1.0].restProperties.writeTimeOut=300000
+weaver.rest.web.restRpc.[esb_test_new/
+com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface/seconddev1.0].restProperties.readTimeOut=300000
+异步：如果遇到serverless二开超时的，并且代码不需要等待响应结果， 可以在二开中开启异步线程池执行代码，具体案例参考txt中的代码。
+问题5：二开代码出现报错，报错信息中出现自己二开代码堆栈信息
+处理方案：出现这种错误 异常堆栈有自己二开代码的信息和行数，一般是自己二开代码有问题，自行根据行数定位即可
+处理方案：出现这种错误 ，一般是自己二开代码有问题，找二开人员定位即可
+处理方案：出现这种错误 ，一般是自己二开代码有问题，找二开人员定位即可
+问题6：组件执行失败，ServerlessAction发生异常，具体错误为Rest rpc Consumer[1464238089765421056][E10][127.0.0.1:23002] &[...] errMsg ==> [null]。
+处理方案：联系二开人员处理空指针异常问题。
+问题7：上下文获取serverless/Action的输出参数值，获取不到的问题
+处理方案：上下文获取不到serverless/Action输出参数的值，一般是输出参数配置不对导致，可以通过报文中的输出数据JSON下，将data下的参数复制后批量覆盖到输出参数中即可
+从 originalData 下的 data 的  {  开始  选择，一直选择到 最后的  }  结束，将复制出来的内容去serverless/Action输出参数那批量添加覆盖即可，添加后下面组件引用的地方重新选择即可
+问题8：上下文获取serverless/Action的输出参数值，某个参数获取不到的问题
+处理方案：检查获取不到数据的参数格式是否正常，如下图多了个空格导致获取不到

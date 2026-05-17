@@ -1,0 +1,99 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了企信宝的40个数据服务接口：
+操作
+API调用指南
+1.47 变更记录
+https://data.qixin.com/api-detail?from=qxb-c-api&categoryId=27C4602EBB38429EK08QR7fy&apiId=1.47
+1.41 工商照面
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=1.41&from=qxb-c-api
+1.31 模糊搜索
+https://data.qixin.com/api-detail?categoryId=1309333f837748bbafda78c9d02f40d8&apiId=1.31&from=qxb-c-api
+1.45 主要人员
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=1.45&from=qxb-c-api
+9.1 法院公告
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=9.1&from=qxb-c-api
+1.43 工商股东
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=1.43&from=qxb-c-api
+1.55 经营异常
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=1.55&from=qxb-c-api
+1.51 企业联系方式
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=1.51&from=qxb-c-api
+55.3 实际受益人
+https://data.qixin.com/api-detail?from=qxb-c-api&categoryId=8449c963a136432ca20a17f0248bd55f&apiId=55.3&come=search
+28.6 对外投资
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=28.6&come=search&from=qxb-c-api
+19.1 开庭公告
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=19.1&come=search&from=qxb-c-api
+6.5 行贿违法
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=6.5&come=search&from=qxb-c-api
+17.5 被执行企业
+https://data.qixin.com/api-detail?from=qxb-c-api&categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=17.5
+5.5 失信被执行企业
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=5.5&come=search&from=qxb-c-api
+47.4 立案信息
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=47.4&come=search&from=qxb-c-api
+32.1 行政处罚
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=32.1&come=search&from=qxb-c-api
+56.1 严重违法
+https://data.qixin.com/api-detail?from=qxb-c-api&categoryId=438048f4d30442d5b18faf65494f5870&apiId=56.1
+38.2 抽查检查
+https://data.qixin.com/api-detail?categoryId=563fa431890f4e33b4eb22420ed6a3c0&apiId=38.2&come=search&from=qxb-c-api
+22.8 企业工程不良行为
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=22.8&come=search&from=qxb-c-api
+1.35 工商清算组人员
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=1.35&come=search&from=qxb-c-api
+51.1 环保处罚列表
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=51.1&come=search&from=qxb-c-api
+20.1 欠税信息
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=20.1&come=search&from=qxb-c-api
+20.3 重大税收违法
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=20.3&come=search&from=qxb-c-api
+25.1 动产抵押
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=25.1&come=search&from=qxb-c-api
+26.1 股权出质
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=26.1&come=search&from=qxb-c-api
+40.2 司法协助
+https://data.qixin.com/api-detail?categoryId=438048f4d30442d5b18faf65494f5870&apiId=40.2&come=search&from=qxb-c-api
+7.1 司法拍卖
+https://data.qixin.com/api-detail?categoryId=9738cf87422f43cba1850e00bc28f8c9&apiId=7.1&come=search&from=qxb-c-api
+39.2 行政许可
+https://data.qixin.com/api-detail?categoryId=563fa431890f4e33b4eb22420ed6a3c0&apiId=39.2&come=search&from=qxb-c-api
+22.1 资质信息
+https://data.qixin.com/api-detail?categoryId=66b09e8873cd463ea1f06a5713a993e3&apiId=22.1&come=search&from=qxb-c-api
+52.1 纳税A级
+https://data.qixin.com/api-detail?categoryId=563fa431890f4e33b4eb22420ed6a3c0&apiId=52.1&come=search&from=qxb-c-api
+53.1 海关登记
+https://data.qixin.com/api-detail?from=qxb-c-api&categoryId=563fa431890f4e33b4eb22420ed6a3c0&apiId=53.1
+58.3 债券基础信息
+https://data.qixin.com/api-detail?categoryId=986ee664ef0e4ccd8549cc51d45498c9&apiId=58.3&come=search&from=qxb-c-api
+37.3 融资信息
+https://data.qixin.com/api-detail?categoryId=c18fd719e75f4e41aed414ae9b13aba8&apiId=37.3&come=search&from=qxb-c-api
+3.3 社保信息
+https://data.qixin.com/api-detail?categoryId=27C4602EBB38429EK08QR7fy&apiId=3.3&come=search&from=qxb-c-api
+8.1 专利列表
+https://data.qixin.com/api-detail?categoryId=66b09e8873cd463ea1f06a5713a993e3&apiId=8.1&come=search&from=qxb-c-api
+14.1 著作权
+https://data.qixin.com/api-detail?categoryId=66b09e8873cd463ea1f06a5713a993e3&apiId=14.1&come=search&from=qxb-c-api
+15.1 软件著作权
+https://data.qixin.com/api-detail?categoryId=66b09e8873cd463ea1f06a5713a993e3&apiId=15.1&come=search&from=qxb-c-api
+22.6 工程资质资格
+https://data.qixin.com/api-detail?categoryId=66b09e8873cd463ea1f06a5713a993e3&apiId=22.6&come=search&from=qxb-c-api
+43.2 新三板
+https://data.qixin.com/api-detail?categoryId=986ee664ef0e4ccd8549cc51d45498c9&apiId=43.2&come=search&from=qxb-c-api
+二、
+功能使用说明
+场景案例：
+采购管理场景中，为了减少人工操作时间，提高工作效率，提交供应商注册审批流程时，业务人员只需填写供应商全称即可，系统会调用内置启信宝工商照面接口查询企业信息自动填充到流程字段中。
+操作步骤：
+1.新建供应商注册表单及其审批流程
+设计表单时，表单字段格式需要与接口响应参数格式尽量一致，如接口返回的注册资本为“XXX万人民币”，设计表单时注册资本字段尽量为单行文本，如业务需求为数字字段，输出响应参数到表单字段是需通过函数进行格式转换；选项类型的字段选项value、选项名称要和第三方编码规则一致：
+2.新建字段联动并设计联动动作流
+2.1添加执行组件内置连接器启信宝工商照面接口
+2.2注册登录启信宝官网，采购数据服务，获取接口调用所需的appkey和secret_key
+2.3设置接口输入参数企业全名为表单字段供应商名称
+2.4输出接口响应参数到表单字段
+接口返回的参数格式和表单字段格式不符，需要通过函数公式等方式进行格式转换，如注册资本字段在表单中是数字字段但是接口返回的原始格式是中文字符串时：
+三、常见问题
+1.接口调用失败的常见原因
+未将E10服务器外发IP设置在启信宝接口调用白名单中

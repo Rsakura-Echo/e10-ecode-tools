@@ -1,0 +1,91 @@
+功能概述
+将内容转换为 Word 或 Markdown 格式，便于文档编辑与排版。
+一、转WORD
+1.1勾选转WORD功能
+1.2映射设置
+1.2.1存储字段
+系统将识别指定表单附件字段、或本地上传的PDF文件或图片，并将转换后的WORD文件存储展示在指定字段上
+1.2.2文件来源
+本地上传：从本地上传需要识别的文件，支持单个或者多个
+表单中文件：上传到系统字段—附件中，上传多文件，支持批量识别转换
+1.2.3自动识别
+注：仅在文件来源是表单中文件时，可开启自动识别
+1.启用后，附件上传完毕、系统就将进行自动识别，并将识别结果填入映射字段，可以不必点击扫一扫按钮来使用功能
+2.同一个扫一扫组件、同时仅可启用一种自动识别功能，但可同时启用多种其他的非自动识别功能
+1.3使用效果示例
+1.3.1转WORD-本地上传
+本地文件中选择PDF文件或者图片，上传完成后，点击开始识别，识别完成后映射到存储字段，弹窗关闭
+1.3.2转WORD-附件上传，开启自动识别
+文件来源的附件中上传需要转换的PDF格式文件，转化完成后自动映射到存储附件
+二、转Markdown
+支持服务商：合合Textln
+该功能为前端HTTP联合后端RPC调用，组件内设置入口，仅需在OCR功能设置中启用识别功能
+具体调用如下：
+前端HTTP调用
+1) 请求地址
+/api/component/modules/ocr/feature/scan/process。
+2) 请求方式
+POST。
+3) 请求参数
+参数放在Body的form-data中。
+①　functionType（String类型）
+必填，传TO_MARKDOWN
+②　fileIds（String类型）
+必填，传文件ID
+4) OCR功能返回结果
+字段名
+类型
+必填
+说明
+code
+number
+✔️
+状态码（200=成功）
+msg
+string
+✔️
+返回消息（如 "接口返回成功"）
+status
+boolean
+✔️
+请求状态（true=成功）
+data
+object
+✔️
+返回的数据主体
+data.markdown
+string
+✔️
+Markdown 格式的简历内容
+fail
+boolean
+✔️
+是否失败（false=成功）
+返回示例：
+{
+"code": 200,
+"msg": "接口返回成功",
+"status": true,
+"data": {
+"markdown": ""
+},
+"fail": false
+}
+后端RPC调用
+1) 引入依赖包
+<dependency>
+<groupId>com.weaver</groupId>
+<artifactId>weaver-ocr-common-component-api</artifactId>
+</dependency>
+2) 注入OCR RPC Service
+@RpcReference
+RemoteOcrScanService remoteOcrScanService;
+3) 调用Service的doScan方法，进行OCR识别
+default WeaResult<Object> doScan(String tenantKey, Long employeeId, String functionType, String fileIds, String base64Files)
+参数说明：
+①　tenantKey  必填，租户key。
+②　employeeId  必填，员工id。
+③　functionType  必填，传TO_MARKDOWN
+④　fieldIds  必填，传文件ID
+⑤　base64Files  不传
+参见“前端HTTP调用-OCR功能返回结果”。

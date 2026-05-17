@@ -1,0 +1,4 @@
+问题描述：
+数据抽取运行报Rest client is fail,path ->[/sapi/rtsync/run]
+解决方式：
+此报错为rtsync未部署，rtsync服务目前需要补充安装，后续会加入安装包

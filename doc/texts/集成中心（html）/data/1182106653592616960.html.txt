@@ -1,0 +1,88 @@
+转换规则库
+对于外部的数据, 可能和OA的数据类型不对应, 需要做转换或者需要给固定值或者是进行字符串拼接等, 此时需要配置转换规则
+提供了9个系统级别和9个用户级别的转换规则可供使用,系统级别的无需注册,可直接选择使用
+系统级别:
+1)
+人员性别转换|0=男|1=女; (备注:性别转换,将0转换为男，1转换为女)
+2)
+人员状态转换-E9;
+(备注:E9同步到E10人员状态转换：E9：0：试用 1：正式;2：临时;3：试用延期;4：解聘;5：离职;6：退休;7：无效 E10: 1：试用 2：试用延期 3：正式;4：临时;5：实习 6：离职;7：退休)
+1)
+人员状态转换-bs;(备注:bs套件方式用)
+2)
+固定值;(备注:固定值0)
+3)
+千里聆人员性别转换|0=男|1=女;(备注:千里聆性别转换,将男转换为0，女转换为1;千里聆套件反向同步使用)
+4)
+HR岗位转换规则;(备注:用于转换oa中的岗位id为名称)
+5)
+HR分部/部门名称转换规则;(备注:用于转换oa中的分部/部门id为名称)
+6)
+携程-人员性别转换;(备注:将系统人员性别转换为携程人员性别)(备注:同步携程用)
+7)
+携程-人员状态转换;(备注:将系统人员状态转换为携程人员状态)(备注:同步携程用)
+用户级别需新建:
+1）名称：必填,转换规则名称，不可数字开头
+2）类名称：必填,转换规则类名称
+3）参数：根据类名称决定是否需要配置，根据具体需要进行配置
+4）所属模块：HR同步,不可编辑
+5）转换类型：可选分部、部门、岗位、人员
+6）转换方向：默认为空，可选择：正向、反向
+7）规则级别：默认为用户级别,不可编辑
+8）状态：启用、禁用，默认启用（注：正在使用中的转换规则可编辑但不可删除，状态为禁用时，才可删除）
+用户级别类名称参考如下:
+1 固定值
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.FixedValueConvert
+• 参数：需要的固定值
+2 拼接
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.PrimaryKeyConvert4ecology
+• 参数：拼接值
+• 作用：将参数拼接到值的前面
+3 转换
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.CommonConvert
+• 参数：{"0":"male","1":"female","default":"aa"}
+• 作用：根据key匹配参数，如果匹配不上赋予default对应值
+4 空值转为null
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.EmptyToNullConvert
+• 参数：
+• 作用：如果值为空则转换为null
+5 黑名单（匹配则置为null）
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.MatchDataJumpConvert
+• 参数：,号分隔的字符串
+• 作用：配置在主键对应的转换规则上，当值满足条件时跳过不同步
+6 人员信息查询转换
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.EmployeeInfoConvert
+• 参数格式为：{
+"sourceField": "",
+"targetField": "",
+"defaultValue": ""
+}
+* sourceField:源字段
+* targetField:目标字段
+* defaultValue: 查不到则赋予默认值，若不设置默认值则为入参
+• 作用：根据源字段查询人员信息里面目标字段的值，例如根据outkey查询人员对应的工号
+• 注：目前支持的字段有：id、username、email、job_num、outkey（都是employee里的字段）
+7 提取逗号分隔字符串的第一个值
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.ExtractFirstFromListConvert
+• 参数：,号分隔的字符串
+• 作用：获取分隔字符串的第一个值
+8 匹配白名单（黑名单）判断为空赋予默认值
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.SetDefaultValueConvert
+• 参数：
+* {
+*     "match":[],//匹配值，如果设置了匹配值则根据匹配值判断
+*     "defaultValue": "",//为null或者为空赋予默认值
+*     "jumpParam": {//匹配参数名跳过赋予默认值，优先级更高
+*         "name": "",//匹配参数名
+*         "value": []//匹配数组
+*     },
+*     "matchParam": {//匹配参数名赋予默认值
+*         "name": "",//匹配参数名
+*         "value": []//匹配数组
+*     }
+* }
+• 作用：根据白名单以及黑名单判断为空置为null或者赋予默认值
+9 上级为自己则置为null
+• 类路径：com.weaver.intcenter.hr.dataInterface.convert.SpecialManageConvert
+• 参数：上级源字段名
+• 作用：匹配上级字段特殊处理，如果上级为自己则置空

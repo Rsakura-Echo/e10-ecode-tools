@@ -1,0 +1,2 @@
+新增支持BearerToken认证
+在连接信息的认证方式新增BearerToken，选择BearerToken后，需要输入对应的Token值，输入后保存即可，当接口执行使用配置好的BearerToken认证方式后，接口执行正常

@@ -1,0 +1,12 @@
+问题描述：
+如何通过不使用数据id的情况下也可以打开对应数据的显示布局页面。
+解决方式：
+第一步：设置字段打开动作，链接地址放固定地址：/sp/ebdfpage/formmode/view/convertPage?objId=表单id&pkfield=rkdh；此处链接地址为固定地址。直接粘贴复制即可，需要手动修改的是objid 、pkfield  ，如图1；
+如何获取表单objid，如图2；
+如何获取pkfield，如图3；
+图1
+图2
+图3
+第二步：设置参数；左侧参数名称为固定值：pkvalue ；右侧参数值可选择表单字段；
+pkvalue和pkfield必须对应的是同一个字段。
+第三步：配置完成即可保存查看效果

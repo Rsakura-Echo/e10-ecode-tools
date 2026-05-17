@@ -1,0 +1,11 @@
+说明：
+在数组中查找指定元素的下标，0代表第一个元素，-1代表未找到
+语法：
+FIND_ELEMENT_INDEX (ListObject,Element)
+参数：
+前面为数组，后面为指定元素
+示例：
+FIND_ELEMENT_INDEX(["a", "b", "c"], c)
+返回：
+2
+因为0代表第一个元素，c在第三个，所以返回2

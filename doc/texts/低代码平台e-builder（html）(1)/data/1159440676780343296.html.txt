@@ -1,0 +1,28 @@
+一、功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了金蝶精斗云的2个数据服务接口：
+操作
+API调用指南
+获取用户的access_token
+获取client_id 和client_secret ：https://open.jdy.com/#/files/api/detail?index=3&categrayId=316e1f5bd9d711ed8e36c17691e84ff5&id=a540e3dcd9d811ed8e3677dc79b66e86&noside=true
+https://open.jdy.com/#/files/api/detail?index=3&categrayId=5403e0fd6a5811eda819b759130d6d33&id=94258fafd9de11edbfb2c7da3836a943&noside=true
+查询凭证
+https://open.jdy.com/#/files/api/detail?index=3&categrayId=8ac6ba19e2074bc3bf06dabb91c60d1e&id=1aa3f62344784d3fa36352e4674bfd3e
+删除凭证
+https://open.jdy.com/#/files/api/detail?index=3&categrayId=8ac6ba19e2074bc3bf06dabb91c60d1e&id=6b340f57bc31472dbbf14ea7b4ed6866
+具体对应精斗云官网api接口可访问
+https://open.jdy.com/#/files/api/detail?index=2&categrayId=a125933242c3454190877377b96b8b14&id=f808311a277f4a099a5d5bfa72b0656a
+二、功能使用说明
+场景案例：
+通过定时器触发组件对精斗云的凭证进行查询，将查询出来的凭证数据插入到e-Builder表单中，实现OA系统和第三方精斗云系统数据之间的交互。
+操作步骤：
+1、获取client_id 和client_secret
+使用精斗云接口前，用户需注册精斗云，从而获取到对应的client_id和client_secret，可根据以下地址中的内容进行获取
+https://open.jdy.com/#/files/api/detail?index=3&categrayId=316e1f5bd9d711ed8e36c17691e84ff5&id=a540e3dcd9d811ed8e3677dc79b66e86&noside=true
+https://open.jdy.com/#/files/api/detail?index=3&categrayId=5403e0fd6a5811eda819b759130d6d33&id=94258fafd9de11edbfb2c7da3836a943&noside=true
+2、新建动作流，添加简单定时器触发组件、精斗云接口执行组件以及新建表单数据组件
+注：由于使用精斗云的逻辑接口是需要授权后才可执行，所以在逻辑接口前必须加上获取用户的access_token接口才可以
+3、参数设置
+获取用户的access_token接口需要用户自己申请注册精斗云获取对应的client_id和client_secret，申请后可在对应参数输入
+查询凭证需要access_toekn以及sId以及dbId，access_toekn可通过获取用户的access_toekn接口的上下文获取，sId以及dbId是用户注册精斗云后，建立对应凭证的账套后可获取的账套id，参数赋值映射如下
+将查询凭证组件的上下文中的响应数据映射赋值给新建表单数据组件，动作流配置后定时触发动作流后，会将查出来的凭证插入到e-Builder表单中云星空系统的凭证中新增一条数据
+三、常见问题

@@ -1,0 +1,28 @@
+{
+  "name": "e10-ecode-tools",
+  "description": "泛微 E10 ecode 开发工具包 — 智能检索 85 个模块 5700+ 篇实施文档 + 完整前后端二开知识库 + 5 个开发 skill。支持语义搜索、配置查询、前端组件复写、后端 API/ESB 开发，配置优先 > 前端二开 > 后端二开。",
+  "version": "1.0.0",
+  "author": {
+    "name": "sakura"
+  },
+  "homepage": "https://github.com/user/e10-ecode-tools",
+  "repository": "https://github.com/user/e10-ecode-tools",
+  "license": "MIT",
+  "keywords": [
+    "e10",
+    "ecode",
+    "泛微",
+    "weaver",
+    "low-code",
+    "二开",
+    "eworkflow",
+    "ebuilder"
+  ],
+  "skills": [
+    "./.claude/skills/ecode-lookup",
+    "./.claude/skills/ecode-developer",
+    "./.claude/skills/ecode-backend-developer",
+    "./.claude/skills/ecode-solution",
+    "./.claude/skills/ecode-knowledge-maintainer"
+  ]
+}

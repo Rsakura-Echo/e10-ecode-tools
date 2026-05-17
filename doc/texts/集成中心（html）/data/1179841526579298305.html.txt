@@ -1,0 +1,74 @@
+一、功能背景及价值用途
+通过退出管理设置E10统一认证中广播退出通知方式，应用系统在E10-统一认证中心集成需要监听认证退出请求时，需要了解该文档的内容，并根据该文档定义的方案进行相应的开发或调整。
+二、功能概述以及使用说明
+1、统一认证广播退出机制
+1.1、统一认证中心-退出接口
+统一认证中心退出接口被调用时，认证中心会话被注销的同时，会给当前浏览器，通过认证登录的接入端系统，推送一条退出通知请求，接入端系统若需要跟认证中心服务同步退出，可以监听到退出请求，处理本系统的会话注销逻辑。
+注：广播退出目前支持的协议（CAS、OAuth2、OIDC）认证协议
+1.2、广播退出流程图
+1.3、退出管理配置说明
+进入认证应用管理/应用设置-退出管理页面：
+通知方式：
+1、服务器：从认证服务器端向业务端发送POST协议退出通知请求；（该种方式适用前后端分离项目）
+2、浏览器：从用户浏览器端向业务端发送JSONP协议退出通知请求；
+3、不通知：认证退出不会给该业务系统发送退出请求。
+自定义通知地址：
+开启自定义地址，可设置业务系统接收退出通知的地址，关闭则默认通知到业务系统的票据回调地址
+2、退出请求报文说明
+2.1、服务器方式
+请求方式：POST
+请求格式：application/x-www-form-urlencoded
+请求地址：http://www.baidu.com/sso/cas（用于接收授权码的回调地址/配置的自定义退出地址）
+请求参数：
+logoutRequest=%3Csamlp%3ALogoutRequest+xmlns%3Asamlp%3D%22urn%3Aoasis%3Anames%3Atc%3ASAML%3A2.0%3Aprotocol%22+ID%3D%22LR-1-VLiGkGrd34q0TUwWjIUmy4ws%22+Version%3D%222.0%22+IssueInstant%3D%222023-07-27T19%3A20%3A35Z%22%3E%3Csaml%3ANameID+xmlns%3Asaml%3D%22urn%3Aoasis%3Anames%3Atc%3ASAML%3A2.0%3Aassertion%22%3E%40NOT_USED%40%3C%2Fsaml%3ANameID%3E%3Csamlp%3ASessionIndex%3EST-1-jbqaKgOePjlU86sgFnvhPmbEwXkwangjiedeMacBook-Pro%3C%2Fsamlp%3ASessionIndex%3E%3C%2Fsamlp%3ALogoutRequest%3E
+请求参数报文解读：logoutRequest为url编码的xml退出报文，SessionIndex为业务系统登录时的授权码
+如下：
+<samlp:LogoutRequest+xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"+ID="LR-1-VLiGkGrd34q0TUwWjIUmy4ws"+Version="2.0"+IssueInstant="2023-07-27T19:20:35Z"><saml:NameID+xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">@NOT_USED@</saml:NameID><samlp:SessionIndex>ST-1-jbqaKgOePjlU86sgFnvhPmbEwXkwangjiedeMacBook-Pro</samlp:SessionIndex></samlp:LogoutRequest>
+2.2、浏览器方式
+请求方式：JSONP
+请求地址：（用于接收授权码的回调地址/配置的自定义退出地址）
+http://www.baidu.com/sso/cas?logoutRequest=PHNhbWxwOkxvZ291dFJlcXVlc3QreG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIrSUQ9IkxSLTEtVkxpR2tHcmQzNHEwVFV3V2pJVW15NHdzIitWZXJzaW9uPSIyLjAiK0lzc3VlSW5zdGFudD0iMjAyMy0wNy0yN1QxOToyMDozNVoiPjxzYW1sOk5hbWVJRCt4bWxuczpzYW1sPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXNzZXJ0aW9uIj5ATk9UX1VTRURAPC9zYW1sOk5hbWVJRD48c2FtbHA6U2Vzc2lvbkluZGV4PlNULTEtamJxYUtnT2VQamxVODZzZ0ZudmhQbWJFd1hrd2FuZ2ppZWRlTWFjQm9vay1Qcm88L3NhbWxwOlNlc3Npb25JbmRleD48L3NhbWxwOkxvZ291dFJlcXVlc3Q%2B
+请求参数报文解读：logoutRequest为url编码的xml退出报文（Base64加密），SessionIndex为业务系统登录时的授权码。
+如下：
+<samlp:LogoutRequest+xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"+ID="LR-1-VLiGkGrd34q0TUwWjIUmy4ws"+Version="2.0"+IssueInstant="2023-07-27T19:20:35Z"><saml:NameID+xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">@NOT_USED@</saml:NameID><samlp:SessionIndex>ST-1-jbqaKgOePjlU86sgFnvhPmbEwXkwangjiedeMacBook-Pro</samlp:SessionIndex></samlp:LogoutRequest>
+3、监听广播退出实践
+以下示例为SpringBoot项目，广播退出服务器方式，依赖CAS-CLient-Core开源包
+统一认证服务：http://10.12.106.171
+接入端：http://192.168.40.108:7070
+完整项目-附录-CASClientDemo附件
+3.1、退出配置说明
+3.1.1、pom.xml引入（若已引入cas-client-core无需该步，version不做限制）
+3.1.2、注册退出监听器、过滤器
+3.1.3、配置application.properties
+3.2、Cas-Client-Core原生监听退出步骤
+1、访问接入端跳转到统一认证登录（登录时步骤），注：只有业务系统通过统一认证登录，才会被退出广播通知。
+2、浏览访问统一认证退出接口
+3、接入端SingleSignOutFilter过滤器收到广播退出通知请求
+4、调用SingleSignOutHandler处理器执行precess判断是否统一认证退出通知（携带logoutRequest参数表示为认证服务退出请求）
+5、进入SingleSignOutHandler处理器执destroySession方法
+6、解析logoutRequest报文，或者SessionIndex（登录时ticket授权码）
+7、根据ticket（授权码）清理sessionMappingStorage内的缓存，并拿到ticket对应的session会话对象
+8、拿到storage内保存的seeionid，执行session.invalidate()
+9、当前session会话清理完成
+注（*重要）：原生cas-client-core退出监听过滤器，接入端会话需要依赖浏览器sessionid才可使用上述原生退出过滤器注销会话，若接入端会话无法通过session.invalidate()清理，需要自定义清理，可参考<自定义退出过滤器>
+3.3、自定义退出过滤器
+自定义继承Filter，调用方法判断是否认证退出请求，执行自定义退出逻辑：
+public class CustomLogotFilter implements Filter {
+@Override
+public void init(FilterConfig filterConfig) throws ServletException {
+//自定义过滤器初始化
+}
+@Override
+public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+HttpServletRequest request = (HttpServletRequest)servletRequest;
+HttpServletResponse response = (HttpServletResponse)servletResponse;
+//判断当前请求是否为认证服务端 logoutRequest 退出通知
+boolean hasLogoutRequest = CommonUtils.isNotBlank(CommonUtils.safeGetParameter(request, "logoutRequest", null));
+if (hasLogoutRequest){
+//执行接入端系统注销逻辑
+}
+filterChain.doFilter(request, response);
+}
+@Override
+public void destroy() {}}
+附录

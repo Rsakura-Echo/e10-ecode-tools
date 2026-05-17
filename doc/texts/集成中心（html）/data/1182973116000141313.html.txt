@@ -1,0 +1,159 @@
+支持版本
+基线版本：2024.0801
+使用前先升级系统基线到最新版本
+使用说明
+E10从2024.0801基线版本开始，支持兼容E8、E9标准的webservice接口，具体接口路径和已支持接口列表见【已兼容E9接口列表】、【已兼容E8接口列表】。
+1.
+在使用接口前需要先按照【开放平台配置】配置好相关信息，拿到Corpid、app key和app secret
+2.
+将拿到的开放平台信息配置到webservice服务配置文件中，单体环境参考【修改配置文件-单体】，微服务环境参考【修改配置文件-微服务】
+3.
+配置好后，通过运维平台重启E10单体服务或weaver-webservice微服务
+4.
+E10为兼容E9的webservice，入参出参的id还是和E9一样的int型，但E10的id是大于等于18位的长id,有一些使用限制说明，请仔细阅读目录【ID转换说明】,如有疑问请咨询版本升级部简任。此项非常重要！！
+需要调整项
+1.
+webservice接口地址需要修改,新地址请查看目录【已兼容E9接口列表】和
+【已兼容E8列表】, 平台配置问题，请咨询张琦
+开放平台配置
+1.
+参考开放平台文档的【快速入门】-【企业接入指南】配置好【开发者资料】
+和【创建应用】
+从【开发者资料】中获取Corpid
+从【应用】中获取app key和app secret
+开放平台文档：
+https://weapp.eteams.cn/sp/opendoc/freepass/10.0.2412.01/zh_cn/949862795428020225
+2.
+关闭"接口调用限制" 开关
+目前2024.1201基线开始,
+(1)webservice要单独在开放平台新建1个应用, 并且关闭上图"接口调用限制"开关, 此设置非常重要。
+(2)如果使用E10标准的接口, 非webservice接口， 要在开放平台新建另外的应用,
+不要和webservice共用1个应用， 防止出现安全问题。
+注意： 如果E10是1201之前的基线，升级到1201之后（包含1201）的版本，也不要手动将webservice的开放平台应用此开关打开
+3.
+开关关闭方式：
+(1) 因为此按钮是灰色， 不允许手动关闭， 要在数据库修改， 在weaver-open-api
+微服务下, 执行如下脚本,   id值填应用id,  如下图地址栏数字就是应用id.
+update t_auth_app_info set interface_control=2 where id=1126399544822603776;
+(1)
+执行完sql后, 需要清除缓存, 可在应用详情页面随便修改一处, 如打开ip限制开关, 再关闭, 即可清除缓存;
+(1)
+关闭接口调用限制开关之后, 可用postman请求工具做测试是否真的没有限制,  可请求1个开放平台文档的接口, 看下是否返回正常值, 出现如下结果, 就是被拦截,
+表示开关未关闭成功, 需继续重复(1), (2) 步操作
+注意:  新建开放平台应用时,  要求必须默认添加1个接口,  可以随意选择1个,
+本步骤用接口做验证, 不要 使用新建默认添加的接口, 因为默认添加的是个放行的接口,  无法起到验证效果。
+如: 新建应用默认添加了1个人员的接口, 那验证就用部门, 文档或流程的接口做验证。
+修改配置文件-单体
+配置文件路径：/E10部署目录/webapps/ROOT/WEB-INF/classes/weaver/config/config-center/weaver-webservice-service.properties
+编辑weaver-webservice-service.properties，配置上正确的Corpid、app key、app secret、tenantKey信息后保存
+openApi.corpId：Corpid
+openApi.appKey：app key
+openApi.appSecret：app secret
+openApi.tenantKey：开发平台配置信息所在的租户key
+修改配置文件-微服务
+登录配置中心NACOS，在【配置管理】-【配置列表】中找到weaver-webservice-service.properties打开，
+配置上正确的Corpid、app key、app secret、tenantKey信息后保存
+openApi.corpId：Corpid
+openApi.appKey：app key
+openApi.appSecret：app secret
+openApi.tenantKey：开发平台配置信息所在的租户key
+自定义wsld文件中location地址前缀
+如果客户需要自定义wsdl文件中location的地址前缀，可以参考以下步骤处理
+1、
+修改axis2.xml配置文件
+文件路径：
+weaver-webservice访问安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/conf/axis2.xml
+修改内容：
+将axis2.xml中的httpFrontendHostUrl配置项改成客户环境实际访问域名，如果是集群，每个节点都需要修改
+1、
+重启weaver-webservice服务
+修改完成后需要重启weaver-webservice服务，如果是集群，每个节点都需要重启
+已兼容E9接口列表
+模块
+基线版本
+接口路径
+负责人
+知识文档
+2024.08.01
+/papi/services/DocService?wsdl
+张琦
+人力资源
+2024.08.01
+/papi/services/HrmService?wsdl
+张琦
+表单建模
+2024.08.01
+/papi/services/ModeDateService?wsdl
+简任
+杨迎凯
+统一待办
+2024.08.01
+/papi/services/OfsTodoDataWebService?wsdl
+王嘉男
+工作流程-WorkflowService
+2024.08.01
+/papi/services/WorkflowService?wsdl
+简任
+郭杰
+工作流程-WorkflowServiceXml
+2024.08.01
+/papi/services/WorkflowServiceXml?wsdl
+简任
+郭杰
+消息中心
+2025.01.01
+/papi/services/ServiceMessageCustom?wsdl
+张琦
+日程会议
+2025.07.01
+/papi/services/WorkPlanService?wsdl
+张琦
+已兼容E8接口列表
+模块
+基线版本
+接口路径
+负责人
+知识文档
+2024.08.01
+/papi/services/DocService4E8?wsdl
+张琦
+人力资源
+2024.08.01
+/papi/services/HrmService4E8?wsdl
+张琦
+表单建模
+2024.08.01
+/papi/services/ModeDateService4E8?wsdl
+简任
+杨迎凯
+工作流程-WorkflowService
+2024.08.01
+/papi/services/WorkflowService4E8?wsdl
+简任
+郭杰
+工作流程-WorkflowServiceXml
+2024.08.01
+/papi/services/WorkflowServiceXml4E8?wsdl
+简任
+郭杰
+ID转换说明
+因为E8，E9的webservice接口入参和出参，很多id值都是int型，为兼容第三方不做修改，E10webservice依旧保持int型入参和出参
+如下几点请注意：
+1. 不满足客户第三方直接访问E10数据库查询id，然后作为参数请求webservice接口, 此种情况要将E10长id转成int短id,  请联系简任要转id文档；
+2.
+第三方webservice接口，和E10开放平台接口同时使用,
+(1)E10接口入参要做int短id转E10id, 因为E10接口只支持E10id传入,  不识别int型短id, 请联系简任要转id文档;
+(1)
+E10接口出参要转回intId, 因为有老的webservice接口返回int型短id给客户, E10接口默认返回E10id,  如果不做转换, 会给第三方传两套id, 发生混乱,  要E10id转int型短id, 请联系升级部简任要转id文档;
+3.
+有其它二开和第三方系统有id的交互,  也需要出参将E10id转回int型短id, 和上面使用E10开发平台接口的处理方式一样;
+4.
+webserve接口是E9老数据的兼容方案
+（1）
+只支持E9老的调用webservice接口的流程id和建模模块id（即workflowid和modeid），升级到E10继续使用，不支持E10新增的流程路径和建模模块，新增的请参考下面链接使用E10接口。
+https://weapp.eteams.cn/sp/opendoc/freepass/10.0.2410.01/zh_cn/949862795428020225
+若内容空白,  请切换右上角基线为最新版本
+（2）
+E9老的调用流程和建模模块，若在E10上新增字段和明细表，第三方和OA互传数据本身就需要做二开，不保证E10上新增的字段数据自动做Id转换，具体可找升级部简任讨论。
+5.
+若客户要重新开发换成E10接口实现, 不使用webservice接口, 要将第三方系统存的E9id数据，刷成E10id数据，请联系升级部简任沟通方案。

@@ -1,0 +1,3 @@
+流程ID查询表单数据ID【requestId、dataId】
+示例：
+流程requestid与表单数据dataid ## 根据流程requestid查表单数据id【dataid】 select dataid from wfc_form_data where requestid=100504370000000516; ## 根据dataid到物理表查表单数据; 物理表，主表与明细表也通过form_data_id关联 select * from fto_5 where form_data_id= ${dataid}

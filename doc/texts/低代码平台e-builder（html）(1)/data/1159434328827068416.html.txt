@@ -1,0 +1,27 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了金数据的三个数据服务接口：
+操作
+API调用指南
+新增单条数据
+https://open.jinshuju.net/#/api_v1/endpoints/create_form_entry
+获取单条数据
+https://open.jinshuju.net/#/api_v1/endpoints/get_form_entry
+获取表单数据列表
+https://open.jinshuju.net/#/api_v1/endpoints/get_form_entries
+二、功能使用说明
+场景案例：
+将OA表单数据同步到金数据表单中，实现OA系统和第三方系统数据之间的交互，触发动作流后可在金数据系统中查看新增的数据。
+操作步骤：
+1.新建接口信息
+由于每个客户金数据表单字段都是不一样的，所以需要在金数据的连接器接口下新建自己的新增数据接口
+2.新建e-builder表单
+设计表单时，表单字段格式需要与金数据接口参数格式尽量一致
+3.搭建动作流
+2.1、新建动作流，触发组件选择【e-builder：点击按钮时】，新建保存触发；
+2.2、执行组件添加连接器（应用）-【金数据】-【向金数据表单推送新数据】，配置参数。
+4.效果展示
+三、常见问题
+1.接口Header中的Authorization参数值怎么生成？
+向金数据表单推送新数据发送 API 请求时，接口Header中的Authorization参数值怎么生成？
+具体操作流程参考下方链接：https://open.jinshuju.net/#/api_v1/authentication

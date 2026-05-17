@@ -1,0 +1,62 @@
+一、需求背景
+统一待办实现E10推送流程到E9，接收端E9以及 EM7打开推送端的流程。
+二、操作步骤
+示例参考如下：
+前提
+推送端：需要“统一待办推送设置”功能；
+接收端：需要“统一待办中心集成”功能（非标081）；
+使用EM7推送端和接收端需要“移动平台配置中心”功能（非标117），推送端需要“开放平台”功能。
+推送端
+PC：https://weapp.yunteams.cn
+接收端
+PC：http://10.12.20.18:8080
+1.推送端E10配置（统一待办推送）
+1.1.基本信息
+标识：推送配置唯一标识（建议与sysCode一致）
+服务端地址：http://10.12.20.20:8080（接收端PC地址）
+推送类型：推送到E8(E9)
+人员转换关系：手机号（建议）（与接收端转换规则一致，注：OA登录账号暂无法使用）
+1.2.参数设置
+sysCode：sun00002（与接收端标识一致）
+1.3.启用E10认证（开放平台）
+如果需要接收端打开推送端流程需要配置如下，反之可不用配置；
+开放平台-应用管理 申请通用型应用，认证方式选择OAuth2.0（具体问题请咨询开放平台组）
+2.接收端E9配置（统一待办中心）
+2.1.基本信息
+标识：sun00002（与推送端sysCode一致）
+PC地址内部前缀：https://weapp.yunteams.cn（推送端PC地址）
+PC中转页面：/interface/transfer/foreteams.jsp?type=pc
+APP地址前缀：https://weapp.yunteams.cn（推送端PC地址）
+APP中转页面：/interface/transfer/foreteams.jsp?type=app
+人员转换规则：手机号（建议）（与推送端转换规则一致，注：OA登录账号暂无法使用）
+2.2.支持E10认证
+如果需要接收端打开推送端流程需要配置如下，反之可不用配置；
+2.2.1.配置文件
+目录
+/weaver/ecology/WEB-INF/prop/ofsForEteams.properties
+2.2.2.配置项
+appKey
+推送端启用E10认证申请的标识
+security
+推送端启用E10认证申请的秘钥
+2.2.3.配置示例
+#sysCode_url 即 异构系统标识_url为主键=E10openapi地址/oauth2/get_logintoken
+#sysCode_appKey 即 异构系统标识_appKey 为主键 = 2.1申请标识
+#sysCode_security 即 异构系统标识_security 为主键 = 2.1申请的秘钥
+2.3.openapi确认
+Openapi地址：通常地址如下（具体地址可咨询环境部署人员）
+开放平台-接口示例-认证-获取code信息 请求url进行确认
+参考文献：
+https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/535b5174-f827-423d-bfeb-673d252a6777
+2.4.确保统一待办中心功能启用
+2.5.启用E9统一待办接口
+ecology\WEB-INF\web.xml 配置文件中检查是否有以下内容，若没有则添加：
+<servlet>
+<servlet-name>RestDispatcherServlet</servlet-name>
+<display-name>Rest Dispatcher Servlet</display-name>
+<servlet-class>weaver.rest.servlet.RestDispatcherServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>RestDispatcherServlet</servlet-name>
+<url-pattern>/rest/*/*</url-pattern>
+</servlet-mapping>

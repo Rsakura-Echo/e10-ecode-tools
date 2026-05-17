@@ -1,0 +1,27 @@
+一、测试数据连接时为什么报错
+1、常见的异常信息
+Could not create connection to database server. Attempted reconnect 3 times. Giving up.（连接信息有误，数仓尝试连接三次无法连接上抛出的异常，请按照排查思路来定位问题）
+The Network Adapter could not establish the connection( 网络连接错误，通常表明网络适配器（网卡）遇到了问题，或者网络配置不正确，导致设备无法建立网络连接)
+Listener refused the connection with the following error: ORA-12514, TNS:listener does not currently know of service requested in connect descriptorhe （检查库名是否对应oracle数据库的服务名）
+IO Error: Connection reset by peer, Authentication lapse 0 ms（尝试与远程服务器建立或维持网络连接时发生了异常中断。这种错误通常发生在网络通信过程中，另一端（peer）主动关闭了连接。这种情况可能由多种因素引起，而 "Authentication lapse 0 ms" 提示可能意味着认证过程出现问题或认证超时，请按照排查思路查看网络是否连通）
+连接信息不可用: 用户 'ecology1' 登录失败。(sqlserver 用户名或者密码错误)
+The TCP/IP connection to the host 10.12.2.18, port 14331 has failed. Error: "connect timed out. Verify the connection properties. Make sure that an instance of SQL Server is running on the host and accepting TCP/IP connections at the port. Make sure that TCP connections to the port are not blocked by a firewall.".(连接端口或者ip无法访问的异常，根据上一点排查思路检查数据连接ip端口是否telnet通。不通请连接数据库管理人员或者运维人员）
+The connection attempt failed.（检查ip端口是否能够正常访问）
+FATAL: Invalid username/password,login denied. （用户名密码错误或者没有权限）
+2、解决方案
+检查数据连接信息是否正确
+检查防火墙是否拦截
+数据库权限检查是否给了E10部署的服务器ip以及当前用户
+检查是否连接数超了导致无法连接
+3、排查思路
+数据加工-数据连接里面找到对应的链接信息 ，测试链接看是否通过
+不通过根据报错信息看是否能够通过报错信息定位到异常位置。
+检查一下连接信息是否是正确的。
+打开运维平台，找到我们数仓服务（weaver-data-model-service）所在的服务器，（可以根据运维平台-服务版本，查询weaver-data-model-service所属服务组合后的服务名，在日志拉取的页面，上面会有对应服务所在的机器ip)
+接上对应的服务器， 使用ping 数据库ip  和telnet 数据库ip 数据库端口 查看部署应用的服务器是否能够正常连接上数据库。连接不通的话就排查一下防火墙、数据库的权限设置，保证部署应用的服务器和数据库能正常连通。
+二、数据连接正确，但是选不到想要的表
+1、先判断使用的账号是否有这张表的权限
+2、使用连接时选中的库是否是表对应的库
+3、数据连接选择时不能自行选择库的时候都是使用的默认库
+默认库是数据连接处：数据库名称填写的库
+Oracle比较特殊，默认库是用户名

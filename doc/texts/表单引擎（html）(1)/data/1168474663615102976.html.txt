@@ -1,0 +1,29 @@
+根据选项顺序返回
+1、精度丢失、数字转字符串查询
+CAST函数用于将值从一种数据类型转换为表达式中指定的另一种数据类型
+示例：
+CAST(value AS datatype)
+适用于多种数据库，示例为使用cast，将数值的id，转为字符进行匹配
+精度丢失，一般是id值超过18为，且数字和字符串列匹配
+示例：
+select * from formdata where cast(id as char) = "120510841299030225"
+2、datatype类型展示
+datatype参数取值
+值
+描述
+DATE
+将value转换成'YYYY-MM-DD'格式
+DATETIME
+将value转换成'YYYY-MM-DD HH：MM：SS'格式
+TIME
+将value转换成'HH：MM：SS'格式
+CHAR
+将value转换成CHAR(固定长度的字符串)格式
+SIGNED
+将value转换成INT(有符号的整数)格式，MYSQL特有
+UNSIGNED
+将value转换成INT(无符号的整数)格式，MYSQL特有
+DECIMAL
+将value转换成FLOAT(浮点数)格式
+BINARY
+将value转换成二进制格式

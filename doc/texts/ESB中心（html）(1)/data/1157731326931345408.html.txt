@@ -1,0 +1,4 @@
+问题描述：
+配置webhook触发时报错缺少请求参数access_token，但是认证应用只提供app_key和app_secret，这个access_token参数要去哪里获取？
+问题解答：
+根据官网开放平台的开发文档，由corpid、app_key、app_secret分别动态获取code和access_token

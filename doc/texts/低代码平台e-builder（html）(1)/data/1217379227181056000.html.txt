@@ -1,0 +1,16 @@
+新增动作流支持免登录功能
+动作流的自定义触发组件的动作流，在列表右侧的操作按钮中会显示应用认证的按钮，点击该按钮可开启动作流的认证，开启后可在页面中调用该动作流，实现免登的效果
+具体使用方在页面中体现，可查看链接地址内容：https://weapp.eteams.cn/sp/ebdpage/view/freepass/1152863419640021002/page/1152863419640021002?id=1214807211719204892&freepass_doc=1&space_id=1157961794811633670
+注：
+1、只有触发组件的自定义触发组件才会有该按钮
+2、显示应用认证按钮的前提还需要该租户在配置文件中配置了才可以；配置如下：
+单体路径E10项目路径  +/webapps/ROOT/WEB-INF/classes/weaver/config/config-center
+到esb-setting 服务里面修改配置文件
+文件名：weaver-esb-setting-service.properties
+添加：
+#{"type":"env","value":"off"}
+esb.monitor.config.open-notoken-execute=租户key
+微服务部署直接在nacos中搜索weaver-esb-setting-service.properties
+#{"type":"env","value":"off"}
+esb.monitor.config.open-notoken-execute=租户key
+注：单体需要重启

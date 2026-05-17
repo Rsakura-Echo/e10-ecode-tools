@@ -1,0 +1,40 @@
+本文档介绍E10统一认证接入自定义实现类通过ecode开发实现文档示例
+ecode本地开发环境搭建
+通过idea插件机制集成e10进行二开
+1、插件下载地址：
+链接: https://pan.baidu.com/s/111WVkKc71VFJUjXv3iffqA?pwd=agps 提取码: agps
+特别注意：win11系统 在使用的时候 目前需要以系统管理员身份启动idea 才能正常初始化项目依赖！！！
+部分win10版本可能也需要,因此 windows 系统最好一开始 管理员身份启动创建项目,创建成功之后不再需要管理员权限
+2、插件安装
+通过上面的下载地址，下载最新版插件包，进行本地安装，如下图
+点击后选择下载的插件包
+如果是更新的话，会提示需要重启IDE，重启即可
+新建统一认证项目
+点击新建按钮，进入新建面板
+然后选择E-code应用，使用平台选择eteams/e-cology10
+输入系统的url地址，然后点检查：
+然后输入账号和密码,点登录检查
+需要注意！！！登录检查的账号和密码，必须要先在nacos中心，weaver-ecode-service.properties配置文件中，将账号和人员Id配置到开发人员配置项中，
+weaver.ecode.devtool.developer.[账号]=[userid]
+PS.userid 可在在系统中通过 F12 的控制台中输入 TEAMS.currentUser.id 获取
+--javascripttypescriptbashsqljsonhtmlcssccppjavarubypythongorustmarkdown
+# 旧版本配置 - 部分环境会出现读取问题
+weaver.ecode.devtool.developer.187574xxxxx=8514074616793847943
+# 新版本(>=v1.7.20)配置, 逗号分割
+weaver.ecode.devtool.developerStr=187574xxxxx=8514074616793847943,187575xxxxx=851407461xxx
+# PS. 新版本中会继续兼容对老版本配置的处理 (建议后续采用新版本配置, )
+配置示例如下图
+然后点加载服务列表，找到统一认证服务 weaver-intunifyauth-client-service，选中后，点拉取依赖
+拉取到统一认证服务的依赖后，点next，完成项目的创建
+填入项目名后，点创建
+等待项目初始化完成后，即可开始开发自定义类
+最后，开发完成后，将开发项目打成jar包
+部署jar包
+管理员登录e10系统，访问 e10地址/ecode,并新建项目
+进入项目后，点新增按钮，并输入项目名称，然后选择java - loom jar（java无侵入e10项目），并确定
+点击【E10统一认证接入认证】打开ecode平台，选择上传jar包
+选择统一认证服务weaver-intunifyauth-client，并上传jar包
+至此jar包上传完成后，去到运维平台中心，重启统一认证服务后，其开发的jar包，就已经被部署成功了。
+统一认证接入配置
+选择认证方式为【自定义】时，支持填写自定义实现类
+具体接口自定义开发手册请详询开发或项目人员

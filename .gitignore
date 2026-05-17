@@ -1,0 +1,31 @@
+# 原始 HTML 导出包（11GB，仅本机保留）
+doc/extracted/
+
+# Python 虚拟环境
+tools/venv/
+
+# 后端项目（不随插件分发）
+secondev/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+
+# 临时文件
+*.tmp
+*.log
+*.swp
+*~
+
+# 旧版索引（已弃用）
+doc/kb_index.db
+
+# LLM Wiki 桌面应用
+tools/LLM Wiki.app

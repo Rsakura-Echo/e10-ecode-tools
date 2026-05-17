@@ -1,0 +1,32 @@
+功能介绍
+在使用E10 APP端未收到消息推送通知时，查看此文档进行排查。
+检查通用设置
+iOS端
+1.
+首先检查个人手机设置 ，设置——通知——E10开启允许通知；
+2.
+检查E10通知设置，我——设置——消息设置——通知设置——新消息通知开启，允许通知的消息类型开启，定时免打扰关闭；
+3.
+pc\Web客户端和app端同时登录时，查看已登录设备详情页面，移动端通知已开启；
+Androd端
+1.
+首先检查个人手机设置 ，设置——通知——E10开启允许通知
+2.
+同时Android还需要查看开启应用自启动
+3.
+检查E10通知设置，我——设置——消息设置——通知设置——新消息通知开启，允许通知的消息类型开启，定时免打扰关闭；
+4.
+pc\Web客户端和app端同时登录时，查看已登录设备详情页面，移动端通知已开启；
+根据手机型号检查
+以上通用设置都检查没问题，可针对具体手机型号排查。
+华为手机推送参考设置
+https://yq.weaver.com.cn/eb/qa/view/#/question/ac50fdab92cf4aab843c66e29bace1e5
+小米手机推送参考设置
+https://yq.weaver.com.cn/eb/qa/view/#/question/867a6beb25cb4ac5bb6c0ad9f29834c9
+oppo手机推送参考设置
+https://yq.weaver.com.cn/eb/qa/view/#/question/cf5a57d08ccb41ec9de0d5925f798e10
+荣耀手机推送参考设置
+https://yq.weaver.com.cn/eb/qa/view/#/question/7c1fc801677b4592bba51c5afb40bb9d
+vivo手机推送参考设置
+https://yq.weaver.com.cn/eb/qa/view/#/question/75fb7e5c69ac4078a550b33efa5fffba
+作者：泛微帮助中心——IM消息模块

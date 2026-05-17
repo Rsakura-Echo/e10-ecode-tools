@@ -1,0 +1,5 @@
+任务统计包括以下报表，点击可查看详情：
+1. 任务统计报表：https://eteams.cn/community/help/4525282550018385433
+2. 任务部门统计报表：https://eteams.cn/community/help/1966141753973397484
+3. 任务完成情况：https://eteams.cn/community/help/244
+4. 自定义字段统计：https://eteams.cn/community/help/4524919271684775282

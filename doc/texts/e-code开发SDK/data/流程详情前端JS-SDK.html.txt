@@ -1,0 +1,669 @@
+
+e10-流程详情前端JS-SDK文档【实时更新】
+一、说明
+1.1 用途说明
+1.2 获取sdk对象实例
+1.3 开发入口及生效范围
+1.4 eCode平台内开发样例
+二、获取常用参数及编码
+2.1 获取基础参数
+2.2 获取常用参数
+2.3 获取工作流、节点编码
+三、事件机制
+3.1 注册拦截事件
+3.2 钩子事件
+3.3 Ready加载事件（不推荐）
+四、操作菜单/事件控制
+4.1 添加操作菜单
+4.2 触发保存、触发操作按钮事件
+4.3 操作成功后复写
+4.4 修改按钮名称、隐藏按钮
+4.5 pc端表单顶部按钮、右键按钮置灰
+4.6移动端追加悬浮按钮
+五、框架控制
+5.1 切换页签
+5.2 页签切换钩子及拦截事件
+5.3 扩展添加页签
+六、系统字段
+6.1 获取系统字段值
+6.2 修改系统字段值
+6.3 修改系统字段属性
+6.4 系统字段值变更触发事件
+七、签字意见
+7.1 修改意见内容
+7.2 获取意见内容
+八、通用方法
+8.1 message提示框
+8.2 confirm确认框
+8.3 触发关闭动作
+九、其他常见咨询
+9.1、新建/查看流程详情页面地址及传参
+9.2、新建流程详情url支持表单字段赋值
+e10-流程详情前端JS-SDK文档【实时更新】
+一、说明
+1.1 用途说明
+文档主要介绍流程详情页面，常用的前端js-sdk接口
+
+开发人员可在ecode平台、表单布局设计器代码块、流程ecode自定义开发中使用js-sdk
+对eb流程同样生效
+1.2 获取sdk对象实例
+需处于流程审批详情页面才可调用，url地址带flowpage关键字
+
+获取当前页面SDK对象实例，可持有之
+
+//获取当前活动页面(对弹窗就是最上层)流程详情页面实例
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+页面会存在多个流程详情场景
+
+//假设先打开流程详情页面A，此时调用getFlowPageSDK获取的是详情A的实例
+const wffpSdk_PageA = window.weappWorkflow.getFlowPageSDK();
+
+-- 在详情页面A通过弹窗方式，在当前页面下打开详情B
+
+//此时再次调用getFlowPageSDK获取的是详情B的实例
+const wffpSdk_PageB = window.weappWorkflow.getFlowPageSDK();
+
+//因此：如果存在当前活动窗口为B，需要操作A的场景，需要持有wffpSdk_PageA对象再操作
+建议都先持有实例，再进行sdk操作
+1.3 开发入口及生效范围
+ecode开发平台，可在代码内控制生效范围
+表单设计器布局-插入代码块，对当前布局生效
+工作流管理-功能设置-自定义ecode开发，对当前工作流所有节点布局生效，包括pc和移动布局
+应用设置-自定义ecode开发，对当前租户所有审批流生效
+1.4 eCode平台内开发样例
+ecode开发平台内新建项目，配置前置加载【24.0401基线以上】
+
+注册的hook钩子函数仅加载页面时，触发一次
+注册多个hook，每个详情页面都会触发，需根据实际需求场景，限定代码生效范围
+仅对流程详情页面触发，可取window.weappWorkflow.getFlowPageSDK()对象进行jssdk操作
+保存/提交下节点为自己，重新加载页面也会触发事件
+适配单页、侧滑、弹窗等多方式打开流程详情界面（顶部有流程表单、流程图页签）
+模版预览、eb表单页面不支持
+针对PC显示布局、移动布局参考：
+
+import {regHook} from '@weapp/utils';
+
+const flowPageLoadFn = (params) => {
+    //根据业务需求限定代码生效范围，常用参数含isCreate、workflowId、reqeustId、apiModule
+    const { baseParam } =params;
+    const {isCreate, workflowId, reqeustId, apiModule} = baseParam || {};
+    //仅对指定工作流Id生效
+    if (workflowId == '731260655157936133') {
+        /** TODO 首次进入及保存都会触发 **/
+        //可以获取到流程sdk实例对象
+        const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+        //如果要立刻获取表单sdk实例对象，包裹在onceReady函数中
+        wffpSdk.onceReady(() => {
+            const weFormSdk = window.WeFormSDK.getWeFormInstance();
+        });
+    }
+}
+
+//对流程详情-pc端生效，也可以通过ecode发布范围控制仅对pc生效
+regHook('weappWorkflow', 'FPMainTabWillMount', flowPageLoadFn);
+
+//对流程详情移动端端生效，也可以通过ecode发布范围控制仅对移动生效
+regHook('weappWorkflow', 'MFPMainTabWillMount', flowPageLoadFn);
+
+针对打印布局参考：
+
+import { regHook } from '@weapp/utils';
+
+const flowPageLoadFn = (params) => {
+    const { baseParam } = params;	//与上面显示模版一致
+    const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+    wffpSdk.registerHookEvent('FormCompRenderComplete', () => {
+        //如果要立刻获取表单sdk实例对象，包裹在钩子函数内
+        //FormCompRenderComplete写法对显示模版也生效，如果代码块存在异常报错，会导致不触发注册的钩子函数
+        const weFormSdk = window.WeFormSDK.getWeFormInstance();
+    }, 0, 'custom_print_20260407')
+}
+
+
+//对流程详情-pc端，网页打印生效
+regHook('weappWorkflow', 'FPPrintCompWillMonut', flowPageLoadFn);
+
+二、获取常用参数及编码
+2.1 获取基础参数
+需求场景：可获取审批id、工作流id、当前身份查看节点id、是否创建、是否移动端等基础参数
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+const params = wffpSdk.getBaseParam();
+返回结果JSON属性说明
+
+参数名	类型	说明
+workflowId	long	工作流id
+requestId	long	流程id，非新建有效
+isCreate	boolean	true表示新建流程（新建点过保存为false）
+isAgent	boolean	true表示代理处理
+userCurrentNodeId	long	当前打开身份节点，负数表示自由节点（非当前流程所处节点）
+fixedNodeId	long	当前打开身份节点对应的工作流固定节点（非自由节点与userCurrentNodeId一致，自由节点会计算父节点）
+2.2 获取常用参数
+需求场景：可获取是否待办、当前身份节点类型等常用参数
+
+默认包含getBaseParam全部参数
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+const commonParam = wffpSdk.getCommonParam();
+返回结果JSON属性说明
+
+参数名	类型	说明	最低基线
+isTodo	boolean	true表示待办身份打开	24.0601
+isDraft	boolean	true表示草稿流程打开	24.0601
+userCurrentNodeType	int	当前打开身份所处节点类型(0:发起 1:审批 2:确认 3:结束)	24.0601
+wfSymbol	string	工作流编码	24.0601
+nodeSymbol	string	节点编码	24.0601
+2.3 获取工作流、节点编码
+最低基线要求：24.0601基线及以上
+
+需求场景：获取当前流程所属工作流编码、当前身份所属节点编码
+
+主要用于二开代码的解耦及复用
+解耦：二开代码使用编码代替id，可减少存新版/另存为/迁入迁出等操作后代码调整工作量
+复用：多工作流/多节点支持使用同一编码，或者包含共同的编码串(使用indexOf判断包含关系)，达到代码生效范围可配置
+在工作流基础信息、节点基础信息配置编码
+获取工作流编码
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+const wfSymbol = wffpSdk.getWfSymbol();
+获取当前打开身份所处节点编码（注意不是流程当前节点）
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+const nodeSymbol = wffpSdk.getNodeSymbol();
+三、事件机制
+3.1 注册拦截事件
+指定动作执行前触发，并可阻断/放行后续操作
+
+注册拦截事件： wffpSdk.registerInterceptEvent(types: string | Array, fn: Function, order:number=0, fnNameCover:string="")
+
+参数	说明
+types	事件枚举，可传递多个，逗号分隔或数组
+fn	fn可接收successFn、failFn，不阻断则调用successFn()，阻挡则调用failFn()
+order	可选，默认为0，控制执行顺序，值越小越先执行
+fnNameCover	函数名称，字符串，推荐都自定义命名，比如custom_开头后面拼二开场景单词(复杂些避免重复)
+注意：传递的fnNameCover可保障事件始终仅注册一次，防止重复触发。同时名称需定义复杂些避免与其他二开重复，重名仅最后一个注册事件生效
+
+事件类型枚举：
+
+type	用途
+SaveData	涉及表单数据保存时触发，比如保存、待办提交、转办、退回等（注意：2504基线后，order传递<1的则在表单数据保存前触发，order>1则在表单保存后触发）
+BeforeSubmit	表单数据保存成功后，流程提交动作前触发；比如提交、加签等（注意：此事件在表单数据保存之后触发，如需在保存前拦截比如修改表单字段值的，需使用表单引擎jssdk）
+AfterOperate	拦截事件-操作完成后&页面跳转/关闭前拦截事件
+BeforeClickOperBtn	拦截事件-操作按钮点击前触发(需要用英文'｜'拼上具体menutype)
+BeforeOperate	拦截事件-转发/退回等操作弹窗内点确定事件拦截(需要用英文'｜'拼上具体menutype)
+ClosePageIntercept	页面关闭时触发
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//举例：在表单数据保存前执行相关逻辑，修改字段后支持入库
+wffpSdk.registerInterceptEvent("SaveData", (successFn,failFn)=>{
+    /* TODO 自定义逻辑 */
+    //允许继续执行保存动作则
+    successFn();
+    //阻断保存则
+    failFn();
+}, -1 , 'custom_savedev_20250901');
+BeforeClickOperBtn操作按钮点击拦截事件需拼具体menutype
+
+可通过控制台输入window.weappWorkflow.getFlowPageSDK().baseStore.operMenus 查看当前流程下操作按钮清单
+常用menutype如下
+menutype	描述
+SAVE_DATA	保存
+SUBMIT	提交
+AGREE	批准
+VERIFY	确认
+REJECT	退回
+TAKE_BACK	强制收回
+TURNTODO	转办
+FORWARD	转发
+REMARKADVICE	意见征询
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//menuType可通过 window.weappWorkflow.getFlowPageSDK().baseStore.operMenus 查看
+wffpSdk.registerInterceptEvent("BeforeClickOperBtn|SUBMIT,BeforeClickOperBtn|AGREE", (successFn,failFn)=>{
+    //点击提交按钮触发
+}, 0, 'custom_submitdev_20250901');
+
+
+//拦截退回按钮点击事件
+wffpSdk.registerInterceptEvent("BeforeClickOperBtn|REJECT", (successFn,failFn)=>{
+    //点击退回按钮触发
+}, 0, 'custom_rejectdev_20250901');
+3.2 钩子事件
+说明: 注册一个函数，于指定动作下会被触发，函数内异常不会影响原逻辑执行
+
+注册钩子事件： wffpSdk.registerHookEvent(types: string | Array, fn: Function, autoJudgeExecute:boolean=false, order:number=0, fnNameCover:string="")
+
+参数	说明
+types	事件枚举，可传递多个，逗号分隔或数组
+fn	需执行的钩子函数，函数入参可接收调用方传递的参数
+autoJudgeExecute	默认false，传递true表示此钩子不论什么时机注册都会自动执行一次
+order	可选，默认为0，控制执行顺序，值越小越先执行
+fnNameCover	函数名称，字符串，推荐都自定义命名，比如custom_开头后面拼二开场景单词(复杂些避免重复)
+注意：
+
+可通过autoJudgeExecute=true可实现，标准代码钩子已触发，但后注册，注册后也会执行一次，常用于页面加载相关钩子
+可通过传递fnNameCover实现钩子始终注册一次，函数体仅执行一次，与3.1机制相同
+事件类型枚举：
+
+type	用途
+ReloadList	钩子事件-提交后需要刷新源列表时触发
+FormRenderComplete	钩子事件-新建&表单渲染完成后触发事件（仅对新建且是本地表单生效）
+DestroyPage	钩子事件-页面销毁时触发，可用于去掉util中的提示框等
+LoadRenderComplete	钩子事件-表单加载完成后触发事件
+CreateRequestComplete	钩子事件-创建流程成功后触发事件，参数可获取到创建后的requestid
+AfterOperateHook	钩子事件，操作成功后执行事件（例：提交/批准/转发等，参数中取操作类型）
+DraftOperateHook	钩子事件，与AfterOperateHook一致，区别在于仅草稿状态操作后执行
+AfterLoadBaseHook	钩子事件，loadBase接口请求完后执行
+AfterLoadFrameHook	钩子事件，loadFrame接口请求完后执行
+AfterLoadMinorHook	钩子事件，loadMinor接口请求完后执行
+AfterLoadOperMenuHook	钩子事件，rightMenu接口请求完后执行
+SwitchTabHook	钩子事件，切换页签后执行（参数中可取切换前后的页签key）
+AfterSubmitHook	钩子事件，提交/批准/确认/操作后执行，成功或者失败都执行，参数isSuccess区分是否成功（异步提交不算成功）
+
+//举例：关闭事件执行钩子事件
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//简单注册关闭事件
+wffpSdk.registerHookEvent("ClosePage", ()=>{
+    /* TODO 自定义逻辑 */
+});
+  
+//注册操作按钮加载完成后事件，要求不关心按钮接口时机，始终执行
+wffpSdk.registerHookEvent("AfterLoadOperMenuHook", ()=>{
+    /* TODO 自定义逻辑 */
+}, true);
+  
+//注册刷新列表事件，要求防重复始终注册一次也仅触发一次
+wffpSdk.registerHookEvent("ReloadList", ()=>{
+    /* TODO 自定义逻辑 */
+}, false, 0, 'custom_reloadlistdev_20250901');
+
+3.3 Ready加载事件（不推荐）
+此接口不推荐，一般场景下都无需使用，使用下面方式代替：
+
+二开注册的拦截事件、钩子事件，都保障传递参数fnNameCover函数名称，具体参考文档3.1、3.2
+如果代码写在布局设计器代码块中，无需包裹ready，注册的事件再保存等重新加载后会再次执行注册
+如果代码写在ecode中，严格参考文档1.4方式开发即可
+流程详情操作后，存在url地址不变页面不刷新，仅触发组件render；主要包含：
+
+流程保存（新建单页面新建保存除外）
+流程提交下节点为自己
+提交后显示流程流转情况
+流程测试
+因此ready事件需要区分，上述场景url不变页面二次触发Render，此场景下是否触发；
+
+以下简称【页面二次加载Render触发】
+
+.ready	【首次打开触发】、【页面二次加载Render触发】、【可获取getBaseParam参数】
+.preReady	【首次打开触发】、【页面二次加载Render触发】、【不可正常获取getBaseParam参数】
+.onceReady	【仅首次打开触发】、【可获取getBaseParam参数】
+.preOnceReady	【仅首次打开触发】、【不可正常获取getBaseParam参数】
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.ready(()=>{
+	const baseParam = wffpSdk.getBaseParam():
+	alert('ready触发，保存后加载也触发，可获取getBaseParam参数');
+});
+
+wffpSdk.preReady(()=>{
+	alert('仅首次打开触发');
+});
+四、操作菜单/事件控制
+4.1 添加操作菜单
+添加按钮 addOperMenu = (menuItem:OperMenuItem, position:Position=Position.Last)
+
+menuItem支持的属性：
+
+参数	类型	说明
+id	long/string	唯一；移动端调用需要；
+menutype	string	按钮类型，自定义按钮需唯一，建议以custombtn_命名
+title	string	按钮显示名称
+istop	boolean	是否作为顶部快捷菜单，默认false可选
+visible	boolean	显示默认就展示，默认true
+pcIcon	string	pc端菜单图标
+mobileIcon	string	移动端菜单图标
+Position支持传入First、Second、Third、Last(默认)
+复写按钮点击事件 registerInterceptEvent = (BeforeClickOperBtn|${menutype}, clickFn:Function);
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.addOperMenu({
+    id: '-101',
+    menutype: 'custombtn_1',		//需唯一
+    title: '紧急申请',
+    istop: true,
+}, 'Third');
+
+//复写按钮点击事件，｜后拼接menutype对应值
+wffpSdk.registerInterceptEvent('BeforeClickOperBtn|custombtn_1', (successFn, failFn, params) => {
+    /** TODO  按钮点击事件 **/
+    const menutype = params?.btn?.menutype;	//可取menutype
+    alert(menutype + '--trigger--' + JSON.stringify(params))
+});
+
+4.2 触发保存、触发操作按钮事件
+触发指定按钮：doTriggerRightBtn = (menuType: string, customBtnCode: string)
+
+menuType 可通过 window.weappWorkflow.getFlowPageSDK().baseStore.operMenus 查看
+//F12通过console查看详情按钮信息
+console.log(window.weappWorkflow.getFlowPageSDK().baseStore.operMenus);
+
+//找到对应按钮，根据menutype触发按钮
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+wffpSdk.doTriggerRightBtn(${menuType});
+对于保存，单独封装doSave事件，与点击保存按钮一致
+
+//触发保存，保存会刷新页面
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+wffpSdk.doSave();
+  
+//静默保存，新建调用无效，仅支持已产生requestId情况下查看流程页面调用；保存不会刷页面仅刷组件
+wffpSdk.doSilentSave(()=>{
+  //保存后触发事件
+})
+4.3 操作成功后复写
+需求场景：操作成功后，页面跳转前执行自定义逻辑；比如发消息、刷源列表(定制化)数据等
+
+需要判断menuType控制复写范围
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.registerInterceptEvent('AfterOperate', (successFn: Function, failFn: Function, triggerParams) => {
+		const { menuType } = triggerParams;
+    if(menuType === 'SUBMIT' || menutype === 'AGREE'){
+    		//提交或审批 按钮操作后复写
+        /** TODO  复写逻辑 **/
+    }
+    //需要调用successFn继续执行后续关闭/跳转逻辑
+    successFn();
+});
+4.4 修改按钮名称、隐藏按钮
+已存在按钮，修改按钮名称 、隐藏按钮
+
+//F12通过console查看详情按钮信息,可取到按钮对应的menutype
+console.log(window.weappWorkflow.getFlowPageSDK().baseStore.operMenus);
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.modifyOperMenu('MATTERS_FORWARD', '分享')	//修改名称
+
+wffpSdk.modifyOperMenu('MATTERS_FORWARD', '事项转发', false)	//隐藏按钮
+4.5 pc端表单顶部按钮、右键按钮置灰
+设置表单顶部按钮、右键菜单置灰、取消置灰，可指定按钮类型
+
+//F12通过console查看详情按钮信息,可取到按钮对应的menutype
+console.log(window.weappWorkflow.getFlowPageSDK().baseStore.operMenus);
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.controlBtnDisable('all', true)	//置灰所有按钮
+
+wffpSdk.controlBtnDisable('REJECT', true)	//置灰指定类型按钮
+4.6移动端追加悬浮按钮
+添加按钮 appendQuickMenuBtn = (btnCfg:MQuickMenuBtnType)
+
+MQuickMenuBtnType 支持的属性：
+
+参数	类型	说明
+btnKey	string	唯一；多个按钮唯一标识
+iconName	string	图标名称
+onClick	Function	按钮点击事件
+desc	string	描述语，多个按钮展示时描述语
+order	number	展示顺序，sdk追加按钮默认在标准后面,order默认值11
+enable	boolean	是否开启，默认true开启
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.appendQuickMenuBtn({
+    btnKey:'customBtn',
+    iconName:'Icon-Approval-process-o',
+    onClick:()=> {console.log('按钮点击事件')},
+    desc:'自定义按钮',
+})
+五、框架控制
+5.1 切换页签
+切换页签 switchTab(tabKey:string)
+
+//切换到流程图页签
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.switchTab('chart');
+5.2 页签切换钩子及拦截事件
+切换前拦截事件
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.registerInterceptEvent('SwitchTabIntercept', (successFn,failFn,params) => {
+    //可获取切换前后的tabKey
+    const { oldTabKey, newTabKey } = params；
+    if (newTabKey === 'custom_1') {
+        /*** TODO **/
+        successFn();	//继续切换页签需调用successFn
+    }
+})
+
+切换后钩子事件：wffpSdk.registerHookEvent('SwitchTabHook' , ()=>{})
+
+//Tab切换成功后钩子事件
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.registerHookEvent('SwitchTabHook', (params) => {
+    //可获取切换前后的tabKey
+    const { oldTabKey, newTabKey } = params；
+    if (newTabKey === 'custom_1') {
+        /*** TODO **/
+    }
+})
+5.3 扩展添加页签
+方案一：ecode复写拦截Menu组件props，Menu组件的bindKey为wf_flowpage_main
+
+方案二：jssdk扩展页签，同时ecode复写流程详情框架组件包含二开组件（参考1.4），再借助5.2事件控制dom区域显隐或者路由
+
+jssdk实现扩展页签 appendTab = (tabKey:string, tabName:string, position:Position)
+
+Position支持传入First、Second、Third、Last(默认)
+//tabKey值建议命名复杂些，避免重复
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.appendTab('custom_1', '统计结果查询', 'Last')；
+六、系统字段
+6.1 获取系统字段值
+支持流程标题、紧急程度、流程编号、密级
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//获取流程名称
+wffpSdk.getSysFieldValue('RequestName');
+
+//获取紧急程度
+wffpSdk.getSysFieldValue('RequestLevel');
+
+//获取流程编号
+wffpSdk.getSysFieldValue('RequestMark');
+
+//获取流程密级
+wffpSdk.getSysFieldValue('RequestSecLevel');
+6.2 修改系统字段值
+包括流程标题、紧急程度
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//修改流程标题
+wffpSdk.changeSysFieldValue('RequestName', *);
+
+
+//修改紧急程度
+wffpSdk.changeSysFieldValue('RequestLevel', 1/2/3);
+
+/**
+ * 修改密级字段值
+ * @param secLevel 密级值
+  *@param secValidity 密级期限值
+*/
+wffpSdk.changeSecLevel('40', '20年');
+6.3 修改系统字段属性
+支持流程标题、紧急程度、密级 changeSysFieldAttr = (type:string,attr:number)
+
+参数说明
+
+参数说明
+
+参数	类型	必填	说明
+type	string	是	字段类型
+attr	number	是	1：只读，2：编辑，3：必填
+示例			
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//流程标题、紧急程度、密级不可为空 设置编辑即必填
+
+//修改流程标题为只读
+wffpSdk.changeSysFieldAttr('RequestName', 1); 
+
+//修改紧急程度为可编辑
+wffpSdk.changeSysFieldAttr('RequestLevel', '2);
+
+//修改密级为必填
+wffpSdk.changeSysFieldAttr('RequestSecLevel', 3); 
+6.4 系统字段值变更触发事件
+支持流程标题、紧急程度、密级、流程编号等，触发的同一个事件，需要判断fieldType范围
+
+fieldType枚举说明
+
+名称	含义
+REQ_REQUEST_NAME	流程标题
+REQUEST_NO	流程编号
+REQUEST_LEVEL	紧急程度
+REQUEST_SECRET_LEVEL	密级
+EXPIRY_TIME	到期时间
+代码案例
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.registerHookEvent('ChangeSysFieldEvent', (params)=>{
+	const { fieldType,data } = params;
+  if(fieldType === 'REQ_REQUEST_NAME'){
+  		/** TODO 修改流程标题触发事件 **/
+  }
+})
+七、签字意见
+7.1 修改意见内容
+修改意见：changeRemark = (content: string,isOperDialog:boolean,isClear:boolean,isAfter:boolean)
+
+参数说明
+
+参数	类型	必填	说明	默认值
+content	string	是	修改意见内容	-
+isOperDialog	boolean	否	是否弹框模式	false
+isClear	boolean	否	是否先清除意见，true覆盖意见内容，false追加意见内容	true
+isAfter	boolean	否	追加的位置，默认为true，原意见内容尾部追加，false在头部追加	true
+示例
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//修改签字意见
+wffpSdk.changeRemark('同意');
+
+//原有意见内容前追加内容
+wffpSdk.changeRemark('你好',false,false,false);
+7.2 获取意见内容
+获取意见：getSignRemark = (needRemoveHtml=true)
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+//获取意见内容，默认去除html格式
+const remarkContent = wffpSdk.getSignRemark();
+
+//获取原始意见内容，含html格式
+const remarkContent = wffpSdk.getSignRemark(false);
+八、通用方法
+8.1 message提示框
+兼容pc和移动，轻提示
+
+参数	类型	说明
+content	ReactNode	提示语
+type	number	1:警告 、2 错误 、3成功、4 加载、5 普通提示 （4,5仅支持移动端）
+delay	number	提示时长
+otherInfo	object	其他配置 参考组件库文档，仅移动端
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.showMessage('警告,3s自动消失轻提示', 1,3);
+8.2 confirm确认框
+兼容pc和移动，确认框
+
+参数	类型	说明
+content	ReactNode	确认内容
+onOk	Function	点击确定事件
+onCancel	Function	点击取消事件
+otherInfo	object	其他配置 如按钮文字,弹框属性等参考组件库文档
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+
+wffpSdk.showConfirm("请问你是否需要技术协助？",function(){
+    alert("点击确认调用的事件");
+},function(){
+    alert("点击取消调用的事件");
+},{
+    title:"信息确认",       //弹确认框的title，仅PC端有效
+    okText:"需要",          //自定义确认按钮名称
+    cancelText:"不需要"     //自定义取消按钮名称
+});
+8.3 触发关闭动作
+兼容pc和移动，触发次流程详情页面关闭逻辑；关闭逻辑与提交后关闭完全一致
+
+const wffpSdk = window.weappWorkflow.getFlowPageSDK();
+  
+wffpSdk.closePage();	//触发关闭，如字段存在变更，会弹离开页面的提示
+  
+wffpSdk.closePage(false);		//触发关闭，不会弹离开页面的提示
+  
+九、其他常见咨询
+9.1、新建/查看流程详情页面地址及传参
+注意:以下地址中（:requestId、:workflowId）需替换为相应的值(18位数字)。可从后url地址中获取
+
+查看取requestId方式 https://weapp.eteams.cn/ecodestatic/txproduction/resources/969524129164623872/1740105058-image.png
+新建取workflowId方式 https://weapp.eteams.cn/ecodestatic/txproduction/resources/969524129164623872/1740105127-image.png
+pc端新建审批：/sp/workflow/flowpage/create/:workflowId
+
+pc端查看审批：/sp/workflow/flowpage/view/:requestId
+
+移动端新建审批：/mobile/workflow/flowpage/create/:workflowId
+
+移动端查看审批：/mobile/workflow/flowpage/view/:requestId
+
+查看审批(适配pc、h5自动分发)：/sp/workflow/adapter/flowpage/view/:requestId
+
+地址默认都会根据终端自动转换，如不想要自动转换，增加参数&noConvertPath=1
+
+始终显示pc端： /sp/workflow/flowpage/view/:requestId?noConvertPath=1
+始终显示移动端：/mobile/workflow/flowpage/view/:requestId?noConvertPath=1
+移动端打开详情需要使用弹webview方式，避免window.open方式，更不能用iframe，参考：
+
+    import { weappSDK } from '@weapp/utils';
+    
+    weappSDK.openLink({
+        url:"/sp/workflow/adapter/flowpage/view/:requestId",
+    });
+查看地址requestId无法作为路由组成，必须作为请求参数时（尽量避免）
+
+  pc端：/sp/workflow/flowpage/view/1?requestId=
+  移动端：/mobile/workflow/flowpage/view/1?requestId=
+按指定节点身份打开，上述地址拼接userSpecifiedNodeId参数
+
+/sp/workflow/flowpage/view/:requestId?userSpecifiedNodeId=节点id（参考下图获取）
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/969524129164623872/1754554821-image.png
+
+9.2、新建流程详情url支持表单字段赋值
+新建支持url参数给表单字段赋值
+
+一、按字段id赋值，不需要field，其中832194628722032717为fieldid
+/sp/workflow/flowpage/create/832152615392690265?832194628722032717=4367996999292956922
+
+二、按fieldname赋值，其中document为fieldname
+/sp/workflow/flowpage/create/832152615392690265?document=4367996999292956922
+
+三、按类型赋值，给文档类型字段赋值，其中Document为字段类型
+/sp/workflow/flowpage/create/832152615392690265?DocumentTypeId=4367996999292956922
+流程详情核心接口是get请求，默认会带url参数发到服务端，针对url传递大量参数给表单字段赋值的，需增加参数fieldAssignKeys参数兼容
+
+原地址
+/sp/workflow/flowpage/create/832152615392690265?field1=11&field2=22
+改为
+新地址
+/sp/workflow/flowpage/create/832152615392690265?field1=11&field2=22&fieldAssignKeys=field1,field2

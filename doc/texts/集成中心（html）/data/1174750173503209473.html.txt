@@ -1,0 +1,38 @@
+配置说明：
+1、获取参数方法：请求头
+根据WebSEAL服务器请求头中参数进行相关配置：（由于我们没有WebSEAL服务，所以模拟请求头进行测试）
+请求头模拟参数：
+参数值 15511110001 根据转换规则（手机号码）转换后对应系统人员为 zora ：
+①单点登录方式：访问个性化地址进行单点登录
+个性化地址页面：
+复制个性化地址，进行单点登录：
+单点登录成功，认证成功的人员信息正确。
+②单点登录方式：直接访问回调地址进行单点登录
+在统一认证接入管理页面，复制回调地址，直接访问进行单点登录：
+单点登录成功，认证成功的人员信息正确。
+2、获取参数方法：请求参数
+根据WebSEAL服务器参数进行相关配置：
+人员信息：
+参数 iv-user=15522220003 根据转换规则（手机号码）对应的人员信息为 二代Two 。
+单点登录方式：访问回调地址拼接参数的方式
+由于个性化地址不支持传参，所以当获取参数方法为请求参数时，使用 回调地址拼接参数的方式 进行单点登录。
+单点登录地址格式：回调地址&参数名称=参数值
+示例：
+https://weapp.yunteams.cn/papi/iaauthclient/webseal/login?tk=0be93a0b92f1b172b82eea797675618a&iv-user=15522220003
+浏览器访问单点登录地址进行认证：
+单点登录成功，认证成功的人员信息正确。
+3、跳转到指定页面（gopage）
+在回调地址上拼接gopage参数及需要跳转的指定页面。
+注：gopage后的地址最好使用encode编码处理一下。
+①请求头方式
+单点登录地址格式：回调地址&gopage=指定的页面
+示例：
+https://weapp.mulinquan.cn/papi/iaauthclient/webseal/login?tk=1c23721d71f375141699f250f4ba0cd1&gopage=https://weapp.mulinquan.cn/info/authclient
+访问gopage地址进行单点登录：
+单点登录成功并跳转到指定页面了。
+② 请求参数方式
+单点登录地址格式：回调地址&请求参数=请求参数值&gopage=指定的页面
+示例：
+https://weapp.mulinquan.cn/papi/iaauthclient/webseal/login?tk=1c23721d71f375141699f250f4ba0cd1&iv-user=15511110001&gopage=https%3A%2F%2Fweapp.mulinquan.cn%2Finfo%2Fauthclient
+访问gopage地址进行单点登录：
+单点登录成功并跳转到指定页面了。

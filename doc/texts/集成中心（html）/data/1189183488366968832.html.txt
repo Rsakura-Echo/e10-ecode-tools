@@ -1,0 +1,27 @@
+一、
+LDAP数据迁移
+新建
+点击页面【新建】按钮即可新增【LDAP数据迁移配置】
+基本信息-启用：配置开关
+基本信息-名称：配置名称
+来源LDAP-来源LDAP：选择或新建LDAP连接信息
+来源LDAP-同步域：数据同步来源OU
+来源LDAP-同步组织：单选按钮，控制是否同步组织
+来源LDAP-同步组织条件：组织同步条件，和同步组织架构按钮联动
+来源LDAP-同步人员：单选按钮，控制是否同步人员
+来源LDAP-同步人员条件：人员同步条件，和同步人员按钮联动
+目标LDAP-目标LDAP：选择或新建LDAP连接信息
+目标LDAP-同步域：数据同步目标OU
+目标LDAP-目标组织ObjectClass：OpenLDAP默认值 top;organizationalUnit
+目标LDAP-目标组织域标识：OpenLDAP默认值 ou
+目标LDAP-目标人员ObjectClass：OpenLDAP默认值 top;person;organizationalPerson
+目标LDAP-目标人员域标识：OpenLDAP默认值 cn
+组织字段映射：组织同步字段对应设置
+人员字段映射：人员同步字段对应设置
+定时同步：定时同步设置
+编辑
+点击对应配置行菜单【编辑】按钮，即可对LDAP连接器配置做编辑保存操作
+测试
+点击对应配置行菜单【测试】按钮，即可显示来源LDAP、目标LDAP的测试结果。
+同步
+在完成页面点击【完成并进入同步页面】按钮，即可手动触发数据迁移逻辑。

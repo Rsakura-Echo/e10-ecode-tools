@@ -1,0 +1,7 @@
+1.
+date 命令以及  timedatectl 命令 查看时间是否正确
+2.
+如果不正确使用下面命令设置指定时区 ，如设置为 Asia/Shanghai （以北京时区为例）
+sudo timedatectl set-timezone Asia/Shanghai
+3.
+如果服务器时间和E10应用时间不匹配， 再检查 /etc/timezone  文件中时区是否正确 （jdk 会默认读取该文件时区），如果不正确 修改为指定的时区 重启E10服务

@@ -1,0 +1,27 @@
+一、功能背景
+希望在系统中集成Docusign工具进行签署，首先需要注册Docusign公有云账号、新建应用并进行相关配置，具体可点击此处查看操作说明。
+准备完成后，在电子签应用的绑定设置中绑定该企业所用的Docusign服务，方可在系统中进行电子用印集成Docusign服务，直接使用此工具进行签署。
+二、功能目录
+功能详细说明
+绑定配置
+关联功能点
+常见问题
+三、功能详细说明
+3.1绑定设置
+进入电子签-设置-绑定设置，点击新建，弹出新建页。
+在【服务商】字段中选择“docusign”，并填写下列字段。
+字段填写说明：
+服务商：选择docusign
+服务名称：用于在E10中辨识绑定的不同服务
+BasePath：正式环境地址为https://eu.docusign.net（固定地址），测试环境地址为：https://demo.docusign.net（固定地址）
+oAuthBasePath：正式环境地址为https://account.docusign.com（固定地址），测试环境地址为：https://account-d.docusign.com（固定地址）
+App的intergration Keys：在Docusign系统中获得，并粘贴在此处（操作方法）
+管理员的UserID：在Docusign系统中登录管理员账号，在【APPs and Keys】页面中，找到【User ID】，点击复制，粘贴到此处即可。
+Private Key：在Docusign系统中获得，并粘贴在此处（操作方法）
+默认服务：如勾选，则在进行签署时，默认使用当前服务及其设置的签章人员
+签章人员：设为签章人员后，该人员可在E10中对使用当前服务的签署文件进行签署。非签章人员只能新建、不能签署。
+四、关联功能点
+Docusign电子用印集成配置
+五、常见问题
+1、Docusign集成测试通过后，如何推上线，使用正式环境
+说明：Docusign推正式环境使用，需要Docusign系统中提交审核，审核通过即可在正式环境使用（具体可以联系Docusign客服，或者技术支持提供协助）

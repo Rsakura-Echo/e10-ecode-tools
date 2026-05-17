@@ -1,0 +1,203 @@
+方案说明
+在weaver-webservice项目中新增jar类型子项目weaver-webservice-secondev，该项目中包含了springboot集成axis2发布webservice接口所需要的依赖和配置。二开服务weaver-secondev引入weaver-webservice-secondev依赖便具备了基于axis2发布webservice接口的能力。开发人员按照【E10-webservice二开方案】文档开发自定义的webservice接口，将相关代码打成jar包，和相关配置文件一起上传到二开服务weaver-secondev上，重启二开服务后，即可通过二开服务访问二开的webservice接口。
+接口访问地址
+在二开服务上开发的webservice接口，接口访问地址固定为
+/papi/secondev/services/开发的接口名称?wsdl
+版本要求
+基线版本>=10.2024.1001
+相关文件
+axis2-1.8.2：axis2-1.8.2-bin.zip
+搭建本地二开环境
+参考以下文档搭建本地二开环境，要求二开服务的基线版本>=10.2024.1001，有问题，联系ecode 马宏伟 协助
+IDEA-本地项目二开说明
+https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/1222949d-2b2c-482a-bc4f-e4d138e4fd7a
+ecode后端常见开发场景说明
+https://uv5m388q193.feishu.cn/docx/MqL8dwCr9ojKevxVuf5cXpDxnwe
+ecode二开服务本地启动调试说明
+https://uv5m388q193.feishu.cn/docx/U0mIdqe2moN7b8xxPndcsyZcn9b
+e-code常见问题及解决方案
+https://weapp.eteams.cn/ecode/playground/doc/share/view/974682604024152068
+开发平台权限配置
+https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515482#%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE
+开发自定义webservice接口
+先根据【搭建本地二开环境】搭建好开发环境
+开发service类
+参考以下代码，开发自己的service类，实现自定义逻辑，设置service名称，这里的service名称是demoService
+/*
+*
+* Copyright (c) 2001-2024 泛微软件.
+* 泛微协同商务系统,版权所有.
+*
+*/
+package com.weaver.secondev.service;
+import org.springframework.stereotype.Service;
+/**
+* Created with IntelliJ IDEA.
+*
+* @author Murphy
+* @date 2024/9/20 18:57
+* Description:
+**/
+@Service("demoService")
+public class DemoService {
+public String demo(String param){
+//实现自定义webservice接口逻辑
+return "request success";
+}
+}
+打包、上传jar
+使用gradle的jar命令将本地项目打成jar包
+通过ecode平台将二开的jar包上传到二开服务
+修改配置文件
+二开服务如果有多个节点，每个节点都需要手动修改
+修改axis2.xml
+文件路径：
+二开服务安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/secondev /conf/axis2.xml
+修改内容：
+将axis2.xml中的httpFrontendHostUrl配置项改成客户环境实际访问域名
+修改services.xml
+文件路径：
+二开服务安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/secondev /services/axis2/META-INF/services.xml
+修改内容：
+在services.xml的<serviceGroup>节点添加新开发的接口配置，如果有多个接口则添加多个<service>节点
+<!-- demoService -->
+<service name="demoService" scope="application">
+<description>demoService</description>
+<messageReceivers>
+<messageReceiver mep="http://www.w3.org/ns/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"/>
+<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+</messageReceivers>
+<!-- 指定 SpringBeanName -->
+<parameter name="SpringBeanName">demoService</parameter>
+<parameter name="ServiceObjectSupplier">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+</service>
+通过运维平台重启二开服务
+开发固定报文格式webservice接口
+先根据【搭建本地二开环境】搭建好开发环境
+根据wsdl生成服务端代码
+下载【axis2-1.8.2】，解压，配置好java环境变量，在命令行进入axis2的bin目录，输入wsdl2java.bat命令，指定wsdl文件和生成java代码的路径，这里用e9标准的DocService接口做示例
+windows命令：wsdl2java.bat -uri [wsdl文件路径，路径不要有空格或中文] -d adb -s -ss -sd -ssi -o [代码生成路径，路径不要有空格或中文]
+linux命令：wsdl2java.sh -uri [wsdl文件路径，路径不要有空格或中文] -d adb -s -ss -sd -ssi -o [代码生成路径，路径不要有空格或中文]
+拷贝服务端代码到开发环境
+将src下的所有内容拷贝到二开服务项目下
+实现接口逻辑
+打开生成的java代码，找到xxxSkeleton文件，这里打开的就是DocServiceSkeleton.java，这个文件中的方法和wsdl文件中的operation相对应，在对应的方法中实现接口逻辑即可
+打包、上传jar
+使用gradle的jar命令将本地项目打成jar包
+通过ecode平台将二开的jar包上传到二开服务
+修改配置文件
+二开服务如果有多个节点，每个节点都需要手动修改
+修改axis2.xml
+文件路径：
+二开服务安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/conf/axis2.xml
+修改内容：
+将axis2.xml中的httpFrontendHostUrl配置项改成客户环境实际访问域名
+修改services.xml
+文件路径：
+二开服务安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/services/axis2/META-INF/services.xml
+修改内容：
+1.
+打开【根据wsdl生成服务端代码】这一步生成的resource文件夹中的services.xml
+2.
+把生成的service配置信息拷贝到二开服务的services.xml文件的<serviceGroup>节点下，如果有多个接口则添加多个<service>节点
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.3  Built on : Jun 27, 2015 (11:17:49 BST) -->
+<serviceGroup>
+<service name="DocService">
+<messageReceivers>
+<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.weaver.webservice.doc.e9.service.DocServiceMessageReceiverInOut"/>
+</messageReceivers>
+<parameter name="ServiceClass">com.weaver.webservice.doc.e9.service.DocServiceSkeleton</parameter>
+<parameter name="useOriginalwsdl">false</parameter>
+<parameter name="modifyUserWSDLPortAddress">true</parameter>
+<operation name="getDoc" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getDoc</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getDocResponse</outputActionMapping>
+</operation>
+<operation name="getSeccategoryInfoById" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getSeccategoryInfoById</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getSeccategoryInfoByIdResponse</outputActionMapping>
+</operation>
+<operation name="getDocDataBySqlwhere" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getDocDataBySqlwhere</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getDocDataBySqlwhereResponse</outputActionMapping>
+</operation>
+<operation name="login" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.login</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/loginResponse</outputActionMapping>
+</operation>
+<operation name="loginNoRight" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.loginNoRight</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/loginNoRightResponse</outputActionMapping>
+</operation>
+<operation name="addDocShare" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.addDocShare</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/addDocShareResponse</outputActionMapping>
+</operation>
+<operation name="getListBySqlwhere" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getListBySqlwhere</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getListBySqlwhereResponse</outputActionMapping>
+</operation>
+<operation name="createDocNew" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.createDocNew</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/createDocNewResponse</outputActionMapping>
+</operation>
+<operation name="deleteShare" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.deleteShare</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/deleteShareResponse</outputActionMapping>
+</operation>
+<operation name="updateCustomField" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.updateCustomField</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/updateCustomFieldResponse</outputActionMapping>
+</operation>
+<operation name="getDocCount" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getDocCount</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getDocCountResponse</outputActionMapping>
+</operation>
+<operation name="updateDoc" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.updateDoc</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/updateDocResponse</outputActionMapping>
+</operation>
+<operation name="updateDocNew" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.updateDocNew</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/updateDocNewResponse</outputActionMapping>
+</operation>
+<operation name="getDocShareList" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getDocShareList</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getDocShareListResponse</outputActionMapping>
+</operation>
+<operation name="deleteDoc" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.deleteDoc</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/deleteDocResponse</outputActionMapping>
+</operation>
+<operation name="updateDocNewByOlddocid" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.updateDocNewByOlddocid</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/updateDocNewByOlddocidResponse</outputActionMapping>
+</operation>
+<operation name="convertBase64" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.convertBase64</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/convertBase64Response</outputActionMapping>
+</operation>
+<operation name="createDoc" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.createDoc</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/createDocResponse</outputActionMapping>
+</operation>
+<operation name="getList" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getList</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getListResponse</outputActionMapping>
+</operation>
+<operation name="getDocCountBySqlwhere" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://localhost/services/DocService">
+<actionMapping>urn:weaver.docs.webservices.DocService.getDocCountBySqlwhere</actionMapping>
+<outputActionMapping>http://localhost/services/DocService/DocServicePortType/getDocCountBySqlwhereResponse</outputActionMapping>
+</operation>
+</service>
+</serviceGroup>
+3.
+把service节点中的 useOriginalwsdl 配置项值设置成false；modifyUserWSDLPortAddress值设置成true
+上传生成的wsdl文件
+1、打开【根据wsdl生成服务端代码】这一步生成的resource文件夹
+2、将DocService.wsdl上传到services.xml所在目录
+文件路径：
+二开服务安装目录/webapps/ROOT/WEB-INF/classes/WEB-INF/services/axis2/META-INF/services.xml
+通过运维平台重启二开服务

@@ -1,0 +1,36 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了用友 yonbip五个数据服务接口：
+api文档地址：https://open.yonyoucloud.com/#/doc-center/docDes/api
+操作
+API调用指南
+获取租户所在数据中心域名
+https://open.yonyoucloud.com/iuap-ipaas-base/ucf-wh/console-fe/open-home/index.html#/doc-center/docDes/doc?code=open_jrwd&from=&section=0c64cf179a1247488e135cd72a3584a2
+企业自建获取token
+https://open.yonyoucloud.com/iuap-ipaas-base/ucf-wh/console-fe/open-home/index.html#/doc-center/docDes/doc?code=open_jrwd&from=&section=022c941650ae4989af7dd6ac7fd4d412
+服务商获取token
+https://open.yonyoucloud.com/iuap-ipaas-base/ucf-wh/console-fe/open-home/index.html#/doc-center/docDes/doc?code=open_jrwd&from=&section=90b8ad7a8bfd4f3e9e13011b6a0b6618
+币种根据编码查询
+https://open.yonyoucloud.com/#/doc-center/docDes/api?apiId=27757c1a1fa141849e4917b59f838017&from=&isOrigin=1&selectApiTab=open
+币种删除
+https://open.yonyoucloud.com/#/doc-center/docDes/api?apiId=c699b30b7314460ca81068757d082591&from=&isOrigin=1&selectApiTab=open
+二、功能使用说明
+场景案例：
+oa中维护了一套币种信息，需要跟yonbip系统中实现币种同步，当oa中币种删除时，同步删除yonbip中的币种信息。
+操作步骤：
+1.创建eb按钮触发动作流
+币种删除时，同步到yonbip系统中
+2.配置yonbip获取token执行组件
+先配置获取token组件
+获取token需要的 appkey。用户可按官方文档找到appkey值。
+参考地址：
+https://open.yonyoucloud.com/#/doc-center/docDes/doc?code=open_jrwd&from=&section=d5d031118d9f4803a346ebad38c63f14
+3.配置币种删除执行组件
+选择yonbip中的币种删除组件，选取后，配置token参数
+token参数配置选择企业自建token接口中responsebody中的token值，即可调用
+4.实现效果
+eb台账中，币种删除时，触发动作流配置后，流程提交触发动，通过执行“币种删除”连接器组件，实现yonbip系统中的币种删除，以此实现数据同步
+三、常见问题
+yonbip开发平台用户认证接入规范是什么流程：
+访问官方文档：
+https://open.yonyoucloud.com/#/doc-center/docDes/doc?code=open_jrwd&from=&section=aa4f5c1bf3f34d8e86f1a58ca65c2c86

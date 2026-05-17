@@ -1,0 +1,5 @@
+问题描述：
+如下图所示，报表设置了冻结单元格，在预览界面会出现这样的黑色分界线，这个能否消除
+解决方式：
+在代码块中填写：
+excel.workbook.getActiveSheet().options.frozenlineColor = 'Transparent';

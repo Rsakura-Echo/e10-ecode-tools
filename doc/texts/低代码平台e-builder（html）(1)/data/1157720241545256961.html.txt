@@ -1,0 +1,6 @@
+问题描述：
+数据加工中目前支持哪些数据库
+解决方式：
+支持E10全部类型的数据库：mysql、oracle、sqlserver、pg、达梦、神通
+支持第三方的OceanBase、DB2、Sybase、GBase、华为等
+mysql支持5和8版本，sqlServer支持2000、2005、2008、2014

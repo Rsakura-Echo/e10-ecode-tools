@@ -1,0 +1,9 @@
+内置的盖雅工厂连接提供：获取盖雅token、获取人员列表两个内置接口
+连接器位置：连接器->第三方系统->内置->人力资源
+1、获取盖雅token：提供用户获取盖雅工厂token功能（调用盖雅工厂前提都要先调用获取token，做为其他接口的token）
+注：参数apiKey需要按照规则加密。
+加密码方式为：appId 反序+timestamp+Secret反序
+具体加密方式：【appId 反序+timestamp+Secret反序】》转字节数组》hash sha256加密》ToBase64String
+2、获取人员列表：按照搜索条件返回，查询所需要的列以及满足搜索条件的数据
+‍ 注：queryfield：返回所需要用的字段，示例["Entity","Factory","Department","Team","Employeeid"]
+filter：过滤条件,示例and Entity = 'Nexteer Changshu'

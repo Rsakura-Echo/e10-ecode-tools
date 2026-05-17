@@ -1,0 +1,21 @@
+点击套件模板的使用按钮，进入简易版新建集成登录页面：
+配置参数说明
+自定义参数：
+1、应用标识（appid）：需由北森系统提供。
+2、uty（登录类型）：默认为email。
+3、北森单点公钥（public_key）：根据北森提供的公钥填写
+需注意下：
+（1）若公钥中包含\n，需替换成空格后再进行配置，否则会造成解析异常；
+（2）北森提供的秘钥格式若是：“-----BEGIN PUBLIC KEY-----xxxxxxxxxxxxxxxxxxxxxxx-----END PUBLIC KEY-----”，只需配置中间xxxxxxxxxxxxxxxxxxxxxxx部分（空格也需要配置，不可省略）即可，无需配置前后缀。
+4、北森单点私钥（private_key）：根据北森提供的私钥填写
+需注意下：
+（1）若私钥中包含\n，需替换成空格后再进行配置，否则会造成解析异常；
+（2）北森提供的秘钥格式若是：“-----BEGIN RSA PRIVATE KEY-----xxxxxxxxxxxxxxxxxxxxxxx-----END RSA PRIVATE KEY-----”，只需配置中间xxxxxxxxxxxxxxxxxxxxxxx部分（空格也需要配置，不可省略）即可，无需配置前后缀。
+5、接入网站域名（iss）：接入系统的域名。
+6、sub（登录账号）：默认为用户参数-邮箱，获取登录人员的邮箱。
+7、租户id（aud）：需由北森系统提供。
+配置单点登录人员权限（共享范围）
+新建完成后，若要进行单点登录，则需进入编辑集成登录设置页面，点击共享范围，设置允许单点登录的人员（共享范围默认为空，所有人均无权限）。
+单点效果
+单点登录地址格式：/sp/integration/loginSingle?appId=集成登录元素APPID值
+E10系统登录成功后，访问 E10系统地址/sp/integration/loginSingle?appId=集成登录元素APPID值,即可进行单点登录，单点登录成功效果如下：

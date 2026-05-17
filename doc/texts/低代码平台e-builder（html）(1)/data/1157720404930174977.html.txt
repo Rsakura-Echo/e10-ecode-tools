@@ -1,0 +1,6 @@
+问题描述
+私有化部署的环境中，一个业务组件都没有
+问题答案
+先去云商店，选择业务组件，找到条款库，点击详情里面的下载
+云商店：https://weapp.eteams.cn/sp/cloudstore/case/cloudApp/businessComponent
+然后把下载的包导入到系统

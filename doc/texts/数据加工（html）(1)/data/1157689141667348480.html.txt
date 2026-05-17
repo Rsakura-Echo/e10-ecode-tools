@@ -1,0 +1,26 @@
+一、功能价值
+很多客户想要通过传参的方式去查询一些数据，所以需要在SQL里写占位符，字段设置可以满足客户的需求，可以简化SQL
+二、功能概述
+通过占位符写法可以自定义变量，通过传参查询不同的数据
+三、功能详细说明
+1、普通占位符
+普通占位符写法：select id from table [where id ={id}]
+字段设置
+可以配置占位符字段的字段类型，字段类型：文本、数字、日期、人员、部门、浏览按钮、自定义浏览按钮、自定义系统变量、地区、分部
+选择不同类型后，默认值可以根据选择的字段类型对应填入或者选择数据，举例：字段类型选择浏览按钮-客户，默认值则可以直接选择具体的客户
+2、区间占位符
+区间占位符写法：SELECT  *  from table [where create_time between {time_start} and {time_end} ]
+区间占位符只支持时间区间、数值区间
+3、占位符可多选
+字段类型为：文本、数字、人员、部门、浏览按钮、自定义浏览按钮、分部时支持多选
+多选按钮为高亮时可传多个默认值
+时间区间数值区间不支持多选
+4、默认值
+若默认值没有填写，则会直接去掉[]内的所有内容
+比如原SQL为：select id from table [where id ={id}]，不填写默认值实际执行的SQL为：select id from table，这样就需要注意一下SQL写法
+若写为select id from table  [where id ={id}] and name ={name}]时，填写了id默认值，没有填写name字段的默认值，SQL则会报错，实际执行的SQL为：select id from table  [where id ={id}] and，所以建议每个占位符都单独用一个[]，例如：select id from table  [where id ={id}]  [and name ={name}]
+四、应用场景示例
+1、用筛选组件过滤想要的数据
+SQL视图使用占位符写法：select id from customer[where id ={id}]，在SQL视图这里先不填写默认值，会直接查询所有的客户数据
+eb使用SQL视图：在eb使用该视图时，在筛选过滤里会有一个占位符_id字段，选择该字段可以进行传参
+效果预览

@@ -1,0 +1,253 @@
+一、功能背景及价值用途
+在账号映射设置页面，可以定义要返回给应用系统的人员信息。其中，账号映射规则设定涉及返回给 CAS 应用的 <cas:user>xxx</cas:user> 属性信息、OAuth 应用的 id 属性信息、OIDC 应用的 id/sub 属性信息以及 SAML 应用的 NameID 属性信息；自定义属性设定则是返回给 CAS 应用和 OAuth 应用的自定义扩展属性。
+注：10.0.2411.01以后基线才可支持自定义属性。
+二、功能概述以及使用说明
+1、账号映射规则
+进入认证应用编辑页面后，在账号映射页面，能够设置账号映射规则。这些规则涉及返回给 CAS 应用的 <cas:user>xxx</cas:user> 属性信息、OAuth 应用的 id 属性信息、OIDC 应用的 id/sub 属性信息以及 SAML 应用的 NameID 属性信息。
+账号映射规则支持设置以下内容，包括手机号码、登录名、工号、电子邮箱、身份证号码、人员 ID、自定义属性以及自定义选择。
+注：10.0.2507.01以后基线才可支持人员ID。
+1.1、手机号码
+账号映射规则选择“手机号码”，即把人员基本信息中的手机号码返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的手机号码。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+18210000002
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的手机号码。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "18210000002",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">18210000002</saml2:NameID>
+若E10人员未维护手机，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护手机号码，请设置手机号码后重新登录”：
+1.2、登录名
+账号映射规则选择“登录名”，即把人员账号信息中的登录名返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的登录名。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+tianmengmeng
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的登录名。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "tianmengmeng",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">tianmengmeng</saml2:NameID>
+若E10人员未维护登录名，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护登录名，请设置登录名后重新登录”：
+1.3、工号
+账号映射规则选择“工号”，即把人员基本信息中的手机号码返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的工号。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+TMM001
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的工号。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "TMM001",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">TMM001</saml2:NameID>
+若E10人员未维护工号，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护工号，请设置工号后重新登录”：
+1.4、电子邮箱
+账号映射规则选择“电子邮箱”，即把人员基本信息中的邮箱返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的邮箱。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+tianmengmeng@jyt.com
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的邮箱。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "tianmengmeng@jyt.com",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">tianmengmeng@jyt.com</saml2:NameID>
+若E10人员未维护邮箱，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护电子邮箱，请设置电子邮箱后重新登录”：
+1.5、身份证号码
+账号映射规则选择“身份证号码”，即把人员个人信息中的身份证返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的身份证。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+430523199812054382
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的身份证。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "430523199812054382",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">430523199812054382</saml2:NameID>
+若E10人员未维护身份证，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护身份证，请设置身份证后重新登录”：
+1.6、人员ID
+账号映射规则选择“人员ID”，即把eteams.employee数据表中的人员id字段值返回给业务系统。
+注：10.0.2507.01以后基线才可支持人员ID。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的人员ID。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+1156444318578573391
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员的人员ID。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "1156444318578573391",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">1166868307177709664</saml2:NameID>
+1.7、自定义输入
+账号映射规则选择“自定义输入”时，需要维护数据映射。在数据映射界面中，需维护 OA 人员与应用账号的对应关系。其中，一个 OA 账号只能匹配一个应用账号，实际认证登录中会将当前登录人员所对应的应用账号返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员所对应的应用账号。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+app01@jyt.com
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员所对应的应用账号。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "app01@jyt.com",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息（人员所对应的应用账号）。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">app01@jyt.com</saml2:NameID>
+若E10人员未在数据映射界面中维护应用账号，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护自定义输入数据映射，请设置自定义输入数据映射后重新登录”：
+1.8、自定义选择
+账号映射规则选择“自定义选择”时，需要配置自定义浏览按钮，需要维护数据映射。在数据映射界面中，需维护 OA 人员与应用账号的对应关系。其中，一个 OA 账号只能选择一个应用账号，实际认证登录中会将当前登录人员所对应的应用账号返回给业务系统。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员所对应的应用账号（自定义浏览框已选数据的主键字段的值）。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>
+app01@jyt.com
+</cas:user>      <cas:attributes/></cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth/OIDC应用系统调用用户信息接口获取到用户信息，获取到的id为人员所对应的应用账号（自定义浏览框已选数据的主键字段的值）。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {},
+"id": "app01@jyt.com",
+"status": 200
+}
+当SAML应用系统接收并验证E10系统SAML响应，可在SAML断言中获取E10用户信息（自定义浏览框已选数据的主键字段的值）。
+<saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName" NameQualifier="samltest0701" SPNameQualifier="samltest0701">app01@jyt.com</saml2:NameID>
+若E10人员未在数据映射界面中维护应用账号，则业务系统进行认证授权的时候，将跳转提示“当前账号未维护自定义选择数据映射，请设置自定义选择数据映射后重新登录”：
+自定义浏览框按钮配置示例：
+当账号映射规则选择“自定义选择”，需要选择自定义浏览按钮，在维护数据映射的时候，应用账号需要通过浏览框进行选择。
+自定义浏览按钮是选择【全局基础】-【通用设置】-【浏览框设置】-【自定义浏览框设置】中配置的浏览框。
+以下是通过维护人员卡片中的自定义属性，然后通过数据加工SQL视图查询到自定义属性，再维护自定义浏览框。
+1，人员卡片中的自定义属性
+【组织架构设置】-【自定义设置】-【人员卡片设置】，勾选启用高级设置
+在表单设计器中添加所需要的字段，记录数据库字段名称，如yyzh
+在字段管理中，记录数据库表名，如ft_1165838064933412865
+维护人员的自定义属性：
+2，数据加工
+在【数据加工】-【数据连接】中设置E10数据库的连接：
+在【数据加工】-【数据准备】中设置SQL视图：
+编写SQL语句，通过SQL语句查询当前组织的人员姓名以及所设置的自定义属性。
+select
+a.username,
+b.yyzh
+from
+eteams.employee a
+left join ft_1165838064933412865 b on a.formdata = b.form_data_id
+where
+a.tenant_key = 't09r51elux'
+and b.tenant_key = 't09r51elux'
+3，自定义浏览框设置
+【全局基础】-【通用设置】-【浏览框设置】-【自定义浏览框设置】中设置浏览框：
+数据来源选择数据加工中设置的视图：
+字段设置中将自定义属性设置成主键字段。（实际是需要将哪个字段值返回给业务系统，就设置为主键字段）
+最后，在账号映射自定义浏览按钮中可选择此浏览框：
+应用账号浏览框中可选择对应数据。
+2、自定义属性
+针对 CAS /OAuth应用，可设置自定义属性，以自定义返回给业务系统的 attributes 属性。
+在自定义属性界面中，可以自定义需要返回的字段名称，以及该字段所需返回的人员属性。
+人员属性支持从组织人事提供的人员信息字段中进行选择。
+2.1、自定义属性示例
+示例：与业务系统约定好，user返回E10人员登录名外，还需要返回E10人员的工号、姓名、邮箱、电话、部门 信息。
+则：账号映射规则设置登录名，自定义属性中设置人员的工号、姓名、邮箱、电话、部门。
+当CAS应用系统校验CAS票据获取到用户信息，获取到的user为人员的登录名，attributes属性为所设置的自定义属性。
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>tianmengmeng</cas:user>
+<cas:attributes>
+<cas:job_num>TMM001</cas:job_num>
+<cas:name>田濛濛</cas:name>
+<cas:mobile>18210000002</cas:mobile>
+<cas:department>项目部</cas:department>
+<cas:email>tianmengmeng@jyt.com</cas:email>
+</cas:attributes>
+</cas:authenticationSuccess>
+</cas:serviceResponse>
+当OAuth应用系统调用用户信息接口获取到用户信息，获取到的id为人员的登录名，attributes属性为所设置的自定义属性。
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {
+"job_num": "TMM001",
+"mobile": "18210000002",
+"department": "项目部",
+"email": "tianmengmeng@jyt.com",
+"username": "田濛濛"
+},
+"id": "tianmengmeng",
+"status": 200
+}
+2.2、自定义属性选择范围
+人员属性支持从组织人事所提供的人员信息字段中进行选择。也就是说，组织人事提供的人员信息字段浏览框中展示了哪些人员信息，就可以选择哪些信息。若人员信息未在浏览框中展示，则无法选择，也不能返回给业务系统。若有相关需求，需要组织人事方面提供支持。
+2.2.1、支持选择人员基本资料中扩展属性
+自定义属性可支持选择人员基本资料中的扩展属性。
+需要在组织架构设置-人员卡片设置，启用高级定制。
+在表单设计器中增加所需要的扩展属性：
+人员基本资料中可设置这个扩展属性：
+认证应用，自定义属性，“选择人员信息字段”中可选择到这个扩展属性：
+2.2.2、支持选择人员个人信息中扩展属性
+自定义属性可支持选择人员个人信息中的扩展属性。
+需要在人事档案-自定义字段设置中，设置个人信息自定义字段：
+在表单设计器中设置所需要的扩展信息：
+人员个人信息中可维护这个扩展属性：
+认证应用，自定义属性，“选择人员信息字段”中可选择到这个扩展属性：

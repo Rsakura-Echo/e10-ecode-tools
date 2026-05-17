@@ -1,0 +1,159 @@
+HR同步-Ecode二开方案
+一、使用背景
+当现有同步方式（如数据库、ESB动作流）无法满足同步需求时，需要自己开发代码满足具体需求，HR同步可以实现直接调用二开实现的 dubbo 接口，二开的dubbo接口可通过ecode发布，无需上传代码至系统标准服务。HR同步二开口子有如下四种
+1.
+正向同步：手动或者自动周期性执行的从第三方系统获取人事数据同步至当前系统
+2.
+反向同步：手动、自动周期性的或者实时的将E10人事数据从第三方系统，
+3.
+转换规则：开发转换规则用于同步过程中的数据转换
+4.
+同步完成回调：同步完成后回调钩子用于处理同步完成后的业务场景
+二、正向同步
+参考【符合HR同步约定规范的正向同步远程dubbo接口实现】
+三、反向同步
+参考【符合HR同步约定规范的反向同步远程dubbo接口实现】
+四、转换规则
+二开项目中实现指定转换规则接口然后发布即可，ecode开发文档参考如下：https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515473#IDEA-%E6%9C%AC%E5%9C%B0%E9%A1%B9%E7%9B%AE%E4%BA%8C%E5%BC%80%E8%AF%B4%E6%98%8E
+4.1 转换规则实现
+在二开项目中，需要实现如下接口以及方法
+接口：com.weaver.intcenter.converterPlus.IBatchConvert
+方法：
+方法名
+入参
+返回值
+说明
+com.weaver.intcenter.converterPlus.IBatchConvert#batchConvert
+1.
+List<RunParam> runParamList 需要转换的数据集
+2.
+FieldConvertDefine fieldConvertDefine 转换上下文信息
+List<RunFieldResult>：转换后值
+批量转换数据
+示例：
+package com.weaver.seconddev.intcenter.hr.dataInterface.convert.impl.custom;
+import com.weaver.intcenter.converterPlus.IBatchConvert;
+import com.weaver.intcenter.converterPlus.entity.parameter.FieldConvertDefine;
+import com.weaver.intcenter.converterPlus.entity.parameter.RunFieldResult;
+import com.weaver.intcenter.converterPlus.entity.parameter.RunParam;
+import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+/**
+* @Author:
+* @Date: 2024/7/3 11:19
+* @Version: v1.0.0
+* @Description:
+* 示例转换规则
+发布转换规则接口配置示例
+<dubbo:service  ref="customDemoConvert"
+interface="com.weaver.intcenter.converterPlus.IBatchConvert" group="1016954629707169795"/>
+**/
+@Component("customDemoConvert")
+public class CustomDemoConvert implements IBatchConvert {
+@Override
+public List<RunFieldResult> batchConvert(List<RunParam> runParamList, FieldConvertDefine fieldConvertDefine, Map<String, Object> context) {
+// 数据来源字段名
+String sourceFieldName=fieldConvertDefine.getSourceFieldName();
+// 数据目标字段名
+String targetFieldName=fieldConvertDefine.getTargetFieldName();
+List<RunFieldResult> runFieldResults=new ArrayList<>();
+for (RunParam runParam:runParamList){
+// key，表示当前这条数据的唯一值，构造返回值时需要写入RunFieldResult的key属性
+String key=runParam.getKey();
+// 该条数据集合
+Map<String, Object> fieldData=runParam.getFieldData();
+// 获取当前配置了转换规则的这条数据的传入值
+String value=String.valueOf(fieldData.get(sourceFieldName));
+RunFieldResult runFieldResult=new RunFieldResult();
+runFieldResult.setKey(key);
+// 是否转换成功：
+runFieldResult.setStatus(true);
+// 记录转换失败的异常信息
+//            runFieldResult.setErrmsg("");
+// 转换后数据
+runFieldResult.setData(value+targetFieldName);
+runFieldResults.add(runFieldResult);
+}
+return runFieldResults;}}
+4.2 发布接口
+参考ecode开发文档-部署jar包&配置文件编辑该小节上传二开jar包并修改对应配置文件，重启生效：
+https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515473#%E4%B8%8A%E4%BC%A0%E9%83%A8%E7%BD%B2
+配置发布示例：
+<dubbo:service  ref="customDemoConvert"
+interface="com.weaver.intcenter.converterPlus.IBatchConvert" group="1016954629707169795"/>
+.
+ref : 对应实现接口的 bean 实例名称。
+.
+interface ：
+com.weaver.intcenter.converterPlus.IBatchConvert （ 固
+定不变）。
+.
+group: 用于区分不同实现的唯一约束。
+.
+version：可选参数，可用于后续多版本扩展
+4.3 配置转化规则
+HR同步设置-映射与过滤-字段映射-新建转换规则
+名称：自定义即可
+类名称：com.weaver.intcenter.hr.dataInterface.convert.EcodeConvert（固定值，注意前后无空格）
+参数：{"group":"1016954629707169795","version":""}
+转换类型：自定义即可
+五、同步完成后回调钩子
+参考ecode开发文档【二开跨服务触发使用(二次开发埋点触发执行)】小节https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/online/951257517407772672/doc/951718040830124032HR同步监听事件：HRSYNC_CALLBACK_001示例代码：
+package com.weaver.seconddev.intcenter.hr.dataInterface.callback.custom;
+import com.weaver.common.base.entity.result.WeaResult;
+import com.weaver.framework.rpc.annotation.RpcReference;
+import com.weaver.intcenter.hr.dto.HrSyncLogDetailDto;
+import com.weaver.intcenter.hr.dto.PageDTO;
+import com.weaver.intcenter.hr.remote.RemoteHrSyncService;
+import com.weaver.loom.context.annotation.WeaHookReg;
+import com.weaver.loom.context.domain.AppInfo;
+import com.weaver.loom.context.domain.WeaHookRequest;
+import com.weaver.loom.context.domain.WeaHookResponse;
+import com.weaver.loom.context.register.RegHookEvent;
+import org.springframework.stereotype.Component;
+import java.util.Map;
+/**
+* @Author:
+* @Date: 2024/7/2 11:54
+* @Version: v1.0.0
+* @Description:
+* HR同步完成后回调钩子
+**/
+@WeaHookReg(code = "HRSYNC_CALLBACK_001", order = 1)
+@Component
+public class SynCallbackByCustomServiceImpl extends RegHookEvent {
+@RpcReference(group = "hrsync")
+private RemoteHrSyncService remoteHrSyncService;
+public SynCallbackByCustomServiceImpl() {
+log.error("SynCallbackByCustomServiceImpl加载：HRSYNC_CALLBACK_001");
+}
+/**
+* 执行回调方法
+* @param request 请求参数
+* @param response
+* @param appInfo
+* @return
+* @throws Exception
+*/
+@Override
+public WeaHookResponse handle(WeaHookRequest request, WeaHookResponse response, AppInfo appInfo) throws Exception {
+log.error("被调用");
+Map<String, Object> param= request.getParams();
+// 同步批次号
+String taskId=String.valueOf(param.get("id"));
+// 基础设置id
+String baseid=String.valueOf(param.get("baseId"));
+// 租户信息
+String tenantKey=String.valueOf(param.get("tenantKey"));
+// 同步结果 0、成功 1、失败 2、警告 3、同步中 4、同步终止
+String syncStatus=String.valueOf(param.get("syncStatus"));
+log.error("taskId:{},baseid:{},syncStatus:{}",taskId,baseid,syncStatus);
+// 分页查询同步日志
+WeaResult<PageDTO<HrSyncLogDetailDto>> weaResult= remoteHrSyncService.queryHrSyncLogDetail(taskId,1,500,tenantKey);
+// 执行回调业务逻辑
+return response;
+}
+@Override
+public void rollBack(WeaHookRequest request, WeaHookResponse response, AppInfo appInfo) throws Exception {}}

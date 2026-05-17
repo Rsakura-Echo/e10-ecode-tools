@@ -1,0 +1,750 @@
+一、功能背景
+三方系统做为统一待办中心，提供了统一待办数据接口，要求泛微OA能将待办、已办事宜通过接口推送到三方系统。
+二、功能价值
+供开发人员阅读，并指导其开发统一待办推送相关事宜，将泛微OA能将待办、已办事宜通过接口推送到三方系统。
+三、业务流程图
+四、统一待办推送简介
+1.推送那些数据
+将OA中产生的所有流程数据进行订阅，并通过实现类转换为第三方接口所需格式推送。
+流程数据会在节点上产生冗余数据，例如待办已读，待办未读。
+OA的流程数据是根据流程ID，人员ID确保数据的唯一，即多次参与流程只会存在一条记录。
+2.解决了什么问题
+OA流程数据通过主动通知的方式给到第三方。
+OA流程在第三方流程（门户）列表中统一展示。
+五、统一待办推送开发说明
+1.统一待办涉及到的开发包
+项目名称
+项目描述
+weaver-intunifytodo-client-base
+基础服务，数据库对象，mybatisplus的Service
+weaver-intunifytodo-client-common
+基础工具
+weaver-intunifytodo-client-config
+后台配置服务API
+weaver-intunifytodo-client-engine
+核心后台业务，订阅数据，触发推送
+1.1.weaver-intunifytodo-client-base
+weaver-intunifytodo-client-base
+├───weaver-intunifytodo-client-base-dao      数据库 Mapper
+├───weaver-intunifytodo-client-base-entity   数据库实体对象 po
+└───weaver-intunifytodo-client-base-service  mybatisplus的Service
+1.2.weaver-intunifytodo-client-common
+weaver-intunifytodo-client-common
+├───weaver-intunifytodo-client-common-tools   统一待办推送相关工具包
+└───weaver-intunifytodo-client-common-utils   通用工具包
+1.3.weaver-intunifytodo-client-config
+weaver-intunifytodo-client-config
+├───weaver-intunifytodo-client-config-api          其他服务、项目开发接口api
+├───weaver-intunifytodo-client-config-entity       前端实体对象返回VO
+├───weaver-intunifytodo-client-config-service      前端接口实现
+│   └───src                                        src编码文件路径
+│       └───main                                   主体编写路径
+│           ├───java                               JAVA源码文件路径
+│           └───resources                          配置文件路径
+│               └───sqlupgrade                     数据库脚本路径
+│                   ├───DM
+│                   ├───Mysql
+│                   ├───Oracle
+│                   ├───PG
+│                   ├───SQLServer
+│                   └───ST
+└───weaver-intunifytodo-client-config-sql          SQL包作废，移动到service 包下src/main/resources/sqlupgrade
+1.4.weaver-intunifytodo-client-engine
+weaver-intunifytodo-client-engine
+├───weaver-intunifytodo-client-engine-api              其他服务、项目开发接口api
+├───weaver-intunifytodo-client-engine-common           推送后台业务工具
+├───weaver-intunifytodo-client-engine-entity           批推送后台业务实体对象
+├───weaver-intunifytodo-client-engine-push             推送实现类所属包
+└───weaver-intunifytodo-client-engine-service          推送订阅相关业务启动服务
+2.获取流程数据
+流程组配置文件 weaver-workflow-list-service.properties 中 weaver.workflow.ofs.sendmsg=1 数据触发到消息中心，否则不触发。
+集成订阅MQ通道 wfc_flow_operate_msg 的数据并消费。
+订阅实现类在 weaver-intunifytodo-client-engine-service 包中 com.weaver.intunifytodo.client.engine.listener.WorkflowMessageListener。
+租户没有配置开启统一待办推送的情况下，数据订阅不记录信息。
+如租户配置并开启了统一待办推送，校验数据合法性，非法数据将调用流程rpc接口通知，合法数据记录推送记录并正常执行推送。
+3.人员过滤
+根据页面配置规则，黑名单：当前接收人数据不推送；白名单：只推送当前接收人相关数据
+过滤拦截调用相关推送数据直接在推送记录中记录 ResultRule.Invalid(数据忽略)。
+相关操作已在系统框架中自动完成。
+4.流程过滤
+根据页面配置规则，黑名单：当前流程类型数据不推送；白名单：只推送当前流程类型相关数据
+过滤拦截调用相关推送数据直接在推送记录中记录 ResultRule.Invalid(数据忽略)。
+相关操作已在系统框架中自动完成。
+流程过滤优先于人员过滤，先判定流程过滤。
+5.人员转换规则
+第三方需要OA那个人员相关数据作为人员信息对接。
+OA提供的人员转换规则，见 统一待办推送数据字典--人员转换规则
+设置完成后，系统会将接收人相关字段直接转换为对应数据。实现类中获取方式如下
+RequestInfo.getUserToHrmRule() ; // 获取创建人转换后的数据
+RequestDetail.getUserToHrmRule() ; // 获取接收人转换后的数据
+6.调用实现类
+实现类所在位置
+jar包：weaver-intunifytodo-client-engine-push
+文件路径：com.weaver.intunifytodo.client.engine.push.request.interfaces
+实现类需要实现接口 com.weaver.intunifytodo.client.common.tools.push.WPush<T extends Message<?>>
+系统内提供了两种WPush接口抽象实现类，WPushRequest——反射加载机制，WPushRequestBoot——E10公共组件加载机制（SpringBoot加载）
+推送实现类必须添加注解 @WPushClass
+6.1.通过反射机制调用实现类开发方案
+实现类需要集成父类 extends WPushRequest
+package com.weaver.intunifytodo.client.engine.push.request.interfaces;
+import com.weaver.intcenter.common.packing.html.builders.anntation.editTable.WEditItem;
+import com.weaver.intcenter.common.packing.html.builders.anntation.i18n.WLabel;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushClass;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushParam;
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.common.tools.message.ResultMessage;
+import com.weaver.intunifytodo.client.common.tools.push.bean.SendDataBean;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestInfo;
+import com.weaver.intunifytodo.client.engine.push.request.WPushRequest;
+import java.util.List;
+@WPushClass(
+description = @WLabel(text = "统一待办推送E8(E9)") , type = WPushType.REQUEST ,
+params = {
+@WPushParam(
+name = "sysCode" ,
+description = @WLabel(text = "接收端提供系统标识" , i18nId = 0) ,
+item = @WEditItem(required = "true")
+)
+}
+)
+public class WPushRequestTest extends WPushRequest {
+@Override
+public List<ResultMessage> sendData(SendDataBean<RequestInfo> bean) {
+return null;}}
+6.2.通过E10公共组件加载机制（SpringBoot加载）调用实现类开发方案
+注册推送实现类
+package com.weaver.intunifytodo.client.engine.boot;
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.engine.push.config.PushBuilder;
+import com.weaver.intunifytodo.client.engine.push.request.interfaces.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import javax.annotation.PostConstruct;
+@Configuration
+public class ICEPushBootConfig {
+@Autowired
+private WPushRequestForE10 wPushRequestForE10 ;
+@Autowired
+private WPushRequestForBootTest wPushRequestForBootTest ;
+@PostConstruct
+public void init(){
+PushBuilder.getInstance(WPushType.REQUEST)//注册类型 WPushType.REQUEST 推送流程数据
+.add(this.wPushRequestForE10 , 69771, "推送到E10")//注册推送实现类   wPushRequestForE10
+.add(this.wPushRequestForBootTest , 0 , "推送测试")//注册推送实现类   wPushRequestForBootTest
+.build();// 加载到内存，用于使用时读取}}
+实现类需要集成父类 extends WPushRequestBoot
+package com.weaver.intunifytodo.client.engine.push.request.interfaces;
+import com.weaver.intcenter.common.packing.html.builders.anntation.editTable.WEditItem;
+import com.weaver.intcenter.common.packing.html.builders.anntation.i18n.WLabel;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushClass;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushParam;
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.common.tools.message.ResultMessage;
+import com.weaver.intunifytodo.client.common.tools.push.bean.SendDataBean;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestInfo;
+import com.weaver.intunifytodo.client.engine.push.request.WPushRequestBoot;
+import org.springframework.stereotype.Service;
+import java.util.List;
+@WPushClass(
+description = @WLabel(text = "统一待办推送E10") , type = WPushType.REQUEST ,
+params = {
+@WPushParam(
+name = "sysCode" ,
+description = @WLabel(text = "接收端提供系统标识" , i18nId = 177850) ,
+item = @WEditItem(required = "true")
+)
+}
+)
+@Service
+public class WPushRequestForBootTest extends WPushRequestBoot {
+@Override
+public List<ResultMessage> sendData(SendDataBean<RequestInfo> bean) {
+return null;}}
+启动逻辑
+jar包：weaver-intunifytodo-client-engine-service
+文件路径：com.weaver.intunifytodo.client.engine.service.job.SendRequestDataService
+方法名：public SendRequestContext sendData(IutSendInfo sendInfo , RequestInfo requestInfo , int pushType)
+public WPush<RequestInfo> initWPush(String sendClass){
+PushBoot pushBoot = PushConfig.getPushBoot(WPushType.REQUEST , sendClass) ;
+if (pushBoot == null || pushBoot.getwPush() == null){
+return WPushClassUtils.Init(sendClass) ;
+}else{
+//SpringBoot管理器中存在当前推送实现类，复用管理器中单例对象
+return (WPush<RequestInfo>) pushBoot.getwPush() ;//兼容SpringBoot管理模式}}
+6.3.自动补偿
+将推送ResultRule.PushError（异常）的数据重新组装，触发到实现类中进行处理。
+推送完成后，需要将推送接口结果调用到接口中。
+默认的推送状态是 ResultRule.NoResponse(未返回)
+7.统一待办推送数据字典
+7.1.推送类型
+所属jar包：weaver-intunifytodo-client-common-utils
+文件：com.weaver.intunifytodo.client.common.tools.enums.SendGroup
+package com.weaver.intunifytodo.client.common.tools.enums ;
+public enum SendGroup implements BaseEnum<String> {
+TODO(1, "待办", "todo", 0),
+DONE(2, "已办", "done", 0),
+OVER(3, "办结", "over", 0),
+DELETE(4, "删除", "delete", 0);
+int code;
+String value;
+String key;
+long i18nId;
+SendGroup(int code, String value, String key, long i18nId) {
+this.code = code;
+this.value = value;
+this.key = key;
+this.i18nId = i18nId;}}
+7.2.推送数据返回结果
+所属jar包：weaver-intunifytodo-client-common-utils
+文件：com.weaver.intunifytodo.client.common.tools.enums.ResultRule
+package com.weaver.intunifytodo.client.common.tools.enums;
+public enum ResultRule implements BaseEnum<String> {
+NoResponse(1, "未返回", 96328),
+Success(2, "成功", 84722),
+Fail(3, "失败", 84723),
+Invalid(4, "忽略", 11691),
+PushError(5, "推送异常", 105853);
+private int code;
+private String value;
+private long i18nId;
+ResultRule(int code, String value, long i18nId) {
+this.code = code;
+this.value = value;
+this.i18nId = i18nId;}}
+7.3.人员转换规则
+所属jar包：weaver-intunifytodo-client-config-entity
+文件：com.weaver.intunifytodo.client.config.entity.enums.HrmRule
+public enum HrmRule implements BaseEnum<String> {
+ID(1 ,"OA人员ID" , "ID" , 69764),
+USERNAME(2 ,"用户名称" , "USERNAME" , 84692),
+JOB_NUM(3 ,"工号" , "JOB_NUM" , 69766),
+ID_NUM(4 ,"身份证号码" , "IDnums" , 69767),
+EMAIL(5 ,"电子邮箱" , "EMAIL" , 69768),
+MOBILE(6 ,"手机号" , "MOBILE" , 28239);
+HrmRule(int code , String value , String key , long i18nId){
+this.code = code ;
+this.value = value ;
+this.key = key ;
+this.i18nId = i18nId ;
+}
+private int code ;
+private String value ;
+private String key ;
+private long i18nId ;
+}
+8.统一待办推送二开（如何开发自定义实现类）
+8.1.开发所需Jar包
+jar包：weaver-intunifytodo-client-engine-push
+文件路径：com.weaver.intunifytodo.client.engine.push.request.interfaces（建议存放位置）
+8.2.开发注意事项
+实现类需要集成父类 extends WPushRequest ,重写 sendData方法
+推送实现类必须添加注解 @WPushClass
+参数名
+参数类型
+说明
+params
+@WPushParam[]
+参数数组
+description
+@WLabel
+推送实现类描述 (多语言)
+type
+WPushType
+推送数据类型。目前只有WPushType.REQUEST
+推送实现类自定义参数注解 @WPushParam
+参数名
+参数类型
+说明
+name
+String
+显示参数名，后台获取参数唯一
+description
+@WLabel
+推送实现类描述 (多语言)
+item
+@WEditItem
+控件属性
+@WLabel 多语言标签
+参数
+类型
+默认值
+描述
+text
+String
+empty value
+默认显示文本
+i18nId
+long
+0
+多语言标签Id
+通过注解@WLabel(text = "参数名" , i18nId = 40490)实现
+i18nId 小于等于0时直接读取 text参数，
+i18nId 大于0时，通过SpringBean注入机制，获取多语言工具：
+com.weaver.common.i18n.cache.LabelCache
+通过SystemEnv.getHtmlLabelName 方法获取 LabelCache中的语言标签。
+@WEditItem 可编辑表格组件（属性注解）
+参数
+类型
+默认值
+描述
+key
+String
+empty value
+设置标识，为空默认读取属性名称
+type
+WeaFormItemType
+INPUT
+表单控件枚举类型 详细情况参考枚举类 com.weaver.common.component.form.item.WeaFormItemType 包名： com.weaver:weaver-uiform-component
+placeholder
+@WLabel
+Null
+占位符
+rules
+String
+empty value
+校验规则
+required
+String
+false
+是否必输 true 必输 false 非必输 支持EL表达式
+readOnly
+String
+false
+是否只读 true 只读 false 可编辑 支持EL表达式
+disable
+String
+false
+是否不可用 true 不可用 false 可用 支持EL表达式
+defaultValue
+@WData
+Null
+默认值
+data
+@WEditData[]
+{}
+数据(下拉框、单选按钮等 默认数据)
+otherParams
+@WParam[]
+{}
+公共参数
+browser
+@WBrowser
+Null
+浏览框
+typesBrowser
+@WTypesBrowser
+Null
+多类型浏览框
+8.3.示例
+8.3.1.通过反射机制调用实现类开发方案
+package com.weaver.intunifytodo.client.engine.push.request.interfaces;
+import com.alibaba.fastjson.JSONObject;
+import com.weaver.intcenter.common.packing.html.builders.anntation.editTable.WEditItem;
+import com.weaver.intcenter.common.packing.html.builders.anntation.i18n.WLabel;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushClass;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushParam;
+import com.weaver.intunifytodo.client.common.tools.enums.ResultRule;
+import com.weaver.intunifytodo.client.common.tools.enums.SendGroup;
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.common.tools.message.ResultMessage;
+import com.weaver.intunifytodo.client.common.tools.push.bean.SendDataBean;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestDetail;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestInfo;
+import com.weaver.intunifytodo.client.engine.push.request.WPushRequest;
+import java.util.ArrayList;
+import java.util.List;
+@WPushClass(
+description = @WLabel(text = "统一待办推送E8(E9)") , type = WPushType.REQUEST ,
+params = {
+@WPushParam(
+name = "sysCode" ,
+description = @WLabel(text = "接收端提供系统标识" , i18nId = 0) ,
+item = @WEditItem(required = "true")
+)
+}
+)
+public class WPushRequestTest  extends WPushRequest {
+@Override
+public List<ResultMessage> sendData(SendDataBean<RequestInfo> bean) {
+//返回结果
+List<ResultMessage> resultMessageList = new ArrayList<>();
+//获取页面配置的参数信息，根据 @WPushParam 配置，key是 @WPushParam的name
+String sysCode = super.getParam("sysCode") ;
+//组装数据
+RequestInfo requestInfo = bean.getData();
+//已办
+List<RequestDetail> doneList = requestInfo.getDetailList(SendGroup.DONE) ;
+//办结
+List<RequestDetail> finishList = requestInfo.getDetailList(SendGroup.OVER) ;
+//待办
+List<RequestDetail> todoList = requestInfo.getDetailList(SendGroup.TODO) ;
+//删除
+List<RequestDetail> deleteList = requestInfo.getDetailList(SendGroup.DELETE) ;
+//这里为了简介示例，将所有的推送数据列表合并到一起 处理推送相关判定，
+//具体开发中，请根据开发情况，进行推送处理，
+List<RequestDetail> requestList = new ArrayList<>();
+requestList.addAll(doneList) ;
+requestList.addAll(finishList) ;
+requestList.addAll(todoList) ;
+requestList.addAll(deleteList) ;
+for (RequestDetail detail : requestList){
+JSONObject json = this.getData(requestInfo ,detail) ;//获取推送数据
+JSONObject resultMap = this.postData(json) ;//推送数据调用第三方接口
+ResultRule resultRule ;
+if ("1".equals(resultMap.getString("result"))){//推送成功
+resultRule = ResultRule.Success ;
+}else if ("2".equals(resultMap.getString("result"))){//推送失败
+resultRule = ResultRule.Fail ;
+}else //推送异常
+resultRule = ResultRule.PushError ;
+//记录推送结果
+resultMessageList.add(new ResultMessage(resultRule , resultMap.get("resultMessage").toString() , json.toString() , detail)) ;
+}
+return resultMessageList;
+}
+private JSONObject getData(RequestInfo info ,RequestDetail detail){
+JSONObject json = new JSONObject() ;
+json.put("creator", info.getUserToHrmRule());// 创建人 根据转换规则后的数据
+json.put("receiver", detail.getUserToHrmRule());// 接收人 根据转换规则后的数据
+return new JSONObject() ;
+}
+private JSONObject postData(JSONObject json){
+JSONObject result = new JSONObject() ;
+//如果推送异常   result.put("result" , "3") ;  result.put("resultMessage" , 异常原因) ;
+//如果推送第三方响应失败   result.put("result" , "2") ; result.put("resultMessage" , 失败原因) ;
+//如果推送成功   result.put("result" , "1") ;  result.put("resultMessage" , "OK") ;
+return result ;}}
+8.3.2.通过E10公共组件加载机制（SpringBoot加载）调用实现类开发方案
+class 添加SpringBoot注解 @Service
+可以通过 @Autowired、@Resource 获取SpringBoot管理的其他组件
+package com.weaver.intunifytodo.client.engine.push.request.interfaces;
+import com.alibaba.fastjson.JSONObject;
+import com.weaver.intcenter.common.packing.html.builders.anntation.editTable.WEditItem;
+import com.weaver.intcenter.common.packing.html.builders.anntation.i18n.WLabel;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushClass;
+import com.weaver.intunifytodo.client.common.tools.annotation.WPushParam;
+import com.weaver.intunifytodo.client.common.tools.enums.ResultRule;
+import com.weaver.intunifytodo.client.common.tools.enums.SendGroup;
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.common.tools.message.ResultMessage;
+import com.weaver.intunifytodo.client.common.tools.push.bean.SendDataBean;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestDetail;
+import com.weaver.intunifytodo.client.engine.entity.message.workflow.RequestInfo;
+import com.weaver.intunifytodo.client.engine.push.request.WPushRequestBoot;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.weaver.intunifytodo.client.base.service.IutSendRequestLogService ;
+import java.util.List;
+import java.util.ArrayList;
+@WPushClass(
+description = @WLabel(text = "统一待办推送E10") , type = WPushType.REQUEST ,
+params = {
+@WPushParam(
+name = "sysCode" ,
+description = @WLabel(text = "接收端提供系统标识" , i18nId = 177850) ,
+item = @WEditItem(required = "true")
+)
+}
+)
+@Service
+public class WPushRequestForBootTest extends WPushRequestBoot {
+@Autowired
+private IutSendRequestLogService iutSendRequestLogService ;
+private void testAutowired(){
+this.iutSendRequestLogService.list() ;
+}
+@Override
+public List<ResultMessage> sendData(SendDataBean<RequestInfo> bean) {
+//返回结果
+List<ResultMessage> resultMessageList = new ArrayList<>();
+//获取页面配置的参数信息，根据 @WPushParam 配置，key是 @WPushParam的name
+String sysCode = bean.getParam("sysCode") ;
+//组装数据
+RequestInfo requestInfo = bean.getData();
+//已办
+List<RequestDetail> doneList = requestInfo.getDetailList(SendGroup.DONE) ;
+//办结
+List<RequestDetail> finishList = requestInfo.getDetailList(SendGroup.OVER) ;
+//待办
+List<RequestDetail> todoList = requestInfo.getDetailList(SendGroup.TODO) ;
+//删除
+List<RequestDetail> deleteList = requestInfo.getDetailList(SendGroup.DELETE) ;
+//这里为了简介示例，将所有的推送数据列表合并到一起 处理推送相关判定，
+//具体开发中，请根据开发情况，进行推送处理，
+List<RequestDetail> requestList = new ArrayList<>();
+requestList.addAll(doneList) ;
+requestList.addAll(finishList) ;
+requestList.addAll(todoList) ;
+requestList.addAll(deleteList) ;
+for (RequestDetail detail : requestList){
+JSONObject json = this.getData(requestInfo ,detail) ;//获取推送数据
+JSONObject resultMap = this.postData(json) ;//推送数据调用第三方接口
+ResultRule resultRule ;
+if ("1".equals(resultMap.getString("result"))){//推送成功
+resultRule = ResultRule.Success ;
+}else if ("2".equals(resultMap.getString("result"))){//推送失败
+resultRule = ResultRule.Fail ;
+}else //推送异常
+resultRule = ResultRule.PushError ;
+//记录推送结果
+resultMessageList.add(new ResultMessage(resultRule , resultMap.get("resultMessage").toString() , json.toString() , detail)) ;
+}
+return resultMessageList;
+}
+private JSONObject getData(RequestInfo info ,RequestDetail detail){
+JSONObject json = new JSONObject() ;
+json.put("creator", info.getUserToHrmRule());// 创建人 根据转换规则后的数据
+json.put("receiver", detail.getUserToHrmRule());// 接收人 根据转换规则后的数据
+return new JSONObject() ;
+}
+private JSONObject postData(JSONObject json){
+JSONObject result = new JSONObject() ;
+//如果推送异常   result.put("result" , "3") ;  result.put("resultMessage" , 异常原因) ;
+//如果推送第三方响应失败   result.put("result" , "2") ; result.put("resultMessage" , 失败原因) ;
+//如果推送成功   result.put("result" , "1") ;  result.put("resultMessage" , "OK") ;
+return result ;}}
+8.3.3.基于SpringBoot机制需要注册实现类
+import com.weaver.intunifytodo.client.common.tools.enums.WPushType;
+import com.weaver.intunifytodo.client.engine.push.config.PushBuilder;
+@Configuration
+public class ICEPushBootConfig {
+@Autowired
+private WPushRequestForBootTest  wPushRequestForBootTest ;
+@Autowired
+private WPushRequestForEcology wPushRequestForEcology ;
+@PostConstruct
+public void init(){
+PushBuilder.getInstance(WPushType.REQUEST)
+.add(this.wPushRequestForBootTest , 69771, "推送测试")
+.add(this.wPushRequestForEcology , 69770 , "推送到E8(E9)")
+.build();}}
+8.4.入参对象
+8.4.1.SendDataBean
+package com.weaver.intunifytodo.client.common.tools.push.bean;
+import com.weaver.intunifytodo.client.common.tools.message.Message;
+/**
+* @Author: houmf
+* @Date: 2021/4/2 13:49
+* @Description:
+*/
+public class SendDataBean<T extends Message<?>> {
+/**
+* 设置配置ID
+*/
+private long id;
+/**
+* 设置配置标识
+*/
+private String sysCode;
+/**
+* 设置服务端地址
+*/
+private String serverURL;
+/**
+* 推送数据
+*/
+private T data;
+/**
+* 2023/10/10 新增
+* 获取其他参数
+*/
+private JSONObject param ;
+}
+8.4.2.RequestInfo
+public class RequestInfo extends MessageData<RequestDetail> {
+/**
+* 请求ID
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long requestId;
+/**
+* 路径ID
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long workflowId;
+/**
+* 待办路径名称
+*/
+private String workflowName;
+/**
+* 路径类型
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long workflowType;
+/**
+* 创建人类型
+* 为了兼容e9的外部用户做的  暂时可以不用管  都是0
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private int userType;
+/**
+* 流程创建节点Id
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long startNodeId;
+/**
+* 流程创建日期时间
+*/
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+private LocalDateTime createDateTime;
+/**
+* 流程状态
+*/
+private String status;
+/**
+* 流程默认标题
+*/
+private String requestName;
+/**
+* 流程自定义标题
+*/
+private String requestNameHtml;
+/**
+* 流程紧急程度
+*/
+private int requestLevel;
+/**
+* 流程编号
+*/
+private String requestMark;
+/**
+* 密级
+*/
+private int secLevel;
+/**
+* 流程状态 ： 草稿、待办中、待阅、退回、已归档、已作废
+*/
+private RequestFlowStatusEnum flowStatus;
+/**
+* 流程归档时间、作废时间
+*/
+private LocalDateTime finishDateTime;
+/**
+* 流转操作类型
+*/
+private WorkflowOperateEventType operateType;
+/**
+* 数据在PC端打开地址
+*/
+private String pcUrl;
+/**
+* 数据在移动端打开地址
+*/
+private String appUrl;
+/**
+* 数据自适应客户端地址，pc展示pc页面，移动端展示移动端页面
+*/
+private String adapterUrl;
+/**
+* 被代理人转换数据
+*/
+private String beAgentUserToHrmRule;
+/**
+* 流程类型主键
+*/
+private long fixedVersionId;
+//以下属性 是父类中的属性
+/**
+* 当前租户
+*/
+private String tenantKey;
+/**
+* 推送时间戳
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long timeStamp;
+/**
+* 创建人Id
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long userId;
+/**
+* 根据推送分组详情
+*/
+private Map<SendGroup, List<T>> detailMap;
+/**
+* 转换后的 用户数据
+*/
+private String userToHrmRule;
+}
+8.4.3.RequestDetail
+public class RequestDetail extends MessageDetailData {
+/**
+* 操作唯一标示
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long cid;
+/**
+* 被代理人ID
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long beAgentUserId;
+/**
+* 接收时间
+*/
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+private LocalDateTime receiveDateTime;
+/**
+* 操作时间
+*/
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+private LocalDateTime operateDateTime;
+/**
+* 查看状态
+*/
+private RequestListReadMarkEnum readMark;
+/**
+* 待办身份--OperateRemarkEnum
+*/
+private OperateRemarkEnum isRemark;
+/**
+* 节点id
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long nodeId;
+/**
+* 节点名称
+*/
+private String nodeName;
+/**
+* 节点类型
+*/
+private WfpNodeType nodeType;
+/**
+* 消息类型
+*/
+private RequestFlowMsgTypeEnum msgType;
+/**
+* 是否需反馈标记
+*/
+private int needWFBack;
+/**
+* 超时状态标记
+*/
+private int isProcessed;
+/**
+* 数据最新查看时间
+*/
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+private LocalDateTime viewDatetime;
+//以下属性是父类中的
+/**
+* 接收id
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long userId;
+/**
+* 日志ID
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long  logId ;
+/**
+* 推送记录ID
+*/
+@JsonSerialize(using = ToStringSerializer.class)
+private long sendLogId ;
+/**
+* 转换后的 用户数据
+*/
+private String userToHrmRule ;
+}

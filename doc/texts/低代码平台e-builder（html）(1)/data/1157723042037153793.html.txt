@@ -1,0 +1,6 @@
+问题描述：
+如下图所示，如何隐藏报表的横向滚动条与纵向滚动条：
+解决方式：
+通过代码块实现：
+隐藏纵向滚动条：excel.workbook.options.showVerticalScrollbar=false;
+隐藏横向滚动条：excel.workbook.options.showHorizontalScrollbar=false;

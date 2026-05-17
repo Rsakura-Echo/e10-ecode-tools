@@ -1,0 +1,90 @@
+一、功能背景及价值
+本数据库函数集提供了完整的人员信息、部门信息和组织架构查询能力，系统提供32个数据库函数，分为四大类：
+1.人员信息类：获取人员基础信息、岗位职级及状态
+2.部门信息类：查询部门/分部基础信息及层级关系
+3.分部信息类：获取上下级关系及同部门同事
+4.标识转换类：多种标识与人员/部门ID互转
+二、功能使用说明
+（一）函数总览
+人员信息类
+LANGUAGE - 获取指定人员当前语言
+GETHRMLOGINID - 返回指定人员系统账号
+GETHRMMANAGER - 返回指定人员直接上级
+GETHRMWORKCODE - 返回指定人员编号
+GETHRMNAME - 获取人员名称
+GETHRMSECLEVEL - 获取指定人员安全级别
+GETHRMALLMANAGER - 返回指定人员所有上级
+GETHRMDEPARTMENT - 返回指定人员部门
+GETHRMSUBCOMPANY - 返回指定人员分部
+GETHRMMOBILE - 获取人员手机号码
+GETHRMEMAIL - 获取指定人员邮箱
+GETHRMPOSITION - 获取指定人员岗位
+GETHRMGRADE - 获取指定人员职级
+GETEMPSTATUS - 获取指定人员的状态
+GETALLSUBEMPS - 获取指定人员的所有下级
+部门信息类
+GETALLSUPERDEPARTMENT - 返回指定部门所有上级部门
+GETDEPARTMENTNAME - 返回指定部门名称
+GETSUPERDEPARTMENT - 返回指定部门直接上级部门
+GETDEPARTMENTCODE - 返回指定部门编号
+GETALLPARTNER - 获取同部门所有同事
+GETSUBDEPARTMENTS - 获取所有下级部门
+GTLDEP - 获取指定部门的一级部门
+分部信息类
+GETSUBCOMPANYNAME - 返回指定分部名称
+GETSUBCOMPANYCODE - 返回指定分部编号
+GETSUPERSUBCOMPANY - 返回指定分部直接上级分部
+GETALLSUPERSUBCOMPANY - 返回指定分部所有上级分部
+GETSUBBRANCHSBYPID - 获取所有下级分部
+GTLSDEP - 获取指定分部的一级分部
+标识转换类
+GETEMPIDBYACCOUNTNAME - 登录名获取人员ID
+GETEMPIDBYNUMBER - 人员编号获取人员ID
+GETEMPIDBYMOBILE - 人员手机获取人员ID
+GETDEPTIDBYNUMBER - 部门编号获取部门
+（二）常用函数介绍
+函数
+说明
+示例
+GETHRMNAME
+获取人员名称
+GETHRMNAME({人员})
+GETHRMMANAGER
+返回指定人员直接上级
+GETHRMMANAGER({人员}})
+GETDEPARTMENTNAME
+返回指定部门名称
+GETDEPARTMENTNAME({部门})
+GETSUBCOMPANYNAME
+返回指定分部名称
+GETSUBCOMPANYNAME({分部})
+GETDEPTIDBYNUMBER
+部门编号获取部门
+GETDEPTIDBYNUMBER({部门编号},'id')
+GETEMPIDBYNUMBER
+人员编号获取人员ID
+GETEMPIDBYNUMBER({人员编号})
+三、注意点
+1.
+格式规范：输入变量必须符合格式。
+2.
+必选参数与可选参数注意区分。
+3.
+部分函数入参可选取id还是名字，不选默认都是id
+4.
+变量及数字不需要被英文单引号包裹，自定义文本需要被英文单引号包裹。
+四、核心函数
+1.
+人员信息类：
+GETHRMNAME 函数使用说明
+GETHRMMANAGER 函数使用说明
+2.
+部门信息类：
+GETDEPARTMENTNAME 函数使用说明
+3.
+分部信息类：
+GETSUBCOMPANYNAME 函数使用说明
+4.
+标识转换类：
+GETDEPTIDBYNUMBER 函数使用说明
+GETEMPIDBYNUMBER 函数使用说明

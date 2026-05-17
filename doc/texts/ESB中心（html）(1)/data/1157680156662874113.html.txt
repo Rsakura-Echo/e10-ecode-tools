@@ -1,0 +1,3 @@
+连接器新建Rocketmq类型连接器
+然后新建rocketmq生产方接口
+最后在动作流执行组件中选择rocketmq发送连接器

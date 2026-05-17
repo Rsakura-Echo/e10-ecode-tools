@@ -1,0 +1,209 @@
+一、功能背景及价值用途
+CAS是Central Authentication Service的缩写，中央认证服务，一种独立开放指令协议。CAS认证主要提供基于CAS2.0协议的认证服务，允许业务系统通过CAS接入E10。
+二、功能概述以及使用说明
+1、CAS认证配置
+可以在认证协议管理中启用 CAS 认证，并查看 CAS 的接口地址。
+2、CAS认证接口
+2.1、登录地址
+当用户访问应用系统时，应用系统可重定向至 E10 系统的 CAS 登录地址，进而发起认证登录请求。若 E10 系统尚未登录，页面将跳转至 E10 登录页面。待 E10 系统成功登录后，系统会携带 ticket 进行回调，并重定向至应用系统。
+登录地址格式为：
+http(s)://{OA_server}/papi/sso/cas/login?appid={appid}&service={service}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+appid
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+service
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+成功授权后的回调地址。
+1，实际传递的service地址需要在业务系统URL地址的范围内；
+2，若service参数中有携带参数，需要进行URL编码
+认证授权成功后，可携带票据ticket回到到应用系统：
+{service}?ticket=ST-xxxxxxx
+2.2、校验票据地址
+应用系统获取票据ticket后，需调用校验票据地址来换取用户信息。
+校验票据地址格式为：
+http(s)://{OA_server}/papi/sso/cas/serviceValidate?ticket={ticket}&service={service}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+ticket
+票据
+是
+ST-xxxxxxx
+获取到的票据ticket
+service
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+需要与/papi/sso/cas/login接口传递的service保持一致
+认证校验票据成功后，可返回用户信息：
+<cas:authenticationSuccess>
+<cas:user>账号映射规则信息</cas:user>
+<cas:attributes>自定义属性</cas:attributes>
+</cas:authenticationSuccess>
+注：<cas:user>会返回CAS认证应用账号映射里所配置的账号映射规则对应的人员信息；<cas:attributes>会返回CAS认证应用账号映射中所配置的自定义属性字段的信息。
+2.3、退出地址
+应用系统退出时，可调用E10系统的CAS退出接口，注销E10系统的会话。
+退出地址格式为：
+http(s)://{OA_server}/sp/integration/cas/logout?service={service}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+service
+退出重定向地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+E10系统退出后，会重定向这个地址
+3、CAS REST接口
+CAS认证提供RESTful接口，适用于前后端分离架构的应用系统接入。
+3.1、获取TGT登录票据
+应用系统根据用户账号密码以及service参数获取TGT票据。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/cas/rest/v1/tickets?username={username}&password={password}&appid={appid}&service={service}
+请求方式：POST
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+username
+登录账号
+是
+txmry001
+E10系统人员账号
+password
+登录密码
+是
+Aa123456
+E10系统人员密码
+appid
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+service
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+应用系统的回调地址。
+实际传递的service地址需要在业务系统URL地址的范围内。
+认证校验成功后，可返回TGT票据：
+{
+"code": 200,
+"msg": "success",
+"status": true,
+"data": "TGT-1-9tr9SWuXaJ16FT8uOmhmr7xFb-oIG0Loi8GRJFKgCqvXboUKvNjDFSQV-OrRMefuAgYETL102030",
+"fail": false
+}
+Apipost工具请求示例：
+3.2、换取ST服务票据
+应用系统根据TGT和service参数换取ST票据。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/cas/rest/v1/tickets/{TGT}?service={service}
+请求方式：POST
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+TGT
+登录票据
+是
+TGT-1-9tr9SWuXaJ16FT8uOmhmr7xFb-oIG0Loi8GRJFKgCqvXboUKvNjDFSQV-OrRMefuAgYETL102030
+获取TGT登录票据接口返回的data值
+service
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+应用系统的回调地址。
+实际传递的service地址需要在业务系统URL地址的范围内。
+认证校验成功后，可返回ST服务票据：
+{
+"code": 200,
+"msg": "success",
+"status": true,
+"data": "ST-1-bKGHeYj58Rqh8nQE4jIpCbiDWu0ETL102010",
+"fail": false
+}
+Apipost工具请求示例：
+3.3、获取用户信息接口
+应用系统根据ST票据和service参数换取用户信息。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/cas/rest/serviceValidate?ticket={ST}&service={service}
+请求方式：POST
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+ST
+ST票据
+是
+TGT-1-9tr9SWuXaJ16FT8uOmhmr7xFb-oIG0Loi8GRJFKgCqvXboUKvNjDFSQV-OrRMefuAgYETL102030
+换取ST服务票据接口返回的data值
+service
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+应用系统的回调地址。
+实际传递的service地址需要在业务系统URL地址的范围内。
+认证校验成功后，可返回登录账号人员的信息：
+<?xml version="1.0" encoding="UTF-8"?>
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>891561672414199811</cas:user>
+<cas:attributes>
+<cas:alias>txmry001a</cas:alias>
+<cas:dengluming>txmry001</cas:dengluming>
+<cas:username>田小濛人员001</cas:username>
+</cas:attributes>
+</cas:authenticationSuccess>
+</cas:serviceResponse>
+注：<cas:user>会返回CAS认证应用账号映射里所配置的账号映射规则对应的人员信息；<cas:attributes>会返回CAS认证应用账号映射中所配置的自定义属性字段的信息。
+Apipost工具请求示例：
+3.4、登出注销
+清空TGT票据，注销统一认证会话。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/cas/rest/logout?TGT={TGT}
+请求方式：POST
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+TGT
+登录票据
+是
+TGT-1-9tr9SWuXaJ16FT8uOmhmr7xFb-oIG0Loi8GRJFKgCqvXboUKvNjDFSQV-OrRMefuAgYETL102030
+获取TGT登录票据接口返回的data值
+退出校验成功后，可返回：
+{
+"code": 200,
+"msg": "success",
+"status": true,
+"data": true,
+"fail": false
+}
+Apipost工具请求示例：

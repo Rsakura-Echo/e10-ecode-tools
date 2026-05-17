@@ -1,0 +1,162 @@
+一、功能背景
+统一待办中心作为一个集成平台，汇聚了来自各个上游业务系统的待办任务数据。然而，有时候可能会出现推送端（上游系统）和接收端（统一待办中心）的数据不一致的情况。
+为了解决这个问题，我们需要进行数据比对，确保数据的一致性和准确性。因此，上游系统需要提供一个待办数据查询接口，这样我们就可以通过这个接口获取到上游系统的待办任务数据，然后与统一待办中心的数据进行比对。
+这不仅可以丰富我们的数据处理能力，还可以优化我们的数据管理流程，提高数据处理的效率和准确性。
+二、功能价值
+供三方开发人员阅读，开发符合要求的数据查询接口，以便进行数据比对，确保数据的一致性和准确性。
+三、开发说明
+1.接口地址
+接口地址
+上游系统根据本文档要求开发，并将接口地址提供给到泛微。
+功能说明
+以分页方式查询三方待办数据
+请求方式
+POST
+请求格式
+application/json
+2.请求数据
+请求数据说明（JSON结构）
+参数名称
+参数说明
+必填
+类型
+注意事项
+receiver
+接收人，和统一待办标准接口中receiver字段保持一致
+否
+string
+多个receiver以逗号隔开，不传则提供所有待办数据
+receiveTimeStart
+接收时间（开始）大于等于
+是
+string
+示例：
+2022-12-04 17:56:00
+receiveTimeEnd
+接收时间（结束）小于等于
+是
+string
+示例：
+2022-12-04 17:56:00
+pageNum
+页码
+是
+Int
+pageSize
+每页数量
+是
+Int
+3.请求数据示例
+注意：“～.,:;?” 这些英文符号会引起json解析异常，请不要使用
+{
+"pageNum": 1,
+"pageSize": 100,
+"receiveTimeStart": "2023-12-07 00:00:00",
+"receiveTimeEnd": "2023-12-07 23:59:59",
+"receiver": "15222357312"
+}
+4.响应数据
+4.1.主体说明
+主体说明（JSON结构）
+参数名称
+参数说明
+类型
+注意事项
+total
+查询数据总量
+string
+data
+接口调用的结果对象
+Data
+pageNum
+页码
+string
+pageSize
+每页数量
+string
+maxPageNum
+最大页码
+string
+4.2.data说明
+Data对象（JSON结构）
+返回值名称
+返回值描述
+类型
+说明
+sysCode
+异构系统标志
+String
+flowId
+流程实例id
+String
+requestName
+流程标题
+String
+workFlowCode
+流程类型编码
+String
+workFlowName
+流程类型名称
+String
+nodeName
+步骤名称（节点名称）
+String
+pcUrl
+pc访问地址
+String
+appUrl
+app访问地址
+String
+isRemark
+流程处理状态
+Number
+0：待办
+2：已办
+4：办结
+8：抄送（待阅）
+viewType
+流程查看状态
+Number
+0：未读
+1：已读
+apiCreator
+创建人信息
+String
+createDateTime
+创建日期时间
+String
+格式:
+yyyy-MM-dd HH:mm:ss
+apiReceiver
+接收人信息
+String
+receiveDateTime
+接收日期时间
+String
+格式:
+yyyy-MM-dd HH:mm:ss
+5.响应数据示例
+{
+"total": 1000,
+"pageSize": 100,
+"pageNum": 1,
+"maxPageNum": 10,
+"data": [
+{
+"sysCode": "sun0101",
+"flowId": "m101",
+"taskId": "m101",
+"requestName": "上游待办下游已办",
+"workflowName": "流程类型名称",
+"nodeName": "节点名称",
+"viewType": 0,
+"pcUrl": "baidu.com",
+"appUrl": "baidu.com12",
+"apiCreator": "15222357311",
+"apiReceiver": "15222357311",
+"createDateTime": "2023-12-05 18:31:31",
+"receiveDateTime": "2023-12-05 18:31:31",
+"isRemark": 0
+}
+]
+}

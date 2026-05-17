@@ -1,0 +1,35 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了维格表的六个数据服务接口：
+操作
+API调用指南
+获取记录
+https://developers.vika.cn/api/get-records
+创建记录
+https://developers.vika.cn/api/create-records
+更新记录
+https://developers.vika.cn/api/update-records
+删除记录
+https://developers.vika.cn/api/delete-records
+获取视图
+https://developers.vika.cn/api/get-views
+获取空间站列表
+https://developers.vika.cn/api/get-spaces
+获取文件列表
+https://developers.vika.cn/api/get-nodes
+二、功能使用说明
+场景案例：
+同步e-builder台账数据到维格表。
+操作步骤：
+1.新建接口信息
+由于每个客户维格表单字段都是不一样的，所以需要在维格表的连接器中接口下新建自己的创建记录接口
+2.新建e-builder表单
+设计表单时，表单字段格式需要与维格表接口参数格式尽量一致
+3.搭建动作流
+2.1、新建动作流，触发组件选择【e-builder：点击按钮时】，新建保存触发；
+2.2、执行组件添加连接器（应用）-【维格表】-【创建记录】，配置参数。
+4.效果展示
+三、常见问题
+1.接口调用失败的常见原因
+向维格云服务器发送 API 请求时，必须在请求头里带上 Authorization: Bearer {你的 API Token}，方便服务器认证用户身份。
+获取 API Token 的方式参考下方链接：https://developers.vika.cn/api/quick-start#%E7%AC%AC%E4%B8%80%E6%AD%A5%E8%8E%B7%E5%8F%96-api-token

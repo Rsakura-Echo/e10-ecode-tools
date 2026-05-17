@@ -1,0 +1,10 @@
+说明：
+根据附件ID获取附件名称
+语法：
+GETATTACHMENTNAME(attachmentid)
+参数：
+参数中为附件id
+示例：
+GETATTACHMENTNAME(表单附件字段)
+返回：
+对应附件的名称：

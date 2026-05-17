@@ -1,0 +1,11 @@
+集成登录【阿里企业邮箱V2】套件是基于阿里邮箱提供的接口文档（https://mailhelp.aliyun.com/openapi/index.html#/markdown/authorization.md）进行实现。
+点击套件模板的使用按钮， 进入简易版新建集成登录页面：
+配置参数说明
+外网地址： 默认 https://alimail-cn.aliyuncs.com
+自定义参数：
+client_id：必填项，请求授权 token 的应用 id，由邮箱企业管理员在后台注册应用后获取
+client_secret：必填项，请求授权 token 的应用 secret，由邮箱企业管理员在后台注册应用后获取
+email：登录目标用户的Email地址，默认设置用户参数-邮箱， 可根据实际需求调整
+redirectUrl：登录成功后的跳转URL域名，默认为阿里邮箱官方域名https://qiye.aliyun.com。如果配置了自定义的企业邮箱域名，可以通过该参数指定。
+配置单点登录人员权限（共享范围）
+新建完成后，若要进行单点登录，则需进入编辑集成登录设置页面，点击共享范围，设置允许单点登录的人员（共享范围默认为空，所有人均无权限）。

@@ -1,0 +1,104 @@
+一、功能背景
+提供了统一待办批量操作接口，供三方系统开发人员调用，对泛微统一待办中心的数据做批量操作。
+二、功能价值
+供三方系统开发人员阅读，并指导其做统一待办批量操作推送开发。
+批量操作：批量提交、批量退回、批量领取、批量删除
+三、开发说明
+1.批量操作接口说明
+1.1.接口地址
+方法名
+/batch/test
+功能说明
+批量操作接口(json格式)
+1.2.参数说明
+参数说明（JSON结构）
+参数名
+说明
+sysCode
+异构系统标识
+flowId
+流程实例id
+taskId
+任务ID
+receiver
+接收人
+operateType
+操作类型
+SUBMIT：批量提交
+RETURNED：批量退回
+ACQUIRE：批量领取
+DELETE：批量删除
+1.3.返回值说明
+1.3.1.主体说明
+主体说明（JSON结构）
+参数名
+说明
+code
+状态码(200 表示调用成功，其他均表示失败)
+msg
+接口执行说明
+status
+接口执行状态
+true：成功；false：失败；
+data
+接口调用的结果对象(数组类型)
+1.3.2.data说明
+data说明（JSON结构）
+参数名
+说明
+sysCode
+异构系统标识
+receiver
+接收人
+flowId
+流程实例id
+taskId
+任务ID
+status
+接口执行状态
+true：成功；false：失败；
+2.统一待办接口调用示例
+2.1.请求参数示例
+推送参数示例：
+注意添加消息头：
+accept:*/*
+connection:Keep-Alive
+Content-Type:application/json
+[
+{
+"operateType":"SUBMIT",
+"sysCode":"sun00112",
+"flowId":"13",
+"taskId":"13_797978668560277504",
+"receiver":"15222357311"
+},
+{
+"operateType":"SUBMIT",
+"sysCode":"sun00112",
+"flowId":"14",
+"taskId":"14_797978668560277504",
+"receiver":"15222357311"
+}
+]
+2.2.返回结果示例
+{
+"code": "200",
+"msg": "成功",
+"status": "true",
+"data": [
+{
+"sysCode": "sun00112",
+"receiver": "15222357311",
+"flowId": "13",
+"taskId": "13_797978668560277504",
+"status": "true"
+},
+{
+"sysCode": "sun00112",
+"receiver": "15222357311",
+"flowId": "14",
+"taskId": "14_797978668560277504",
+"status": "false"
+}
+]
+}

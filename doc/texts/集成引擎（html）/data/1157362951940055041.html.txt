@@ -1,0 +1,16 @@
+点击套件模板的使用按钮，进入简易版新建集成登录页面：
+配置参数说明
+外网地址：ip:端口号/login/VerifyLoginE9.jsp
+自定义参数：
+loginid：参数值根据第三方账号参数做匹配
+userpassword：参数值根据第三方密码参数做匹配
+配置单点登录人员权限（共享范围）
+新建完成后，若要进行单点登录，则需进入编辑集成登录设置页面，点击共享范围，设置允许单点登录的人员（共享范围默认为空，所有人均无权限）。
+单点具体页面地址
+单点具体页面地址后方需要携带gopage参数
+例：新建流程地址：
+/wui/index.html?#/main/workflow/add?menuIds=1,12&menuPathIds=1,12&_key=7bs10w
+Url编码后：
+%2Fwui%2Findex.html%3F%23%2Fmain%2Fworkflow%2Fadd%3FmenuIds%3D1%2C12%26menuPathIds%3D1%2C12%26_key%3D7bs10w
+内外网地址：
+http://10.12.21.16:8080/login/VerifyLoginE9.jsp?gopage=%2Fwui%2Findex.html%3F%23%2Fmain%2Fworkflow%2Fadd%3FmenuIds%3D1%2C12%26menuPathIds%3D1%2C12%26_key%3D7bs10w

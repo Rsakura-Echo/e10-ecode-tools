@@ -1,0 +1,9 @@
+问题描述：
+ESB中心部分系统连接器使用不上，如何删除呢
+解决办法：
+1、云端客户目前不支持删除系统连接器，云端系统连接器是统一配置的，无法单一产出某个租户的；
+2、私有部署的客户，默认会有5个连接器，如需删除的话需要单独执行sql脚本进行删除；
+执行sql语法如下：
+update esb_system_pool set delete_type=1 where tenant_key='all_teams'
+update esb_interface_base set delete_type=1 where tenant_key='all_teams'
+update esb_resource set delete_type=1 where tenant_key='all_teams'

@@ -1,0 +1,21 @@
+集成登录【魔学院】套件是基于魔学院提供的接口文档（https://open.moxueyuan.com/#/sso/login）进行实现。
+点击套件模板的使用按钮， 进入简易版新建集成登录页面：
+配置参数说明
+外网地址：https://open.moxueyuan.com/api/v1/sso/login  （魔学院提供）
+自定义参数：
+Scop(授权作用域)
+默认固定值base
+Corpid(企业ID)
+默认固定值，由魔学院提供
+Account(账号)
+默认用户参数，手机号 (与下方的账号类型匹配，根据实际需求选择)
+accountType
+(账号类型)
+默认固定值mobile（可设置userid,mobile,jobNumber,email，与账号字段匹配，根据实际需求填写）
+redirect_uri
+(重定向地址)
+默认固定值https://study.moxueyuan.com
+Secret(加密秘钥)
+默认固定值，由魔学院提供
+配置单点登录人员权限（共享范围）
+新建完成后，若要进行单点登录，则需进入编辑集成登录设置页面，点击共享范围，设置允许单点登录的人员（共享范围默认为空，所有人均无权限）。

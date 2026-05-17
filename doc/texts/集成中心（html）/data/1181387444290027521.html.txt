@@ -1,0 +1,542 @@
+一、功能背景
+面对高并发场景，传统的http接口需要经过网关，根据路由分发请求，存在链路过长和网关并发上限问题。需要有新方案，支持更高并发，并且减少传输链路，以提供更高的数据传输性能。
+二、功能价值
+1、开辟了新的数据传输通道，不再受网关性能限制，同时也不受其他模块占用网关性能的影响
+2、支持更高并发场景，比传统http接口数据传输性能提升一个数量级，数据同步完全是异步方式，可以最大程度利用统一待办中心所在服务器性能，不存在某个环境卡主导致推送端一直等待，浪费性能
+三、开发说明
+1.MQ队列说明
+队列名称
+weaver-intunifytodo-server-receive-producer-queue
+队列类型
+E10 产品使用的是默认交换机（Default exchange）类型。绑定的路由键（routing key）名称与队列名称相同。
+2.请求数据
+2.1.主体数据
+主体说明（JSON结构）
+参数名称
+参数说明
+必填
+类型
+注意事项
+asyncBean
+参数实体
+是
+AsyncBean
+具体入参
+consumerStatus
+消费者状态
+否
+int
+系统默认字段，无需关注
+eventIdentification
+事件身份
+否
+int
+系统默认字段，无需关注
+eventRole
+事件角色
+否
+int
+系统默认字段，无需关注
+flag
+标识
+否
+int
+系统默认字段，无需关注
+producerApplicationName
+系统名称
+否
+int
+系统默认字段，无需关注
+retryCount
+重试次数
+否
+int
+系统默认字段，无需关注
+sendStatus
+发送状态
+否
+int
+系统默认字段，无需关注
+sendType
+发送类型
+否
+int
+固定值1
+versionID
+版本号
+否
+int
+系统默认字段，无需关注
+2.2.AsyncBean对象
+AsyncBean对象（JSON结构）
+参数名称
+参数说明
+必填
+类型
+注意事项
+message
+参数实体
+是
+Message
+queue
+队列名称
+是
+string
+2.3.Message对象
+Message对象（JSON结构）
+参数名称
+参数说明
+必填
+类型
+注意事项
+tenantkey
+租户KEY
+是
+string
+使用MQ推送数据时，该字段必填。
+sysCode
+异构系统标志
+是
+String
+flowId
+流程实例id
+是
+String
+requestName
+流程标题
+是
+String
+workFlowCode
+流程类型编码
+是
+String
+workFlowName
+流程类型名称
+是
+String
+nodeName
+步骤名称（节点名称）
+是
+String
+pcUrl
+pc访问地址
+是
+String
+appUrl
+app访问地址
+是
+String
+isRemark
+流程处理状态
+是
+Number
+0：待办
+2：已办
+4：办结
+8：抄送（待阅）
+viewType
+流程查看状态
+是
+Number
+0：未读
+1：已读
+apiCreator
+创建人信息
+是
+String
+createDateTime
+创建日期时间
+是
+String
+格式:
+yyyy-MM-dd HH:mm:ss
+apiReceiver
+接收人信息
+是
+String
+receiveDateTime
+接收日期时间
+是
+String
+格式:
+yyyy-MM-dd HH:mm:ss
+receivets
+时间戳
+是
+string
+时间戳字段：
+客户端使用异步线程调用接口的时候，根据此字段判断是否需要更新数据。
+（防止后发的请求数据被之前的覆盖）
+示例：
+1602817491990（毫秒级时间戳）
+custom
+自定义字段
+否
+string
+"custom":{
+"aa":"11",
+"bb":"22"
+}
+aa:自定义字段名称
+taskid
+审批任务id
+否
+string
+第三方流程的审批任务id
+isbatchoperation
+是否支持批量提交
+否
+string
+0：不支持；
+1：支持
+appapproval
+是否支持在app端进行审批
+否
+string
+0：不支持；
+1：支持
+extend1~extend10
+扩展字段
+否
+string
+扩展字段无实际业务逻辑，将推送的数据原样保存到iut_sys_data表中。长度不能超过200
+3.请求数据示例
+注意：“～.,:;?” 这些英文符号会引起json解析异常，请不要使用
+{
+"asyncBean": {
+"message": {
+"creator": "15166752550",
+"requestname": "测试",
+"receiver": "15166752550",
+"pcurl": "du.com",
+"tenantkey": "tbzerixjeg",
+"workflowname": "测试",
+"workflowcode": "001",
+"viewtype": "0",
+"appurl": "du.com",
+"syscode": "dntest",
+"nodename": "测试",
+"receivets": "2",
+"receivedatetime": "2021-12-04 17:56:00",
+"isremark": "2",
+"createdatetime": "2021-12-04 17:56:00",
+"flowid": "dnpg1"
+},
+"queue": "weaver-intunifytodo-server-receive-producer-queue"
+},
+"consumerStatus": 0,
+"eventIdentification": 0,
+"eventRole": 0,
+"flag": 0,
+"producerApplicationName": "weaver-intunifytodo-server-engine-service",
+"retryCount": 0,
+"sendStatus": 0,
+"sendType": 1,
+"versionID": 1
+}
+4.响应数据
+4.1.主体说明
+主体说明（JSON结构）
+参数名称
+参数说明
+类型
+注意事项
+asyncBean
+参数实体
+AsyncBean
+具体返回值
+consumerStatus
+消费者状态
+int
+系统默认字段，无需关注
+eventIdentification
+事件身份
+int
+系统默认字段，无需关注
+eventRole
+事件角色
+int
+系统默认字段，无需关注
+flag
+标识
+int
+系统默认字段，无需关注
+id
+唯一ID
+string
+系统默认字段，无需关注
+ip
+ip地址
+string
+系统默认字段，无需关注
+producerApplicationName
+系统名称
+int
+系统默认字段，无需关注
+retryCount
+重试次数
+int
+系统默认字段，无需关注
+sendStatus
+发送状态
+int
+系统默认字段，无需关注
+sendType
+发送类型
+int
+系统默认字段，无需关注
+versionID
+版本号
+int
+系统默认字段，无需关注
+4.2.AsyncBean对象
+AsyncBean对象（JSON结构）
+参数名称
+参数说明
+类型
+注意事项
+message
+参数实体
+Message
+具体返回值
+queue
+队列名称
+string
+系统默认字段，无需关注
+serverName
+系统名称
+string
+系统默认字段，无需关注
+topic
+广播名称
+string
+系统默认字段，无需关注
+traceId
+追踪id
+string
+系统默认字段，无需关注
+4.3.Message对象
+Message对象（JSON结构）
+参数名称
+参数说明
+类型
+注意事项
+errcode
+错误代码
+Int
+200：正常
+500：系统内部错误
+3000：配置异常或者调用接口参数异常，导致无法接收数据
+errmsg
+错误消息
+string
+接口执行说明
+data
+系统名称
+Data
+接口返回的详细数据
+4.4.Data对象
+Data对象说明（JSON结构）
+参数名称
+参数说明
+类型
+注意事项
+syscode
+异构系统标志
+string
+flowid
+流程实例id
+string
+receiver
+接收人
+string
+operResult
+操作结果
+string
+1：成功
+0：失败
+message
+执行结果描述
+string
+示例：流程数据【测试流程001】检测接收人【fyj】存在，接收待办成功
+4.5.执行结果描述（message）
+描述信息
+说明
+syscode不能为空
+syscode不能为空
+syscode长度不能超过10
+syscode长度不能超过10
+tenant_key不能为空
+tenant_key不能为空
+tenant_key长度不能超过10
+tenant_key长度不能超过10
+统一待办中心未启用
+请联系OA管理员，打开接口开关
+应用系统标识【test】未注册
+请联系OA管理员，注册指定应用系统信息
+应用系统标识【test】当前IP（127.0.0.1）未授权
+请联系OA管理员，添加当前IP到应用系统
+注册信息
+请求参数：receivets不合法，当前时间戳为【2021-12-12 12:12:12】
+receivets字段必须是长整型的毫秒值，示
+例：1602817491990（毫秒级时间戳）
+请求参数：requestlevel不合法，当前值为【" + requestlevel+"】
+requestlevel必须是数字内容的字符串，示
+例："1"
+请求参数：receiver不能为空
+请求参数：receiver不能为空
+请求参数：createdatetime不合法，
+合法格式：yyyy-mm-dd hh:MM:ss，
+当前值为：【2021/12/12 12:12:12】
+createdatetime，必须符合格式：yyyymm-dd hh:MM:ss
+请求参数：receivedatetime不合法，
+合法格式：yyyy-mm-dd hh:MM:ss，
+当前值为：【2021/12/12 12:12:12】
+receivedatetime，必须符合格式：yyyymm-dd hh:MM:ss
+请求参数：flowid不能为空
+请求参数：flowid不能为空
+flowid长度不能超过200
+flowid长度不能超过200
+请求参数：isremark不合法，
+合法值为【0：待办|2：已办|4：办结|8：抄
+送|-1:删除】
+请求参数：isremark不合法，
+合法值为【0：待办|2：已办|4：办结|8：
+抄送|-1:删除】
+请求参数：viewtype不合法，
+合法值为【0：未读|1：已读】
+请求参数：viewtype不合法，
+合法值为【0：未读|1：已读】
+请求参数：requestname不能为空
+请求参数：requestname不能为空
+请求参数：requestname不能包含html编码字符,当前参数值为:[&nbsp;]
+请求参数：requestname不能包含如下
+html编码字符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+请求参数：requestname不允许超出2000长度
+请求参数：requestname不允许超出2000
+长度
+请求参数：workflowname不能为空
+请求参数：workflowname不能为空
+请求参数：workflowname不允许超出2000长度
+请求参数：workflowname不允许超出2000长度
+请求参数：pcurl不允许超出2000长度
+请求参数：pcurl不允许超出2000长度
+请求参数：pcurl不允许传绝对地址
+示例：/testPCurl/111
+提供的地址不允许http或者https开头，只
+要传相对路径即可
+请求参数：pcurl不允许包含html字符实体
+请求参数：pcurl不能包含如下html编码字
+符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+请求参数：appurl不允许超出2000长度
+请求参数：appurl不允许超出2000长度
+请求参数：appurl不允许传绝对地址
+示例：/testAppurl/222
+注意，提供的地址不允许http或者https开
+头，只要传相对路径即可
+请求参数：appurl不允许包含html字符实体
+请求参数：appurl不能包含如下html编码
+字符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+应用系统标识【test】不允许接收流程数据
+请联系OA管理员，打开当前注册的应用系
+统接收数据的开关
+流程类型【测试流程001】不允许接收流程数据
+请联系OA管理员，打开当前注册的应用系
+统流程类型接收数据的开关
+流程数据【测试流程标题001】检测接收人【fyj】
+不存在
+请联系OA管理员，确认当前接收人是否存
+在——当前接收人的OA人员主键ID|工号|
+身份证|邮箱是否对应
+请求参数：workflowcode不能为空
+请求参数：workflowcode不能为空
+tf1b4jq4ve _ test _ 359369_ 18019164087参数,调用接口失败;调用接口并发过高，存在重复的tf1b4jq4ve _ test _ 359369
+建议在pcurl、appurl多个接收人一致的情
+况下，receiver 添加多个人即可，降低并发
+量
+workflowcode长度不能超过200
+workflowcode长度不能超过200
+5.响应数据示例
+{
+"asyncBean": {
+"message": {
+"data": {
+"flowid": "dnpg1",
+"message": "审批流数据【测试】检测接收人【15166752550】存在，接收【待办】数据成功",
+"operResult": "1",
+"receiver": "15166752550",
+"syscode": "dntest"
+},
+"message": {
+"errcode": "200",
+"errmsg": "请求成功"
+}
+},
+"queue": "weaver-intunifytodo-server-tbzerixjeg-beisen-producer-queue4597",
+"serverName": "weaver-intunifytodo-server-engine-service",
+"topic": "null",
+"traceId": "229b8ffd21f2fb2f"
+},
+"consumerApplicationName": "null",
+"consumerStatus": 0,
+"createTime": 1693464606798,
+"eventIdentification": 0,
+"eventRole": 0,
+"flag": 0,
+"id": "72fe0393-5a37-4ffd-a603-cf82e6d29529",
+"ip": "10.12.105.122",
+"producerApplicationName": "weaver-intunifytodo-server-engine-service",
+"retryCount": 0,
+"sendStatus": 1,
+"sendType": 0,
+"updateTime": 1693464606798,
+"versionID": 1
+}

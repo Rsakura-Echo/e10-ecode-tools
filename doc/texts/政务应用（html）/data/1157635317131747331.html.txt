@@ -1,0 +1,11 @@
+政务督办管理平台对督办事项按照拟办、立项、交办、催办、办结五项程序建立了运行机制，有力地促进了各项工作的贯彻落实。
+督查督办应用整体介绍
+督查督办应用功能使用介绍
+督查督办应用业务场景
+督查督办应用功能更新清单
+督查督办应用常见问题
+录制: 督办功能讲解
+录制文件：https://meeting.tencent.com/v2/cloud-record/share?id=e5bf1222-c93e-417a-b625-067debfa7561&from=3
+密码：k3zA
+录制文件：https://meeting.tencent.com/v2/cloud-record/share?id=e5a733d9-c6eb-44c2-98e4-61bee5a3e3e9&from=3
+密码：CTDw

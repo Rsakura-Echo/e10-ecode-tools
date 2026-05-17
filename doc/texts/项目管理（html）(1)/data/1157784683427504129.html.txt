@@ -1,0 +1,11 @@
+目前EB应用默认不展示ER图，如需获取可以按如下步骤操作：
+1. 修改配置
+单体部署：找到配置文件目录，一般位置在：/${e10服务部署目录}/e10-server0/E10/webapps/ROOT/WEB-INF/classes/weaver/config/config-center
+打开weaver-ebuilder-form-service.properties文件，找到ebuilderform.modleRelation.open.tenantkey配置项，配置值添加EB应用所在的租户KEY
+如：ebuilderform.modleRelation.open.tenantkey=t2k74i3rjo,tldxhxs5xl
+PS: 修改后需重启服务
+组合部署或微服务：打开配置中心，找到weaver-ebuilder-form-service.properties配置，找到ebuilderform.modleRelation.open.tenantkey配置项，配置值添加EB应用所在的租户KEY
+如：ebuilderform.modleRelation.open.tenantkey=t2k74i3rjo,tldxhxs5xl
+点击编辑修改如下配置项：
+2. 查看ER图
+进入EB应用管理后台，找到模型关系图菜单, 也可以点击右上角【导出图】导出此ER图

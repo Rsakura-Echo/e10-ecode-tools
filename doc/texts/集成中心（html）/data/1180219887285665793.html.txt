@@ -1,0 +1,358 @@
+一、功能背景及价值用途
+OAuth2.0是行业标准的授权协议。E10系统的OAuth2认证主要提供基于OAuth2协议的认证服务，支持授权码模式（authorization_code）和密码模式（password），应用系统可通过OAuth2协议集成接入E10系统。
+二、功能概述以及使用说明
+1、OAuth2认证配置
+可以在认证协议管理中启用 OAuth2 认证，并查看 OAuth2 的接口地址。
+2、OAuth2授权码模式接口
+OAuth2认证支持授权码模式（authorization_code）
+2.1、请求用户授权接口
+当用户访问应用系统时，应用系统需基于页面重定向的方式向E10系统发起授权登录请求。若用户尚未登录E10系统，将停留在E10的登录页面。用户在该页面输入用户名和密码并成功认证后，E10系统会携带授权码（code参数）重定向回第三方应用系统。
+请求用户授权接口格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&state={state}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+response_type
+授权类型
+是
+code
+授权码模式固定code
+redirect_uri
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+成功授权后的回调地址。
+1，实际传递的service地址需要在业务系统URL地址的范围内；
+2，若service参数中有携带参数，需要进行URL编码
+state
+随机字符
+否
+A12345678
+认证通过后，将原值回调给应用系统。（建议业务系统为客户端时，尽量携带state）（常用于防重攻击）
+认证授权成功后，可携带授权码code回到到应用系统：
+{redirect_uri}?code=ST-xxxxxxx&state={state}
+2.2、获取授权Token接口
+通过认证登录并完成授权后，应用系统获取到授权码 code，此时需要调用获取 Token 接口来置换令牌 Access Token。
+获取授权Token接口格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/accessToken?grant_type=authorization_code&client_id={client_id}&client_secret={client_secret}&code={code}&redirect_uri={redirect_uri}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+grant_type
+授权类型
+是
+authorization_code
+授权码模式为authorization_code
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+client_secret
+应用密钥
+是
+mBbjNuUILRXarYeVdprWYwYF
+E10系统认证应用管理中该应用注册的应用密钥
+code
+授权码
+是
+ST-xxxxxxx
+请求用户授权接口回调返回的授权码
+redirect_uri
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+需要与请求用户授权接口传递的redirect_uri保持一致
+校验成功后，返回：
+{
+"msg":"SUCCESS",
+"access_token":"TGT-17-ltrkyX7uoV1UyJvtZVQ3OsLwMKLuiiBghgEi8d5jeQejC0Xl---taqwusjwbChnVGvgETW029070",
+"code":"0",
+"expire":7200,
+"status":200
+}
+返回参数说明：
+参数
+名称
+描述
+access_token
+授权令牌
+返回给第三方应用的授权令牌，获取用户信息时需要使用到
+expire
+授权令牌的有效期
+返回给应用的授权令牌的有效期。（注意：有效期以秒为单位）
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+2.3、获取用户信息接口
+通过获取授权Token接口获取到令牌 Access Token后，可调用获取用户信息接口获取用户信息。
+获取用户信息接口格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/profile?access_token={access_token}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+access_token
+授权令牌
+是
+TGT-17-ltrkyX7uoV1UyJvtZVQ3OsLwMKLuiiBghgEi8d5jeQejC0Xl---taqwusjwbChnVGvgETW029070
+获取授权Token接口获取到令牌 Access Token
+校验成功后，可返回用户信息：
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {
+"job_num": "WS001",
+"mobile": "13511112223",
+"username": "田小濛人员001"
+},
+"id": "txmry001",
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+id
+用户信息
+OAuth2认证应用账号映射里所配置的账号映射规则对应的人员信息
+attributes
+人员其他属性
+OAuth2认证应用账号映射中所配置的自定义属性字段的信息
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+2.4、统一退出接口
+应用系统退出时，可调用E10系统的OAuth2退出接口，注销E10系统的会话。
+退出地址格式为：
+http(s)://{OA_server}/sp/integration/oauth2.0/logout?service={service}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+service
+退出重定向地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+E10系统退出后，会重定向这个地址
+3、OAuth2 password模式接口
+OAuth2认证支持密码模式（password）
+3.1、获取Access Token
+通过账号、密码，获取授权令牌Access Token。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/accessToken?grant_type=password&client_id={client_id}&client_secret={client_secret}&username={username}&password={password}&redirect_uri={redirect_uri}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+grant_type
+授权类型
+是
+password
+密码模式为password
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+client_secret
+应用密钥
+是
+mBbjNuUILRXarYeVdprWYwYF
+E10系统认证应用管理中该应用注册的应用密钥
+username
+登录账号
+是
+zhangsan
+E10系统人员账号
+password
+登录密码
+是
+123456
+E10系统人员密码
+redirect_uri
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+应用系统的回调地址。
+实际传递的service地址需要在业务系统URL地址的范围内。
+校验成功后，返回：
+{
+"msg": "SUCCESS",
+"access_token": "TGT-2-bQB7dtqvjNwI5LQ9OolSp4Tr8YXV0G-y5YCVnsBdC72pzSa41MLwIHN2BoeUvSzK1AEETL102010",
+"refresh_token": "cYpVt6qli9OaxWn4HVHGVAZFhj68VHiJNsMTnSSUSrFDrW48soH5.VM4ee2tnBJ4VQdHyXHz.4cfJ2BzOyJl3rDG3K9C9Dap5VWfe.hW32xxvr.kxTDapAKv3uzm6BXM",
+"code": "0",
+"expire": 7200,
+"expires_in": 7200,
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+access_token
+授权令牌
+返回给第三方应用的授权令牌，获取用户信息时需要使用到
+refresh_token
+刷新token令牌
+返回给第三方应用的刷新token令牌，刷新access_token时用到
+expire
+授权令牌的有效期
+返回给应用的授权令牌的有效期。（注意：有效期以秒为单位）
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+Apipost工具请求示例：
+3.2、刷新Access Token
+通过刷新token令牌，能够重新获取授权令牌Access Token。
+接口地址格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/accessToken?grant_type=refresh_token&client_id={client_id}&client_secret={client_secret}&refresh_token={refresh_token}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+grant_type
+授权类型
+是
+refresh_token
+刷新令牌为refresh_token
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+client_secret
+应用密钥
+是
+mBbjNuUILRXarYeVdprWYwYF
+E10系统认证应用管理中该应用注册的应用密钥
+refresh_token
+刷新token令牌
+是
+cYpVt6qli9OaxWn4HVHGVAZFhj68VHiJNsMTnSSUSrFDrW48soH5.VM4ee2tnBJ4VQdHyXHz.4cfJ2BzOyJl3rDG3K9C9Dap5VWfe.hW32xxvr.kxTDapAKv3uzm6BXM
+获取Access Token获取到刷新token令牌
+校验成功后，返回：
+{
+"msg": "SUCCESS",
+"access_token": "TGT-2-QkUqAuTi7QUG36R6aAcCJ2hBwnH-Zhkn9jTrQni5-g2Ghqi9oiuxjdWj5aqt-8CXVJQETL102030",
+"refresh_token": "dQqmM5UlK5GQE6gmiE8DllE5sCgvPq4jqAKBHY6pMnRPrQRw6C.d1Ffy-0aVRWGvam6DqLhEL5Ye7BBjqtAoUs195SSRy8lyxCRJtKGA2DR2.cBzH.GSUQ93GdMf20Mv",
+"code": "0",
+"expire": 7200,
+"expires_in": 7200,
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+access_token
+授权令牌
+返回给第三方应用的授权令牌，获取用户信息时需要使用到
+refresh_token
+刷新token令牌
+返回给第三方应用的刷新token令牌，刷新access_token时用到
+expire
+授权令牌的有效期
+返回给应用的授权令牌的有效期。（注意：有效期以秒为单位）
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+Apipost工具请求示例：
+3.3、获取用户信息接口
+应用系统根据令牌Access Token调用获取用户信息接口获取用户信息。
+获取用户信息接口格式为：
+http(s)://{OA_server}/papi/sso/oauth2.0/profile?access_token={access_token}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+access_token
+授权令牌
+是
+TGT-17-ltrkyX7uoV1UyJvtZVQ3OsLwMKLuiiBghgEi8d5jeQejC0Xl---taqwusjwbChnVGvgETW029070
+获取授权Token接口获取到令牌 Access Token
+校验成功后，可返回用户信息：
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {
+"account": "18228800000",
+"country_id": "",
+"age": "",
+"username": "田小濛"
+},
+"id": "txm",
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+id
+用户信息
+OAuth2认证应用账号映射里所配置的账号映射规则对应的人员信息
+attributes
+人员其他属性
+OAuth2认证应用账号映射中所配置的自定义属性字段的信息
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+Api工具请求示例：

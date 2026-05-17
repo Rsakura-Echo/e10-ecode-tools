@@ -1,0 +1,5 @@
+问题描述：
+sql视图查询时如何设置语句查询变量
+解决方式：
+编辑sql语句时可参照左上角问号中的实例设置；
+例如：select id from table [where id = {id}]

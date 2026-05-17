@@ -1,0 +1,10 @@
+SQLVIEWEXECUTE
+用途：用于执行数据加工SQL视图
+语法：SQLVIEWEXECUTE(sqlViewId,condition,showField,selectType)
+sqlViewId：浏览框，选择对应的数据加工SQL视图，选完后会自动带入动态参数字段。
+condition：条件，选择的数据加工视图语句包含条件，则会显示条件字段名；若不包含条件，该参数不显示。
+showField：选择数据加工视图执行之后结果映射的字段。
+selectType：选取数据的规则类型，当sql查询结果有多条，可以选择第一条、最后一条或全部；选择全部的话，返回的是个数组。
+SQLVIEWEXECUTE函数使用：
+数据加工视图可在数据加工中新建SQL视图，SQL语句必须为SELECT语句
+在数据加工建好视图后，使用SQLVIEWEXECUTE函数，可获取该查询语句的第一条结果值；SQLVIEWEXECUTE (test, 4, id, 第一条)，返回2

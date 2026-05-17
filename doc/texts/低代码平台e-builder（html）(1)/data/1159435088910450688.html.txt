@@ -1,0 +1,43 @@
+一、
+功能介绍
+E10连接器实现跨平台数据交互提供与北森系统的深度集成能力，支持以下核心操作：
+二、
+自动化鉴权：Token自动获取与管理，简化API调用流程。
+三、
+岗位管理：创建/查询岗位并关联至入职管理系统。
+四、
+组织架构同步：获取/更新北森组织树信息。
+系统内置了五个接口，可在动作流中直接调用，无需手动维护，其他接口也可自行新建。
+操作
+API调用指南
+获取token
+https://open.italent.cn/#/open-document?menu=document-center&id=0&version=v3.0
+获取北森组织信息
+https://open.italent.cn/#/open-document?menu=document-center&id=dc1e628c-21a6-49cc-ae0c-7fc4a037d1bd&version=v3.0
+根据组织OId集合获取组织相关信息
+https://open.italent.cn/#/open-document?menu=document-center&id=c59e60ee-345a-4441-967c-631f8ace1adf&version=v3.0
+批量查询指定组织的下级组织树分支
+https://open.italent.cn/#/open-document?menu=document-center&id=7c8d1241-f041-42cf-b655-40404ed1966c&version=v3.0
+查询指定组织的下级组织单元列表
+https://open.italent.cn/#/open-document?menu=document-center&id=cab6a177-82a4-45ac-a0e3-18a4d9f4bb3a&version=v3.0
+二、功能使用说明
+场景案例：
+将本地系统岗位数据自动同步至北森入职管理系统，并获取岗位ID回传
+操作步骤：
+1.新建接口信息
+在北森开放平台中招聘管理系统-入职管理下找到创建岗位接口：创建岗位
+根据接口文档在连接器下新建-创建岗位接口：
+请求参数、响应参数均可根据接口文档中的请求示例批量添加，会自动解析参数。
+2.搭建动作流
+2.1、新建动作流，触发组件选择【简单定时器】→ 设置每日凌晨执行 ；
+2.2、执行组件添加【数据源查询组件】→ 查询本地岗位数据；
+2.3、添加连接器（应用）-【北森】-【获取token】，配置参数；
+2.4、执行组件添加【循环】组件→遍历查询结果 ，循环内添加连接器（应用）-【北森】-【创建岗位】 →  循环调用。
+注：access_token是调用北森API接口的唯一凭证，其它的业务API接口，都需要依赖于access_token来鉴权调用者身份，所以在逻辑接口前必须加上获取token接口。
+查询岗位信息有多条，故需要把多条数据循环新增；循环方式按表单明细表数据循环遍历：
+创建岗位接口参数映射上下文中当次循环下的数据参数信息，这里的数据来源于配置的数据源查询返回的岗位信息。
+动作流配置后，每天定时触发同步岗位信息信息到北森入职管理系统中。
+三、常见问题
+1.接口调用失败的常见原因
+向北森服务器发送 API 请求时，必须在请求头里带上 Authorization，方便服务器认证用户身份。
+获取 API Token 的方式参考下方链接：https://open.italent.cn/#/open-document?menu=develop-guide&id=51de058d-2169-4127-a383-db4104c915ae&version=v3.0

@@ -1,0 +1,144 @@
+一、功能介绍
+注意：需要购买统一认证-集成登录功能。
+10.0.2412.01基线版本开始，集成登录支持RichMail企业邮箱，可实现OA系统的单点登录功能，以便无缝接入RichMail企业邮箱。
+二、功能概述以及使用说明
+1、RichMail企业邮箱操作
+为了配置RichMail企业邮箱套件，需要RichMail企业邮箱提供相应的RSA公钥、应用ID以及应用密钥。获取这些参数值的详细信息，可参考下文。
+1.1、rsa公钥
+Richmail邮箱环境安装的时候生成的。
+查看文件/home/richmail/webconf/forward.conf中sso.publicKey属性。
+1.2、生成密钥
+1.2.1、生成appId【应用ID】
+登录邮箱服务器
+执行脚本/home/richmail/shell/get_random_string.sh，输入选项前的数字生成：
+输入选项1，生成结果示例如下：
+1.2.2、生成appKey【应用秘钥】
+输入选项2，生成结果示例如下：
+1.2.3、激活应用ID、应用秘钥
+Rich邮箱数据库插入SQL脚本并执行：
+将生成的appid和appkey对应的sha256值插入以下sql，注意字符串两边不能有空格。
+INSERT INTO COMMON.rm_api_info
+(api_id,api_name,api_key,iplimits,api_desc,sign_exptime,create_time,modify_time)VALUES('appId字符串','对接系统的英文名称','appKey对应的SHA256字符串','richmail邮件系统的内网ip','对接系统的名称',300,now(),now());
+举例：INSERT INTO COMMON.rm_api_info
+(api_id,api_name,api_key,iplimits,api_desc,sign_exptime,create_time,modify_time)VALUES('wF8hngy2S9HNs3p5','OA','55660c0047a9631efd4b62c8b388434f720e47f1792abc78d93b267ca2f425e6','10.10.28.11','泛微OA',300,now(),now());
+注意！rm_api_info表中iplimits对应的ip只可以填richmail邮件系统的内网ip。
+开始插入对应接口数据：
+INSERT INTO COMMON.api_func_dict
+(func_id,func_name,func_desc,create_time,modify_time) VALUES (自定义func_id,'对应接口','接口功能',now(),now());
+示例：
+可直接复制，但是注意第一列的值不要和已有的重复
+插入api_func_dict 表数据：
+INSERT INTO common.api_func_dict (func_id,func_name,func_desc,create_time,modify_time) VALUES
+(101,'base:login','超密登录接口','2024-09-26 17:56:08','2024-09-26 17:56:08'),
+(201,'/webmail/ssoLogin/getAuthToken','用户平台单点登录','2024-09-26 17:56:08','2024-09-26 17:56:08'),
+(301,'/webadmin/openapi/deptManager/addDept','开放API-添加部门','2024-10-28 10:39:06','2024-10-28 10:39:06'),
+(302,'/webadmin/openapi/deptManager/updateDept','开放API-修改部门','2024-10-28 10:41:25','2024-10-28 10:41:25'),
+(303,'/webadmin/openapi/deptManager/deleteDept','开放API-删除部门','2024-10-28 10:41:42','2024-10-28 10:41:42'),
+(304,'/webadmin/openapi/deptManager/addDeptUser','开放API-新增部门所属用户','2024-10-28 10:41:54','2024-10-28 10:41:54'),
+(305,'/webadmin/openapi/deptManager/deleteDeptUser','开放API-删除部门所属用户','2024-10-28 10:42:14','2024-10-28 10:42:14'),
+(306,'/webadmin/openapi/deptManager/listDeptInfo','开放API-查询部门列表','2024-10-28 10:42:33','2024-10-28 10:42:33'),
+(307,'/webadmin/openapi/deptManager/listDeptUserInfo','开放API-查询部门用户列表','2024-10-28 10:42:52','2024-10-28 10:42:52'),
+(308,'user:addUser','开放API新增用户','2024-10-28 10:43:07','2024-10-28 10:43:07'),
+(309,'user:updateUser','开放API-修改用户','2024-10-28 10:43:27','2024-10-28 10:43:27'),
+(310,'user:lockUser','开放API注销用户','2024-10-28 10:43:43','2024-10-28 10:43:43'),
+(311,'/webadmin/openapi/userManager/setUserDept','开放API-设置用户所属部门','2024-10-28 10:44:00','2024-10-28 10:44:00'),
+(312,'user:getUser','开放API获取用户信息','2024-10-28 10:46:34','2024-10-28 10:46:34'),
+(313,'corp:getCorp','开放API查询指定企业信息','2024-10-28 10:46:45','2024-10-28 10:46:45'),
+(314,'corp:getCorpIdByDomain','开放API-根据域名获得企业ID','2024-10-28 10:46:54','2024-10-28 10:46:54'),
+(315,'corp:setCorp','开放API新增或修改企业','2024-10-28 10:47:02','2024-10-28 10:47:02'),
+(316,'corp:delCorp','开放API暂停、注销、删除企业','2024-10-28 10:47:10','2024-10-28 10:47:10'),
+(317,'/webmail/openapi/mbox/getmailinfo.do','开放API-获取用户邮件总信息','2024-10-28 10:47:17','2024-10-28 10:47:17'),
+(318,'/webmail/openapi/mbox/listMessages.do','开放API-获取邮件列表','2024-10-28 10:47:26','2024-10-28 10:47:26');
+插入api_access_control表数据：
+wF8hngy2S9HNs3p5需要替换为4.1.1生成的appId
+func_id值与api_func_dict 表中的值一一对应
+示例：
+INSERT INTO COMMON.api_access_control (api_id,func_id,ENABLE,create_time,modify_time) VALUES ('appId字符串',自定义func_id,1,now(),now());
+示例：根据实际修改
+INSERT INTO common.api_access_control (api_id,func_id,enable,create_time,modify_time) VALUES
+('wF8hngy2S9HNs3p5',301,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',302,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',303,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',304,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',305,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',306,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',307,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',308,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',309,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',310,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',311,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',312,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',313,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',314,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',315,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',316,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',317,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',318,1,'2024-10-28 11:01:43','2024-10-28 11:01:43'),
+('wF8hngy2S9HNs3p5',201,1,'2024-11-15 09:00:00','2024-11-15 09:00:00');
+注意！api_access_control表中func_id对应的是api_func_dict表中的func_id。同一个api_id可以对应多个func_id；
+1.2.4、iplimits.conf
+邮箱服务器配置文件路径：
+/home/richmail/newconf/iplimits.conf
+配置项修改：
+3=192.168.28.240
+1.2.5、重启邮箱服务生效
+数据库修改新增参数成功后需要重启webapp，webmail这两个服务
+/home/richmail/sbin/webmailctl.sh  --restart ----这个重启webmail服务的命令！
+/home/richmail/sbin/webappctl.sh  --restart ----这个是重启webapp服务的命令！
+2、功能入口
+配置新建集成登录RichMail企业邮箱提供了两个功能相同的入口，推荐使用入口1：
+入口1：
+【集成登录】-【集成登录设置】-【RichMail企业邮箱】
+需要集成登录权限：
+入口2：
+此入口需购买ESB中心非标
+【ESB中心】-【连接器】-【邮件服务】-【Richmail邮箱】-【套件】-【集成登录】-【Richmail企业邮箱】
+需要ESB-连接器权限：
+3、配置说明
+3.1、选择套件快速创建
+通过入口1和入口2，用户可以迅速设置RichMail企业邮箱的集成登录功能。除了必须手动配置的参数外，其他设置将默认生成，并且这些默认参数可以在详细设置中进行修改。
+配置项
+说明
+启用
+默认开启，控制此集成登录是否可用的开关
+名称
+任意
+套件类型
+RichMail企业邮箱
+所属机构
+开启分权时显示
+外网地址
+RichMail企业邮箱地址/webmail/ssoLogin/getAuthToken.do
+应用ID(appid)
+RichMail企业邮箱提供的应用ID
+应用秘钥(appkey)
+RichMail企业邮箱提供的应用密钥
+rsa公钥(publickey)
+RichMail企业邮箱提供的RSA公钥
+点击保存并进入详细设置，自定义参数中默认了email（邮箱账号）、logintype（登录类型）、cguid（业务事务ID），其中：
+email默认用户参数-邮箱，若每个人都有邮箱是richmail邮箱，则无需改动。
+logintype默认固定值WEB
+cguid默认系统变量，无需改动。
+3.2、从空白创建
+通过入口1，可直接从空白创建RichMail企业邮箱套件。
+套件类型选择“RichMail企业邮箱”， 会自动带出RichMail相关配置， 其中外网地址以及自定义参数跟“选择套件快速创建”中参数一致。
+3.3、共享范围
+需要在共享范围内设置，哪些人员能够通过集成登录实现对RichMail企业邮箱的单点登录。
+3.4、维护每个人的邮箱
+email若设置用户参数-邮箱，需要到人力卡片邮箱字段维护正确的RichMail邮箱值。
+3.5、门户集成登录组件
+按照实际需要选择是否配置
+【后端管理中心】-【门户】-【设计】
+模块组件中搜索“集成登录”可添加集成登录元素。
+设置后，有权限人员在门户中可展示集成登录元素，点击应用可直接单点登录RichMail企业邮箱。
+3.6、构建应用
+按照实际需要选择是否配置。
+【后端管理中心】-【应用管理】-【构建应用】
+可配置菜单，菜单中集成登录可选择已配置的集成登录。
+可配置单页面内容， URL地址配置集成登录的单点登录地址。
+集成登录的单点登录地址可通过集成登录里面【更多】-【单点登录地址】进行复制。
+最终效果，有权限人员在应用中可点击应用单点登录到RichMail企业邮箱。
+三、上下游关联功能点
+邮箱服务中RichMail企业邮箱套件可实现OA组织架构及人员同步至Richmail企业邮件系统，EB邮箱集成组件可展示RichMail未读邮件列表与未读邮件数量，关联集成登录单点登录标识之后，点击未读邮件以及门户导航栏图标可单点登录RichMail企业邮箱系统。
+邮箱服务-RichMail企业邮箱套件帮助文档：
+https://www.e-cology.com.cn/sp/doc/docDetail/1125760582562145203

@@ -1,0 +1,128 @@
+一、功能背景及价值
+数学函数是数据分析与计算的核心工具，为数据处理提供了基础运算能力。它构成了数据处理和计算的核心工具集，其发展源于人类对量化分析、精确计算和随机模拟的长期需求。此时用户便可通过数据上报、流程等模块中的表单设计器直接来为字段配置对应函数公式，也可通过字段联动来设置赋值字段并选择对应函数公式为其赋值。
+点击查看函数整体介绍
+二、功能概述
+本系列函数主要分为以下几类：
+1.
+舍入函数：ROUNDUP、ROUND、ROUNDDOWN、CEILING、FLOOR、INT、TRUNC
+2.
+聚合与计算函数：AGGREGATION、DEF、EARLIER、PROMOTION
+3.
+数学运算函数：MOD、POWER、SQRT、ABS、FACT、EXP、LN、SIGN
+4.
+三角函数：SIN、COS、TAN、ASIN、ACOS、ATAN、DEGREES、RADIANS
+5.
+随机数函数：RANDOM、RANDBETWEEN、RAND
+6.
+其他实用函数：PI（数学常量）、CALDTROW（逐行计算）
+三、功能使用说明
+1. 函数总览
+舍入函数
+ROUNDUP：向上舍入数字
+ROUND：标准四舍五入
+ROUNDDOWN：向下舍入数字
+CEILING：沿绝对值增大的方向舍入
+FLOOR：沿绝对值减小的方向舍入
+INT：向下舍入到最接近的整数
+TRUNC：数字截断（格式化）
+聚合函数
+AGGREGATION：通用聚合运算
+DEF：按维度对指标进行聚合运算
+EARLIER：满足过滤条件的明细数据按照【维度】对指标进行聚合运算
+PROMOTION：计算提升比例
+数学运算
+MOD：求余运算
+POWER：N次方计算
+SQRT：平方根计算
+ABS：绝对值
+FACT：阶乘计算
+EXP：e的n次幂
+LN：自然对数
+SIGN：返回数值正负性
+三角函数
+SIN/COS/TAN：基本三角函数
+ASIN/ACOS/ATAN：反三角函数
+DEGREES：弧度转角度
+RADIANS：角度转弧度
+随机数
+RANDOM：随机数生成
+RANDBETWEEN：指定范围内的随机整数
+RAND：随机返回值
+其他
+PI：数学常量π
+CALDTROW：明细逐行计算函数
+2.常用函数介绍
+舍入函数
+函数
+说明
+示例
+ROUND(数值, 小数位数)
+四舍五入
+=ROUND(3.14159, 2) → 3.14
+INT(数值)
+向下取整至最接近的整数
+=INT(3.9) → 3
+TRUNC(数值, 小数位数)
+截断小数（不四舍五入）
+=TRUNC(3.14159, 2) → 3.14
+聚合与计算函数
+函数
+说明
+示例
+AGGREGATION(计算方式, 数据)
+按指定方式（SUM/AVG/COUNT等）聚合
+=AGGREGATION(1,2,3,'SUM')→ 6
+数学运算函数
+函数
+说明
+示例
+MOD(被除数, 除数)
+求余数
+=MOD(10, 3) → 1
+POWER(基数, 指数)
+计算N次方
+=POWER(2, 3) → 8
+三角函数
+函数
+说明
+示例
+SIN(角度)
+正弦值（弧度制）
+=SIN(PI()/2) → 1
+ACOS(数值)
+反余弦
+=ACOS(0) → 1.5708
+DEGREES(弧度)
+弧度转角度
+=DEGREES(PI()) → 180
+RADIANS(角度)
+角度转弧度
+=RADIANS(180) → 3.14159
+随机数函数
+函数
+说明
+示例
+RANDOM(长度，类型)
+生成指定长度及类型的随机数
+=RANDOM(5，'NUM') → 26489
+其他函数
+函数
+说明
+示例
+PI()
+返回π值（3.14159...）
+=PI() → 3.14159
+CALDTROW(计算逻辑)
+逐行计算
+常用于复杂数据遍历
+四、注意点
+1.
+舍入精度：不同舍入函数(ROUND/ROUNDUP/ROUNDDOWN)处理边界值时的差异
+2.
+数据类型：数学函数对输入数据类型有严格要求，需确保输入为数值，不要使用单行文本字段填数字当作数学函数的参数。
+五、关联功能
+数详细文档链接：
+1.ROUNDUP函数使用说明
+2.AGGREGATION 函数使用说明
+3.MOD 函数使用说明
+4.RANDOM 函数

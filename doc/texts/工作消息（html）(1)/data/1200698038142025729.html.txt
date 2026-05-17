@@ -1,0 +1,142 @@
+一、功能背景
+ua全称为userAgent， 源于 HTTP 协议，是浏览器在发送请求时自动添加到请求头中的标识字段，用于向服务器声明客户端的类型、版本、操作系统及渲染引擎等信息。
+当前文档只适用于emobile10 客户端 UA说明
+客户端在此基础上，另外增加了自定义标识，以便服务器做特殊处理
+二、功能价值
+通过解析 userAgent，可精准判断：
+1.
+设备类型：移动端（Android/iOS）、桌面端（Windows/macOS）、平板等。
+2.
+浏览器类型：Chrome、Firefox、Safari、Edge 等及其版本号。
+3.
+操作系统：Windows NT 版本、Mac OS X 版本等
+可根据不同设备类型，进行个性化业务处理。
+三、功能概述
+页面可通过navigator.userAgent获取设备类型、浏览器类型、操作系统，用于： 1、更新升级，下载对应的安装包 2、功能定制，如客户端支持磁盘文件读写 3、兼容差异，根据不同的操作系统，提供对应的api和呈现对应的效果
+四、功能详细说明
+1、ua详细说明
+一般情况下，ua字符串格式如下：
+Mozilla/5.0 (平台信息) 渲染引擎标识 浏览器信息 兼容性标识 自定义标识
+示例（EMobile10 on macOS）：
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.191 Electron/33.4.8 Safari/537.36 weapp-pc/10.1.11/private mac/arm
+详细说明：
+标识类型
+数值示例
+含义说明
+客户端用途
+Mozilla 兼容标识
+Mozilla/5.0
+历史遗留标识，源于 Netscape 浏览器，现代浏览器均保留以兼容旧网站。<br>所有现代浏览器均以 Mozilla/ 开头，无实际功能意义
+暂无
+平台信息
+(Windows NT 10.0; Win64; x64)
+操作系统及架构：<br> - Windows NT 10.0：Windows 10<br>- Win64; x64：64位架构<br>- Macintosh; Intel Mac OS X 10_15：macOS Catalina<br>- iPhone; CPU iPhone OS 15_0：iOS 15
+1、更新升级 <br> 2、功能定制
+渲染引擎标识
+AppleWebKit/537.36 (KHTML, like Gecko)
+渲染引擎及兼容性<br>- AppleWebKit：Chrome、Safari 内核<br>- Gecko：Firefox 内核<br>- Trident：IE 内核<br>- Blink：Chrome 28+ 内核
+暂无
+浏览器信息
+Chrome/120.0.0.0
+浏览器名称及版本<br>- Chrome/：Google Chrome<br>- Firefox/：Mozilla Firefox<br>- Edg/：Microsoft Edge<br>- OPR/：Opera<br>- Safari/：苹果 Safari<br>- MicroMessenger/：微信浏览器
+暂无
+扩展信息
+Mobile Safari/537.36
+设备类型及功能：<br>- Mobile：移动端设备<br>- Tablet：平板设备<br>- UCBrowser/：UC 浏览器<br>- NetType/WIFI：网络类型
+暂无
+自定义标识
+weapp-pc/10.1.11/private mac/arm
+以下为客户端独有，浏览器不存在：<br>- weapp-pc: 客户端标识 <br>- 10.1.11： 客户端版本号 <br>- private：clientId,详见补充说明 <br>- mac/arm: 操作系统/CPU架构
+客户端升级
+移动端自定义标识
+com.weaver.emobile10/com.weaver.emobile10hm
+app移动端包名，hm 为纯血鸿蒙包名 <br>- 10.0.71： 移动端版本号
+补充说明 1、clientID：
+示例
+说明
+public
+eteams
+private
+EMobile10
+emb
+易秒办
+publicBeta
+beta版本
+其他
+appName, 客户定制版本
+2、各平台ua示例：
+1）谷歌浏览器
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2）鸿蒙浏览器
+Mozilla/5.0 (PC; OpenHarmony 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36  ArkWeb/4.1.6.1 HuaweiBrowser/5.1.7.304
+3）mac 客户端
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.191 Electron/33.4.8 Safari/537.36 weapp-pc/10.1.11/private mac/arm
+4）windows 客户端
+Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Electron/22.3.25 Safari/537.36 weapp-pc/3.2.5/public
+5）鸿蒙 客户端
+Mozilla/5.0 (OHOS; PC; OpenHarmony 5.0.1; HAD-W32) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.248 Electron/25.3.2 Safari/537.36 weapp-pc/10.1.11/private
+6）Linux 客户端
+暂无
+7）统信-arm 客户端
+Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Electron/22.3.25 Safari/537.36 weapp-pc/10.1.10/private xcua/uos-arm
+8）统信-x64 客户端
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Electron/22.3.25 Safari/537.36 weapp-pc/10.1.10/private xcua/uos-amd
+9）银河麒麟-arm 客户端
+Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Electron/22.3.25 Safari/537.36 weapp-pc/10.1.10/private xcua/yhk-arm
+10）银河麒麟-x64 客户端
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Electron/22.3.25 Safari/537.36 weapp-pc/10.1.10/private xcua/yhk-amd
+10）iOS移动端
+Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 weapp/10.0.71/private/#1FBCD2/1.0/1.0/2/com.weaver.emobile10
+11）安卓移动端
+Mozilla/5.0 (Linux; Android 12; ALN-AL80 Build/HUAWEIALN-AL80; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/114.0.5735.196 Mobile Safari/537.36 weapp/10.0.72.20250902/private/#fd87af/1.0/1/com.weaver.emobile10;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:494;packageName:com.weaver.emobile10
+11）纯血鸿蒙移动端
+UA: Mozilla/5.0 (Phone; OpenHarmony 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 ArkWeb/5.1.0.211 MobileAndroid weapp/1.0.23.20250917/private/#5D9CEC/1/12/com.weaver.emobilehm10/InHarmonyOS
+五、应用场景
+操作系统判断
+如何判断当前app属于哪个手机操作系统？ 如何判断当前客户端所属哪个桌面操作系统？
+1、js判断
+// macOS
+export function isMac(): boolean {
+const userAgent = navigator.userAgent.toLowerCase();
+return /mac os/.test(userAgent);
+}
+// macOS arm
+export function isMacArm(): boolean {
+const userAgent = navigator.userAgent.toLowerCase();
+return /mac os/.test(userAgent) && userAgent.indexOf('mac/arm') > 0;
+}
+// window
+export function isWindows(): boolean {
+const userAgent = navigator.userAgent.toLowerCase();
+return /windows nt/.test(userAgent);
+}
+// IOS
+export function isIOS(): boolean {
+const userAgent = navigator.userAgent.toLowerCase();
+return /iphone|ipad|ipod/.test(userAgent);
+}
+// 鸿蒙
+export function isHarmony(): boolean {
+const userAgent = navigator.userAgent.toLowerCase();
+return /harmony|ohos/.test(userAgent);
+}
+// linux
+export function isLinux(): boolean {
+return navigator.userAgent.indexOf('Linux') > 0;
+}
+2、app判断
+APP 端只进行userAgent的设置，方便后端及其他端使用时根据不同设备进行兼容
+1、视频在线 预览，必须设置 userAgent
+2、HTTP 请求统一添加userAgent
+3、websocket 连接添加userAgent
+4、第三方图片下载统一添加userAgent
+APP消息 jsapi：https://im.weaver.com.cn/web/#/44/6579
+APP 终端jsapi :http://emdoc.wx.weaver.com.cn/web/#/3/696
+3、ng判断
+if ($http_user_agent !~* "(mobile|nokia|iphone|ipad|android|samsung|htc|blackberry)") {
+rewrite ^ /error_403;
+}
+上述配置可实现禁止PC端访问
+六、常见问题
+无
+作者：泛微帮助中心——IM消息模块

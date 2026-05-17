@@ -1,0 +1,120 @@
+字符函数总文档
+一、功能背景及价值
+字符函数是数据处理、数据清洗和字符串操作的核心工具，帮助用户高效处理和分析各类文本数据，广泛应用于数据整理、报表生成、API交互等场景。在数据上报、流程等模块中，用户可通过表单设计器直接来为字段配置对应函数公式，也可通过字段联动来设置赋值字段并选择对应函数公式为其赋值。
+点击查看函数整体介绍
+二、功能概述
+本系列函数主要分为以下几类：
+基础文本操作：CONCAT、TEXT、LEN、LEFT/RIGHT/MID
+格式转换：VALUE、RMB、DOLLAR、NUMBERSTRING
+数据清洗：TRIM、LTRIM/RTRIM、UPPER/LOWER、PROPER
+高级字符串处理：SEARCH、REPLACE、SPLIT、TEXTBEFORE/TEXTAFTER
+结构化数据处理：ISJSON、GETJSONVALUE、ENCODEURL
+类型判断：ISSTRING、ISINT、ISNUMBER、ISFLOAT
+特殊功能：IDCARD（身份证处理）、SCORE（选项评分）、CODE（字符编码）
+三、功能使用说明
+1.函数介绍
+字符串连接类
+CONCAT：链接多个文本
+CONCATENATE：将多个变量合并成一个单独的字符串
+TEXTJOIN：分隔符文本化，支持排除空值
+字符串转换类
+TEXT：将变量转为文本
+VALUE：将文本转为数字
+LOWER：字符转小写
+UPPER：字符转大写
+PROPER：将首字母大写其余小写
+NUMBERSTRING：数字转汉字
+RMB：数字转换成金额写法
+DOLLAR：数字金额转换成美元文本表示
+BAHTTEXT：数字金额转成泰铢文本表示
+字符串提取类
+LEFT：返回文本左侧开始的文字
+RIGHT：返回文本右侧开始的文字
+MID：返回文本指定位置开始的文字
+SUBSTR：将指定字符串按指定位数进行截取
+TEXTBEFORE：截取N个分割符之前的字符
+TEXTAFTER：截取N个分隔符之后的字符
+字符串操作类
+REPLACE：替换文本中的字
+REPLACEALL：依据关键字替换所有字符
+SPLIT：字符分割
+TRIM：清除前后空格
+LTRIM：清除左边空格
+RTRIM：清除右边空格
+PAD：将文本填充至指定长度
+REPT：将文本重复指定次数
+字符串验证类
+ISSTRING：是否是字符串
+ISJSON：JSON字符格式化
+ISINT：字符内容是否是整数
+ISNUMBER：字符内容是否是数字
+ISFLOAT：字符内容是否是浮点型
+ENDWITH：判断字符串str1是否以str2结束
+EXACT：判断两个字符是否完全相等（区分大小写）
+特殊功能类
+IDCARD：身份证函数
+SCORE：获取选项型控件分数
+GETJSONVALUE：JSON字符取值
+NVL：在所有参数中返回第一个不是null的值
+CODE：计算文本串中第一个字符的数字代码
+ASC：返回半角（单字节）字符
+ENCODEURL：将文本字符串中的特殊字符编码为URL编码格式
+DOLLARDE：将数字转换为以小数部分表示的价格
+DOLLARFR：转换成分数表示的金额数字
+2.常用函数介绍
+函数名称
+功能描述
+示例
+示例结果
+CONCAT
+连接多个文本字符串
+CONCAT("Hello", " ", "World")
+"Hello World"
+SUBSTR
+按指定位数截取字符串
+SUBSTR("Hello World", 7, 5)
+"World"
+NUMBERSTRING
+将数字转换为汉字表示
+NUMBERSTRING(123,1)
+"一百二十三"
+PROPER
+单词首字母大写
+PROPER("hello world")
+"Hello world"
+REPLACE
+替换文本指定内容
+REPLACE("Hello World", 7, 5, "China")
+"Hello China"
+SPLIT
+按分隔符分割字符串
+SPLIT("a,b,c", ",")
+["a", "b", "c"]
+IDCARD
+身份证信息提取
+IDCARD("11010519491231002X", 'GENDER ')
+"女"
+SCORE
+获取选项型控件分数
+SCORE({信息.复选框})
+3
+四、注意点
+1.
+字符串索引通常从1开始，而非0
+2.
+部分函数区分全角/半角字符，如ASC函数
+3.
+文本比较函数EXACT区分大小写
+4.
+IDCARD函数仅适用于中国大陆18位身份证号码
+5.
+字符串长度函数LEN对中英文字符均计为1个长度单位
+五、关联功能
+1.CONCAT 函数使用说明
+2.SUBSTR 函数使用说明
+3.NUMBERSTRING 函数使用说明
+4.PROPER 函数使用说明
+5.REPLACE 函数使用说明
+6.SPLIT 函数使用说明
+7.IDCARD 函数使用说明
+8.SCORE 函数使用说明

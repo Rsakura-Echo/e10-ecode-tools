@@ -1,0 +1,1 @@
+请参照蓝信开放平台（https://openapi.lanxin.cn/#/server-api/auth/create_oauth_code）进行对应接口设置：

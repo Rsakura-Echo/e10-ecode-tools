@@ -1,0 +1,31 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了畅捷通好会计的六个数据服务接口：
+操作
+API调用指南
+获取token
+https://open.chanjet.com/docs/file/apiFile/common/app_settled/app_settled_auth?id=32131
+账套绑定
+https://open.chanjet.com/docs/file/apiFile/accounting/zt/jcda-zt?id=19470
+取消绑定账套
+https://open.chanjet.com/docs/file/apiFile/accounting/zt/jcda-zt?id=30764
+获取账套列表
+https://open.chanjet.com/docs/file/apiFile/accounting/zt/jcda-zt?id=19469
+新增账套
+https://open.chanjet.com/docs/file/apiFile/accounting/zt/jcda-zt?id=31178
+获取账套信息
+https://open.chanjet.com/docs/file/apiFile/accounting/zt/jcda-zt?id=31529
+二、功能使用说明
+场景案例：
+将流程数据同步修改到畅捷通中，实现OA系统和第三方畅捷通好会计系统数据之间的交互，触发动作流后可在畅捷通好会计系统中查看新增的的账套数据。
+操作步骤：
+1.根据好会计账套接口格式搭建流程
+2.新建动作流，添加流程触发组件以及畅捷通好会计新增账套接口执行组件
+注：由于畅捷通好会计的新增账套Header里需要openToken参数 ，所以在逻辑接口前必须加上获取token接口
+3.参数设置
+获取token接口中的输入参数APP KEY 、APP SECRET 可在好会计开发配置应用凭证中查看；code参数获取参考下方链接：
+https://open.chanjet.com/docs/file/apiFile/tcloud/tjrzy/openToken
+修改凭证接口Header参数来源于获取token接口，可通过上下文对参数进行赋值
+修改凭证接口Body参数来源于流程触发组件，可通过上下文对参数进行赋值
+动作流配置后，流程提交触发动作流后，将在畅捷通好会计中对应的新增了账套信息
+三、常见问题

@@ -1,0 +1,9 @@
+分割：IN字符串及分割
+1、方案一：IN字符串
+根据字符串的,逗号自动分割in的，适用于mysql，其他数据库自行寻找方式
+示例：
+SELECT * FROM formdata_report WHERE FIND_IN_SET(id, '1,2,3');
+2、方案二：分割字符串
+该方案需自行求证
+示例：
+SELECT SUBSTRING_INDEX('939836739580035074_949875645825171456', '_', -1) AS part1,       SUBSTRING_INDEX(SUBSTRING_INDEX('apple,banana,orange', ',', 2), ',', -1) AS part2;

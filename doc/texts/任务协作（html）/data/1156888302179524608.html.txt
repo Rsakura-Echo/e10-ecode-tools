@@ -1,0 +1,19 @@
+系统设置包括菜单设置、基础设置、任务类型、卡片设置、流水号设置、子任务规则设置等，详细如下：
+1. 菜单设置：https://eteams.cn/community/help/1971074892973717131
+2. 基础设置：https://eteams.cn/community/help/2505071282466015670
+3. 任务类型：https://eteams.cn/community/help/2505071726280215671
+4. 卡片设置：https://eteams.cn/community/help/4528093275451004735
+5. 流水号设置：https://eteams.cn/community/help/4528247916430884450
+6. 子任务规则设置：https://eteams.cn/community/help/4528755561124743088
+7. 权限设置：https://eteams.cn/community/help/1587362602507037080
+8. 流程设置：https://eteams.cn/community/help/1971074924084217132
+9. 状态设置：https://eteams.cn/community/help/1587657130705864434
+10. 工时设置：https://eteams.cn/community/help/1965725983361758422
+11. 提醒设置：https://eteams.cn/community/help/1965725988299258423
+12. 角色设置：https://eteams.cn/community/help/1964074633417185339
+13. 打印设置：https://eteams.cn/community/help/1965725993233258424
+14. 任务跟踪设置：https://eteams.cn/community/help/1964750173635579125
+15. 操作设置：https://eteams.cn/community/help/1964870882708258368
+16. 动作流：https://eteams.cn/community/help/1965726000967158425
+17. 第三方集成：https://eteams.cn/community/help/1965726004494558426
+18. 紧急程度自定义：https://eteams.cn/community/help/1971092498037616469

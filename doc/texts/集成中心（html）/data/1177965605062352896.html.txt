@@ -1,0 +1,52 @@
+一、功能背景及价值用途
+安全断言标记语言（Security Assertion Markup Language，简称SAML），是一个基于XML的开源标准数据格式认证协议。SAML认证主要提供SAML协议的认证服务，允许业务系统通过SAML接入E10。
+【10.0.2407.01基线版本开始支持】
+二、功能概述以及使用说明
+1、SAML认证配置
+可以在认证协议管理中启用 SAML认证，并查看SAML认证相关配置。
+2、SAML配置说明
+2.1、IDP元数据
+可以通过点击“下载 IDP 元数据文件”按钮，直接下载 IDP 元数据文件；也可以通过访问 IDP 元数据链接，查看 IDP 元数据。
+2.2、SSO地址
+用户访问该应用系统时，应用通过下面接口向E10系统发起SAML2登录请求，用户输入用户名密码认证成功后，E10系统将重定向到第三方应用系统，并且带上SAMLResponse报文、RelayState。
+请求说明
+参数
+描述
+请求地址
+http(s)://{OA_server}/papi/sso/saml2/idp/authorize
+请求方式
+GET（重定向）
+请求参数
+SAMLRequest（必须）：SAML请求报文
+RelayState（必须）：State校验值，IDP回调会带上，用于校验一致性；
+请求示例
+E10系统地址/papi/sso/saml2/idp/authorize?SAMLRequest=fZJRS8MwFIXf%%%2SFQotO
+0DhajHuQ8SUi4ddE4qzqlqGy6tVRYKbr3TiMR2fl0axy%2BN%2FVr9%2FmJS7%2BMTWsf1J%2BB8gvxIi5T6MUUT%2FZDpjP%2Fnl%2Fvr7t5Sf&RelayState=_7c746e5a-8d24-4bae-8cc6-670d3ec8637f
+2.3、统一退出接口地址
+应用通过下面接口向E10系统发起SAML2退出请求，退出成功后，页面回调到E10或应用系统。
+请求说明
+参数
+描述
+请求地址
+SAML2认证中“统一退出接口地址”
+E10系统地址/sp/integration/saml2/idp/logout
+请求方式
+GET（重定向）
+请求参数
+SAMLRequest（非必须）: SAML退出报文
+请求示例
+E10系统地址/sp/integration/saml2/idp/logout
+2.4、IDP EntityId
+展示E10系统SAML2协议的IDP EntityId，可复制给到SP应用系统进行对接。
+2.5、IDP证书
+展示E10系统SAML2协议的IDP证书，可复制给到SP应用系统进行对接。
+2.6、证书类型
+证书类型默认自签，允许设置上传证书，选择上传证书需要实际上传对应IDP证书文件以及输入证书文件对应的密码。
+(1)、只有主管理组织中可以配置IDP配置，非主管理组织只读展示
+主管理组织中可调整IDP配置，允许保存：
+非主管理组织中只读展示：
+（2）、切换证书类型，会重新生成IDP元数据文件
+切换证书类型，保存会有提示“是否确认保存数据？保存后会重新生成IDP元数据文件，需重新通知SAML2认证类型应用系统更新IDP元数据”。需要点击“下载IDP元数据文件”按钮获取新的IDP文件提供给SP应用系统进行更新。
+（3）、IDP证书支持上传pfx、p12和jks格式的证书，保存时会自动校验证书及其密码的有效性
+IDP证书支持上传pfx、p12和jks格式的证书，保存时会自动校验证书及其密码的有效性，若检验失败，会提示“证书信息读取失败，请检查证书或密码是否正确”。
+注：支持上传的证书格式包括pfx、p12和jks，需要在文件设置中进行相应设置。

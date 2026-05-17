@@ -1,0 +1,13 @@
+GETDOCID
+用途：根据附件ID获取所属文档ID。
+语法：GETDOCID(attachmentId)
+参数：
+attachmentId：附件ID
+示例效果如下：
+GETATTACHMENTIDLIST
+用途：根据文档ID获取对应附件ID集合，支持返回全部附件ID、第一个附件ID、最后一个附件ID三种输出策略
+语法：GETATTACHMENTIDLIST (docId,method)
+参数：
+docId：文档ID
+method：all:返回全部附件ID; first:返回第一个附件ID; last:返回最后一个附件ID
+示例效果如下：

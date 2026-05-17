@@ -1,0 +1,40 @@
+群创建机器人推送消息
+如果你想在群组中创建机器人，并通过机器人webhook接口实现消息推送，可参考本文档相关步骤。
+步骤一：后台开启机器人功能
+步骤二：前台群组中新建机器人
+步骤三：获取机器人webhook接口地址
+步骤四：通过开放平台调用机器人webhook接口
+获取开放平台调用access_token，开放平台调用方式参见开放平台相关文档。
+webhook调用地址 + access_token（开放平台调用token）
+例如：https://api.yunteams.cn/sapi/em/msg/toim/robot/sendMsg?robotToken=JLYxpi4iX8DaQUh33m-BuQpmB8TbLzi_Ez9XePP3Boc=&access_token=29ddf7988c7a1c355ce439d4b2e55a28
+接口调用参数{ "txt": "问答助手找到知识标准答案如下：\n服务器要求：https://www.kdocs.cn/fl/sDOEpbWu5/175558331687 部署手册，https://p.wpseco.cn/wiki/doc/62b2debd68a4a821270e80a4 若需要总部协助，请提【WPS预览编辑服务部署申请流程】。" }
+调用参数说明
+字段名称
+是否必填
+类型
+说明
+txt
+是
+string
+推送文本内容
+接口响应内容{ "actionMsg": { "code": 0, "message": "成功", "traceId": "1726044254230045046" } }
+响应参数说明
+字段名称
+是否必填
+类型
+说明
+code
+是
+int
+响应状态码，0 成功
+message
+是
+string
+响应信息
+常见问题
+1.
+webhook接口调用成功，但未接收到相应消息？
+答：请检查机器人校验方式及调用方式是否正确，如安全检验方式为关键字，请检查推送消息内容是否包含关键字。
+2.
+webhook接口支持推送图文消息吗？
+答：目前暂时只支持文本消息。

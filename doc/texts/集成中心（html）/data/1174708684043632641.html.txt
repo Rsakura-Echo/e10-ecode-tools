@@ -1,0 +1,22 @@
+一、功能概述
+本地通过tomcat搭建一套CAS服务，然后E10系统进行接入。
+首先，先了解下CAS服务与E10系统之间的人员关系；
+其次，CAS服务提供CAS接口地址给到E10系统；
+最后，E10系统进行配置。
+二、E10与第三方CAS服务的人员关系
+本地CAS服务，默认返回的人员信息是登录名。
+维护人员关系：CAS服务返回的人员登录名对应E10人员的电子邮箱。
+三、E9系统提供CAS服务接口地址
+CAS服务提供接口地址：
+服务地址：http://jytcas.e-cology.cn/cas_sqlserver_MD5
+登录地址：http://jytcas.e-cology.cn/cas_sqlserver_MD5/login
+登出地址：http://jytcas.e-cology.cn/cas_sqlserver_MD5/logout
+四、E10统一认证接入管理配置
+开启统一认证接入管理，设置CAS集成，配置认证服务参数，账号规则设置电子邮箱：
+五、E10中需申请注册第三方系统白名单
+需要将CAS认证服务域名e-cology.cn添加白名单地址中，需在后台管理中心-系统安全-安全配置项-第三方系统地址处，添加第三方认证服务系统地址。
+六、登录效果
+界面配置中心-登录页设置中设置企业登录地址：
+访问企业登录地址https://passport.yunteams.cn/jytcaslogin 可跳转CAS服务：
+输入账号密码认证登录后即可回调登录OA：
+点击退出也是会退出到CAS服务。

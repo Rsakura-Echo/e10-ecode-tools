@@ -1,0 +1,12 @@
+问题描述：
+如下图所示，表单中添加人员选择字段，并保持多选，如何用数字字段统计人员字段选了多少个人？
+解决方式：
+1.在后台管理中心-表单引擎-函数列表里新建函数：
+函数如下：
+function getOpIds(param){
+if(param && param.optionContent){
+return param.optionContent.split(",").length;
+}
+return 0;
+}
+2.在表单中放入数字字段，设置函数公式，选择该函数：

@@ -1,0 +1,9 @@
+后台管理中心->ESB中心->动作流（或接口信息的成功失败）中，点击动态赋值框，左侧选择函数后，在右侧选择加解密函数中的TripleDesEncode函数，然后对输入的字符串进行TripleDes加密
+说明：
+对字符串进行TripleDes加密
+语法：
+TripleDesEncode (Text,SecretKey)
+参数：
+Text 必需 加密文本
+SecretKey 必需 密钥
+示例：

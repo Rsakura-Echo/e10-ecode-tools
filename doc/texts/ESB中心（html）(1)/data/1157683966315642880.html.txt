@@ -1,0 +1,7 @@
+信息函数是指对单元格中的数据进行计算并返回相应信息的一类函数
+SORT函数
+ToString函数
+Size函数
+LEN_ARRAY函数
+Object_Key函数
+Object_Value函数

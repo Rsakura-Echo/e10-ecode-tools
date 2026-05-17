@@ -1,0 +1,13 @@
+请注意：此功能是【10.0.2404.02】基线版本新增功能
+满足业务场景：E9客户使用103督查督办非标的业务数据，支持迁移到E10系统内的标准督查督办应用（应用可以从云商店搜索督查督办应用安装，如下图）
+迁移步骤：
+一、联系迁移部门的同事提前安装迁移平台，迁移组织架构等基础数据
+二、确保迁移开发将E9督查督办非标的业务数据，迁移到E10系统内的标准督查督办应用之后，开始执行下面几步数据更新操作：
+(注意：如果是手动导入的应用包，需要执行下方的第1步；云商店安装的，请忽略）
+第1步：执行督查督办应用初始接口，依次执行下方的接口，（执行方法：用客户环境的域名拼接下边的url替换apid之后到浏览器地址栏输入并回车执行）
+/api/bs/ebuilder/form/govern/initField?apid=xxx&mode=govern，apid代表当前督查督办包的apid
+第2步：执行督办类型下的进度视图设置初始化接口：
+/api/bs/ebuilder/form/govern/batchUpdateGovernTypeProgressViewSetting?apid=xxx，apid代表当前督查督办包的apid
+---------***241001基线之后，地址改为/api/ebuilder/form/govern/batchUpdateGovernTypeProgressViewSetting?apid=xxx，apid代表当前督查督办包的apid
+第3步：数据逻辑执行接口：（执行方法：新开一个浏览器窗口，用客户环境的域名拼接下边的url替换apid之后到浏览器地址栏输入并回车执行）
+/api/government/base/upgradeE9ToE10Task?appId=xxx，apid代表当前督查督办包的apid，执行完此接口建议等5分钟之后再次执行此接口查看执行结果，出现下图即代表数据已全部更新完毕

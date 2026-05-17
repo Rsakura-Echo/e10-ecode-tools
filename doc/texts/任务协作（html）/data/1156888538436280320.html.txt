@@ -1,0 +1,5 @@
+流程设置包括任务完成流程、任务修改流程、任务创建流程、任务删除流程，详细设置如下：
+1. 任务完成流程：https://eteams.cn/community/help/2505427855757034724
+2. 任务修改流程：https://eteams.cn/community/help/2506576447686899054
+3. 任务创建流程：https://eteams.cn/community/help/1971084430642117624
+4. 任务删除流程：https://eteams.cn/community/help/1971084434523317625

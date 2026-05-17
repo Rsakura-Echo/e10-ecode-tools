@@ -1,0 +1,40 @@
+一、
+功能介绍
+E10连接器可实现跨平台数据交互，常用于数据集成的场景，系统内置了20+市场常见产品的连接器接口，可在动作流中直接调用，无需手动维护，其中包含了薪人薪事的六个数据服务接口：
+操作
+API调用指南
+获取token
+https://api.xinrenxinshi.com/doc/v3/page/guide/authentication.html
+获取登录用户信息
+https://api.xinrenxinshi.com/doc/v3/page/free/getUserInfo_v5.html
+根据员工免登URL
+https://api.xinrenxinshi.com/doc/v3/page/free/login_v5.html
+员工创建
+https://api.xinrenxinshi.com/doc/v3/page/employee/create_v5.html
+转正式操作
+https://api.xinrenxinshi.com/doc/v3/page/employee/employeeToRegular_v5.html
+待入职员工创建
+https://api.xinrenxinshi.com/doc/v3/page/employee/entryPending_v5.html
+二、
+功能使用说明
+场景案例：
+与薪人薪事员工管理系统对接，同步人员信息到薪人薪事
+操作步骤：
+三、
+新建动作流
+触发组件选择【简单定时器】，设置每日凌晨执行：
+四、
+查询本地人员数据
+执行组件添加【数据源查询组件】：
+五、
+获取token
+执行组件连接器（应用）-【薪人薪事】-【获取access_token 】：
+注：access_token是调用薪人薪事API接口的唯一凭证，其它的业务API接口，都需要依赖于access_token来鉴权调用者身份，所以在逻辑接口前必须加上获取token接口。
+六、
+遍历查询结果循环调用添加员工
+执行组件添加【循环】组件，循环内添加连接器（应用）-【薪人薪事】-【员工创建】：
+动作流配置后，每天定时触发同步人员信息到薪人薪事系统中。
+三、常见问题
+1.接口调用失败的常见原因
+向薪人薪事服务器发送 API 请求时，必须在请求头里带上access_token，方便服务器认证用户身份。
+获取 API Token 的方式参考下方链接：https://api.xinrenxinshi.com/doc/v3/page/guide/authentication.html

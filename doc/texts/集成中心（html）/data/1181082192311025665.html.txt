@@ -1,0 +1,478 @@
+一、功能背景
+泛微提供了统一待办接口，供三方系统开发人员调用，向泛微统一待办中心推送审批事项。
+二、功能价值
+供三方系统开发人员阅读，并指导其做统一待办推送开发。
+三、开发说明
+1.开发步骤
+1.1.第一步：完成开放平台认证
+公有云环境：
+https://weapp.eteams.cn/sp/openapi/base/doc/common/readme
+私有云环境：
+https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/535b5174-f827-423d-bfeb-673d252a6777
+按照以上文档完成开发者认证，获取“Corpid”：
+设置好通用型应用，获取“app_key”和“app_secret”：
+1.2.第二步：授权接口调用
+获取code，请求地址：
+E10的OPENAPI域名+端口/oauth2/authorize?corpid=xxx&response_type=code&state=xxx
+请求方式：GET
+参数名
+必选
+类型
+说明
+corpid
+是
+String
+注册企业corpId
+response_type
+是
+String
+返回类型，此时固定为：code
+state
+是
+String
+重定向后会带上state参数，企业可以填写a-zA-Z0-9的参数
+值，长度不可超过128个字节
+返回示例：
+{
+"errcode": "0",
+"errmsg": "success",
+"code": "5b460013526833939ecbdc1e91250946"
+}
+参数名
+类型
+说明
+errcode
+String
+返回码
+errmsg
+String
+返回信息
+code
+String
+code信息，有效时间为10分钟且只能使用一次
+获取token请求地址：
+E10的OPENAPI域名+端口/oauth2/access_token
+请求方式：POST
+参数名
+必选
+类型
+说明
+app_key
+是
+String
+应用app_key
+app_secret
+是
+String
+应用app_secret
+grant_type
+是
+String
+授权类型，固定：authorization_code
+code
+是
+String
+获取的code
+注意，若返回显示系统繁忙，需要确认下“Content-Type”配置为：
+“application/x-www-form-urlencoded”
+返回示例：
+{
+"errcode": "0",
+"errmsg": "success",
+"accessToken": "e5cbfcb6c2c2839be5a3c18ea4895cdf",
+"acessToken": "e5cbfcb6c2c2839be5a3c18ea4895cdf",
+"refreshToken": "95b10953048c8f9b2aee66c3fe502da9",
+"expires_in": 7200
+}
+参数名
+类型
+说明
+errcode
+String
+返回码
+errmsg
+String
+返回信息
+accessToken
+String
+接口凭证有效时间为2小时
+refreshToken
+String
+刷新令牌
+expire_in
+Int
+有效时间
+1.3.第三步：统一待办中心配置
+开启总开关：
+做好异构系统注册：
+提供好测试账号的人员数据给推送方开发人员：
+1.4.第四步：统一待办接口调用
+1.4.1.接口地址
+E10的OPENAPI域名+端口
+/api/open_intunifytodo/server_engine/receiveRequestInfo?access_token=a44dba991ccfeaf9da592e8bc3cc55ee
+1.4.2.接口逻辑
+1. syscode 、flowid 、workflowname(workflowcode) 、receiver 相同更新，不同新增，更新时对比时间戳（receivets）字段，大于历史数据更新，小于等于只记录调用状态不更新。
+2. workflowname与workflowcode是一一对应的关系。
+注意：推送方系统开发的时候需要提供以下功能
+OA进行维护的时候，接口不通，推送方需要有补偿推送的功能
+如果需要将对接之前的数据推送，推送方需要提供历史数据补偿的功能
+1.4.3.参数说明
+参数名称
+参数说明
+必填
+类型
+注意事项
+access_token
+调用接口凭证
+是
+string
+获取accessToken信息，注意这个参数添加到url中
+syscode
+应用系统标识
+是
+string
+在泛微后台【统一待办中心集成】注册（需要购买该模块），然后分配给推送方（固定值）
+flowid
+第三方的流程id
+是
+string
+相同流程需要使用相同流程id，即：
+张三创建的流程提交给李四审批，这两个人的数据flowid是一致的
+requestname
+流程标题
+是
+string
+长度不超过2000，且不允许出现：
+单引号：'您有一个新的待审批事项，请及时处理'html编码字符（&nbsp;|&lt;|&gt;等）
+workflowcode
+流程类型ID
+是
+string
+流程类型ID，与workflowname（流程类型名称）是一一对应的关系。即相同的流程类型，流程类型ID也必须相同。
+workflowname
+流程类型名称
+是
+string
+正确示例：请假单
+错误示例：张三2021-12-12请假单
+还要注意：
+长度不允许超过2000，且不允许出现：单引号：'请假单'
+html编码字符（&nbsp;|\&lt;|&gt;等）
+nodename
+节点名称
+是
+string
+长度不允许超过2000，且不允许出现：单引号：'审批节点'
+html编码字符（&nbsp;|\\&lt;|\&gt;等）
+receivernodename
+接收人所属节点
+否
+string
+长度不允许超过2000，且不允许出现：单引号：'审批节点'
+html编码字符（&nbsp;\\&lt;\&gt;等）
+pcurl
+PC端地址
+否
+string
+示例：/testPCurl/111
+注意，提供的地址不允许http或者https开头，只要传相对路径即可
+appurl
+APP端地址
+否
+string
+示例：/testAppurl/222
+注意，提供的地址不允许http或者https开头，只要传相对路径即可
+creator
+创建人
+否
+string
+根据泛微后台配置（人员转换规则），可以支持：
+泛微OA的人员主键
+泛微OA的人员昵称
+泛微OA的人员工号
+泛微OA的人员身份证
+泛微OA的人员邮箱
+注意：没有创建人可以不传，创建人就会不显示数据
+createdatetime
+创建时间
+是
+string
+示例：”2018-12-04 17:56:00”
+receiver
+接收人
+是
+string
+根据泛微后台配置（人员转换规则），可以支持：
+泛微OA的人员主键
+泛微OA的人员账号
+泛微OA的人员工号
+泛微OA的人员身份证
+泛微OA的人员邮箱
+泛微OA的手机号
+注意：多个接收人可以“,”分隔，一次接收人不能超过20个
+receivedatetime
+接收时间
+是
+string
+示例：”2018-12-04 17:56:00”
+isremark
+待办处理状态
+是
+string
+流程处理状态
+0：待办
+2：已办
+4：办结
+8：抄送（待阅）
+-1：删除
+viewtype
+已读状态
+是
+string
+流程查看状态
+0：未读 （注：isremark = 0 且 viewtype = 0会给OA消息中心推送消息，对接钉钉、企业微信）
+1：已读;
+receivets
+时间戳
+否
+string
+时间戳字段：
+客户端使用异步线程调用接口的时候，根据此字段判断是否需要更新数据。（防止后发的请求数据被之前的覆盖）示例：1602817491990（毫秒级时间戳）
+custom
+自定义字段
+否
+string
+"custom":{
+"aa":"11",
+"bb":"22"
+}
+aa:自定义字段名称
+requestStatus
+流程状态
+否
+string
+-1  草稿（新建）
+1  审批中
+3  正常归档
+4  强制归档
+7  暂停
+当前参数未入参且isremark=4（办结）时，requestStauts默认设置为3（正常归档）
+10.0.2412.01版本更新
+apiOverTime
+归档时间
+否
+string
+示例：”2018-12-04 17:56:00”
+当前参数为入参且requestStauts=3（正常归档）时，当前参数自动赋值receivedatetime（接收时间）；
+当参数requestStatus未空时（isremark=4时requestStatus自动赋值3，这种情况也不为空）当前字段入参无效
+10.0.2412.01版本更新
+1.4.4.返回值说明
+1.4.4.1.主体说明
+名称
+说明
+message:errcode
+状态码：
+200：正常
+500：系统内部错误
+3000：配置异常或者调用接口参数异常，导致无法接收数据
+message:errmsg
+接口执行说明
+data
+接口调用的详细说明
+1.4.4.2.data说明
+名称
+说明
+syscode
+调用接口时候传过来的系统标识
+flowid
+调用接口时候传过来的流程id
+receiver
+调用接口时候传过来的接收人
+operResult
+1：成功   0：失败
+message
+接口执行结果描述，示例：流程数据【测试流程001】检测接收人【fyj】存在，接收待办成功
+1.4.3.3.message说明：
+描述信息
+说明
+syscode不能为空
+syscode不能为空
+syscode长度不能超过10
+syscode长度不能超过10
+tenant_key不能为空
+tenant_key不能为空
+tenant_key长度不能超过10
+tenant_key长度不能超过10
+统一待办中心未启用
+请联系OA管理员，打开接口开关
+应用系统标识【test】未注册
+请联系OA管理员，注册指定应用系统信息
+应用系统标识【test】当前IP（127.0.0.1）未授权
+请联系OA管理员，添加当前IP到应用系统
+注册信息
+请求参数：receivets不合法，当前时间戳为【2021-12-12 12:12:12】
+receivets字段必须是长整型的毫秒值，示
+例：1602817491990（毫秒级时间戳）
+请求参数：requestlevel不合法，当前值为【" + requestlevel+"】
+requestlevel必须是数字内容的字符串，示
+例："1"
+请求参数：receiver不能为空
+请求参数：receiver不能为空
+请求参数：createdatetime不合法，
+合法格式：yyyy-mm-dd hh:MM:ss，
+当前值为：【2021/12/12 12:12:12】
+createdatetime，必须符合格式：yyyymm-dd hh:MM:ss
+请求参数：receivedatetime不合法，
+合法格式：yyyy-mm-dd hh:MM:ss，
+当前值为：【2021/12/12 12:12:12】
+receivedatetime，必须符合格式：yyyymm-dd hh:MM:ss
+请求参数：flowid不能为空
+请求参数：flowid不能为空
+flowid长度不能超过200
+flowid长度不能超过200
+请求参数：isremark不合法，
+合法值为【0：待办|2：已办|4：办结|8：抄
+送|-1:删除】
+请求参数：isremark不合法，
+合法值为【0：待办|2：已办|4：办结|8：
+抄送|-1:删除】
+请求参数：viewtype不合法，
+合法值为【0：未读|1：已读】
+请求参数：viewtype不合法，
+合法值为【0：未读|1：已读】
+请求参数：requestname不能为空
+请求参数：requestname不能为空
+请求参数：requestname不能包含html编码字符,当前参数值为:[&nbsp;]
+请求参数：requestname不能包含如下
+html编码字符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+请求参数：requestname不允许超出2000长度
+请求参数：requestname不允许超出2000
+长度
+请求参数：workflowname不能为空
+请求参数：workflowname不能为空
+请求参数：workflowname不允许超出2000长度
+请求参数：workflowname不允许超出2000长度
+请求参数：pcurl不允许超出2000长度
+请求参数：pcurl不允许超出2000长度
+请求参数：pcurl不允许传绝对地址
+示例：/testPCurl/111
+提供的地址不允许http或者https开头，只
+要传相对路径即可
+请求参数：pcurl不允许包含html字符实体
+请求参数：pcurl不能包含如下html编码字
+符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+请求参数：appurl不允许超出2000长度
+请求参数：appurl不允许超出2000长度
+请求参数：appurl不允许传绝对地址
+示例：/testAppurl/222
+注意，提供的地址不允许http或者https开
+头，只要传相对路径即可
+请求参数：appurl不允许包含html字符实体
+请求参数：appurl不能包含如下html编码
+字符：
+&nbsp;
+&lt;
+&gt;
+&amp;
+"
+&apos;
+&cent;
+&pound;
+&yen;
+&euro;
+&sect;
+&copy;
+&reg;
+&trade;
+&times;
+&divide;
+应用系统标识【test】不允许接收流程数据
+请联系OA管理员，打开当前注册的应用系
+统接收数据的开关
+流程类型【测试流程001】不允许接收流程数据
+请联系OA管理员，打开当前注册的应用系
+统流程类型接收数据的开关
+流程数据【测试流程标题001】检测接收人【fyj】
+不存在
+请联系OA管理员，确认当前接收人是否存
+在——当前接收人的OA人员主键ID|工号|
+身份证|邮箱是否对应
+请求参数：workflowcode不能为空
+请求参数：workflowcode不能为空
+tf1b4jq4ve _ test _ 359369_ 18019164087参数,调用接口失败;调用接口并发过高，存在重复的tf1b4jq4ve _ test _ 359369
+建议在pcurl、appurl多个接收人一致的情
+况下，receiver 添加多个人即可，降低并发
+量
+workflowcode长度不能超过200
+workflowcode长度不能超过200
+2.接口调用示例
+2.1.请求参数示例
+{
+syscode: "wjn",
+flowid: "020",
+requestname: "已处理标签20（标题）",
+workflowcode: "020",
+workflowname: "已处理标签20（流程类型）",
+receivernodename: "接收人节点名称",
+nodename: "已处理标签20（节点名称）",
+pcurl: "/s?ie=utf-8&f=3&rsv_bp=1&tn=baidu&wd=泛微",
+appurl: "/s?ie=utf-8&f=3&rsv_bp=1&tn=baidu&wd=泛微",
+creator: "18121431944",
+createdatetime: "2022-03-21 11:23:20",
+receiver: "18121431944",
+receivedatetime: "2022-03-21 11:23:20",
+isremark: "2",
+viewtype: "1",
+receivets: "1647846670662",
+custom: {
+aa: "11",
+bb: "22"
+}
+}
+2.2.返回参数示例
+{
+"message": {
+"errcode": "200",
+"errmsg": "接口返回成功"
+},
+"data": {
+"syscode": "gj",
+"flowid": "003",
+"receiver": "18121431944",
+"operResult": "1",
+"message": "流程数据【测试自定义字段入库（标题）】检测接收人【18121431944】存在，
+接收已办成功"
+}
+}

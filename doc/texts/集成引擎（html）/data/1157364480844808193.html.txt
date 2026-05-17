@@ -1,0 +1,481 @@
+﻿﻿﻿﻿﻿•  范围
+•  术语和定义
+•  单点登录接入方式
+接入方式
+接入说明
+•  IAM平台Oauth2.0认证集成
+API说明
+集成指引
+集成规范
+单点登出
+范围
+本文档的目的在于对在统一身份认证项目中，明确各相关应用系统遵循IAM oauth2.0协议认证在集成过程中的开发步骤。
+术语和定义
+下列术语和定义适用于本文件。
+1）IAM：Identity Access Manager，统一身份认证系统
+2）IDM：Identity Manager，身份管理
+3）SSO：Single Sign On，单点登录
+4）AD：Active Directory，指Windows网络中的目录服务
+5）Webservice：由企业发布的完成其特定商务需求的在线应用服务，通过WebService，企业级应用程序可以用标准的方法把功能和数据“暴露”出来，供其它应用程序使用
+6）Api：Application Programminng Interface应用程序编程接口的简称
+7）OTP：One time Password的简称，动态口令
+8）Kerberos：微软所提供的基于AD域的PC桌面单点认证协议
+9）LDAP：轻量目录访问协议，英文全称是Lightweight Directory Access Protocol，一般都简称为LDAP。基于X.500标准
+10）OAuth2.0（开放授权）是一种国际通用的授权方式，是一个开放标准，用户授权后，第三方应用无需获取用户的用户名和密码就可以访问该用户在某一网站上存储的私密的资源
+11）主帐号：即为登录统一身份认证系统的帐号
+12）从帐号：即应用系统的登录帐号
+单点登录接入方式
+1、接入方式
+统一身份认证系统与应用系统集成单点登录，主要提供如下几种方式的单点登录接入方式：
+1）Form-Based表单代填方式；
+2）Oauth2.0开放认证方式；
+3）Saml2.0协议认证方式；
+4）应用系统自身API
+认证协议
+说明
+备注
+Form-based表单代填
+即用户名和密码自动代填触发第三方应用系统的代填，支持web端和cs客户端
+一般为第三方应用系统不支持任何协议和改造，只能使用用户名和密码登陆的方式，此种方式需要客户端安装IAM插件，插件为运行在本地的服务
+Oauth2.0开放认证协议
+OAuth(开放授权)是一个开放标准。允许第三方网站在用户授权的前提下访问在用户在服务商那里存储的各种信息。而这种授权无需将用户提供用户名和密码提供给该第三方网站。OAuth允许用户提供一个令牌给第三方网站，一个令牌对应一个特定的第三方网站，同时该令牌只能在特定的时间内访问特定的资源
+适用于应用系统支持定制开发，且登录模块代码逻辑可改造
+Saml2.0认证
+Saml2.0是一种国际标准协议，SAML标准定义了身份提供者(identity provider)和服务提供者(service provider)以实现联邦认证。
+主要用于成熟的自身能够作为saml2.0认证中服务提供者角色的应用系统。
+应用系统自身单点认证方式
+应用系统提供单点方式，IAM主动调用发起认证
+IAM按照应用系统标准文档开发
+1）Form-based表单代填
+基于表单的单点登录功能，允许统一身份认证系统（IAM）将已认证的用户，通过插件(本地服务)捕捉应用系统的登录框代填进入系统。
+利用这种实现单点登录的方式，IAM需要把用户名和密码提交给后台的应用系统来完成认证工作，因此需要在IAM中，维护一套IAM用户和后台应用系统中用户名/密码的对应关系表，如下：
+IAM用户：zhangsan
+应用系统名
+用户名
+密码
+应用系统A
+Zhangsan
+qwe123
+应用系统B
+Zhangs
+qwe125
+应用系统C
+zhang_san
+asd123
+对于一些无法修改认证代码的应用，建议采用这种单点登录集成方式。
+2）Oauth2.0认证
+OAuth2.0（开放授权）是一种国际通用的授权方式，是一个开放标准。OAuth认证是为了做到第三方应用在未获取到用户敏感信息（如：账号密码、用户PIN等）的情况下，能让用户授权予他来访问开放平台（主要访问平台中的资源服务器Resource Server）中的资源接口。
+其流程主要是：
+a. 用户首先要保持登录，即已认证通过的状态
+b. 第三方应用请求用户授权（我理解是弹出一个显示的操作界面让用户确认给第三方授权）
+c. 用户授权成功之后会向Authorization Server（认证服务器）请求“授权码”（指authorization_code而不是最终的access_token），请求中还会携带redirect_uri（跳转至第三方应用的链接）
+d. 获得“授权码”之后用户所在的浏览器网页将跳转到redirect_uri（即第三方应用）
+e. 第三方应用携带“授权码”和应用认证信息（client_id & client_secret）到Authorization Server换取access_token
+f. 第三方应用就可以在访问开放平台时带上access_token
+Oauth2.0协议具有系统无关性、环境多样性，支持Web、手机、移动设备等, 如Apple iOS， Andriod等，将认证能力从B/S到移动应用全面覆盖
+3）Saml2.0认证
+SAML即安全断言标记语言，英文全称是Security Assertion Markup Language。它是一个基于XML的标准，用于在不同的安全域(security domain)之间交换认证和授权数据。在SAML标准定义了身份提供者(identity provider)和服务提供者(service provider)。 SAML是OASIS组织安全服务技术委员会(Security Services Technical Committee)的产品。
+SAML（Security Assertion Markup Language）是一个XML框架，也就是一组协议，可以用来传输安全声明。比如，两台远程机器之间要通讯，为了保证安全，我们可以采用加密等措施，也可以采用SAML来传输，传输的数据以XML形式，符合SAML规范，这样我们就可以不要求两台机器采用什么样的系统，只要求能理解SAML规范即可。SAML 规范是一组Schema 定义。
+由于SAML在两个拥有共享用户的站点间建立了信任关系，所以安全性是需考虑的一个非常重要的因素。SAML中的安全弱点可能危及用户在目标站点的个人信息。SAML依靠一批制定完善的安全标准，包括SSL和X.509，来保护SAML源站点和目标站点之间通信的安全。源站点和目标站点之间的所有通信都经过了加密。为确保参与SAML交互的双方站点都能验证对方的身份，还使用了证书。
+SAML目标是让多个应用间实现联邦身份(IdentityFederation)，在联邦环境中，通常有下面的3种实体：
+1）Subject主题：Subject是SAML实体中的第一个重要的概念，Subject包括了User、Entity、Workstation等能够象征一个参与信息交换的实体。
+2）RelyingParty信任方：SAML中的ServiceProvider角色，也就是提供服务的一方。
+3）AssertingParty断言方：SAML中的IdentityProvider角色，用于提供对主题的身份信息的正确的断言，类似一个公证机构。
+IAM可作为SAML中的IdentityProvider角色与应用系统进行对接单点登录。
+其流程主要是：
+a. 用户尝试访问第三方应用系统。
+b. 应用系统生成一个 SAML 身份验证请求。SAML 请求将进行编码并嵌入到SSO 服务的网址中。包含用户尝试访问的系统应用程序的编码网址的 RelayState 参数也会嵌入到 SSO 网址中。该 RelayState 参数作为不透明标识符，将直接传回该标识符而不进行任何修改或检查。
+c. 应用系统将重定向发送到用户的浏览器。重定向网址包含应向SSO 服务提交的编码 SAML 身份验证请求。
+d. SSO（统一认证中心或叫Identity Provider）解码 SAML 请求，并提取应用系统的 ACS（声明客户服务）网址以及用户的目标网址（RelayState 参数）。然后，统一认证中心对用户进行身份验证。统一认证中心可能会要求提供有效登录凭据或检查有效会话 Cookie 以验证用户身份。
+e. 统一认证中心生成一个 SAML 响应，其中包含经过验证的用户的用户名。按照 SAML 2.0 规范，此响应将使用统一认证中心的 DSA/RSA 公钥和私钥进行数字签名。
+f. 统一认证中心对 SAML 响应和 RelayState 参数进行编码，并将该信息返回到用户的浏览器。统一认证中心提供了一种机制，以便浏览器可以将该信息转发到应用系统的ACS。
+g. 应用系统使用统一认证中心的公钥验证 SAML 响应。如果成功验证该响应，ACS 则会将用户重定向到目标网址。
+h. 用户将被重定向到目标网址并登录到应用系统。
+对于统一身份认证基于SAML2.0协议对接应用系统，需要以下信息：
+IAM配置SP端的断言消费者服务，即需要SP端提供元数据。IAM可提供元数据或公钥信息给SP端。
+2、接入说明
+以上几种实现单点登录的方式所能够支持的应用系统、优缺点以及今后单点登录集成其他应用系统的建议如下：
+Form-Based SSO
+OAuth2.0
+Saml2.0
+第三方API
+支持的应用系统
+可以支持各种非使用控件方式表单登录的Web应用
+支持所有应用的集成
+支持一些商业软件如office365,salsforce等
+标准产品
+优点
+不需要对后台的应用系统进行修改
+集成度好，基于一次性Token认证，安全性强，符合互联网认证标准；
+有标准的API提供应用集成
+商业软件可支持的协议，无需任何改造，符合国际协议标准
+无需定制开发
+缺点
+需要建立一个用户关系对应表；它维护了登录到SSO的帐户与其他后台应用系统中帐户的对应关系，包括登录后台应用系统的用户名和密码。
+需要对集成系统认证模块进行修改
+单向认证
+建议
+对无法修改登录模块的应用系统可以使用这种方式，需要安装IAM代理插件
+适用于自开发及可修改登录模块的应用，使用OAuth进行认证集成
+适合支持标准saml2.0协议的应用
+IAM平台Oauth2.0认证集成
+实现效果
+1）用户通过IAM自服务平台访问第三方应用
+2）用户直接访问第三方应用
+1、API说明
+在企业IAM系统中，业务系统需要集成OAuth认证时，根据如下OAuth认证API说明进行集成即可完成。
+1）检测心跳API：检测IAM服务是否正常(如检测IAM系统故障，则不通过IAM进行身份认证，走应用系统自身的登录通道，该步骤可选)
+API地址：https://***/service/api/v1/oauth2/checkIamService
+参数传递方式： application/x-www-form-urlencoded
+检测心跳API参数说明：
+字段名
+描述
+类型
+是否签名
+备注
+client_id
+应用唯一标识，在应用注册的时候获得
+String
+是
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+client_secret
+应用注册secret，IAM提供，也用作appkey MD5签名的一部分callback回调URL
+String
+是
+nonce_str
+主要保证签名不可预测，荐生成随机数算法如下：调用随机数函数生成，将得到的值转换为字符串。
+String
+是
+oauth_timestamp
+当前时间戳，毫秒的long类型转为string
+String
+是
+sign
+签名字符串，应用系统的client_secret作为appkey MD5签名的一部分
+String
+否
+签名算法详见集成指引之安全规范
+检测心跳API返回值说明：
+返回参数
+描述
+备注
+成功或失败的字符串
+大写“OK”代表成功，若为空或捕获任何异常均为失败
+2）请求认证地址：引导需要授权的用户到如下地址（应用判断用户没有登录，将用户跳转到IAM系统进行登录）。
+请求认证跳转地址：https://***/profile/oauth2/authorize
+请求示例：
+http://paraview.paraesc.com/profile/oauth2/authorize?client_id=100008&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8899%2FparaOsc%2Fcallback&oauth_timestamp=1564640612915
+请求认证地址参数说明：
+字段名
+描述
+备注
+client_id
+应用唯一标识，在应用注册的时候获得
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+redirect_uri
+URL ENCODE，应用callback回调URL
+由业务系统开发并提供到IAM系统进行注册，该callback回调地址需能接受code参数及target_uri参数
+response_type
+默认值，code
+target_uri
+URL ENCODE，用户目标访问URL
+用户访问业务系统时被拦截的URL，非必选, 认证成功后IAM会带给应用系统
+oauth_timestamp
+当前时间戳
+毫秒级转为string字符串
+state
+随机字符串,回调时应用系统检查state参数和之前保存的值是否一致. 用于保持请求和回调的状态，在回调时，会在认证后IAM回传该参数。开发者可以用这个参数验证请求有效性，也可以记录用户请求授权页前的位置。这个参数可用于防止跨站请求伪造（CSRF）攻击
+非必选，在互联网应用中授权访问某网站时，建议使用此参数验证请求的有效性，避免请求伪造攻击。
+state参数值需要具备下面几个特性：
+不可预测性：足够的随机，使得攻击者难以猜到正确的参数值
+关联性：state参数值和当前用户会话（user session）是相互关联的
+唯一性：每个用户，甚至每次请求生成的state参数值都是唯一的
+时效性：state参数一旦被使用则立即失效
+3）请求access_token API：应用得到OAuth Code及target URI，把Target URI保存下来（例如，内存或SESSION中），拿OAuth Code调用IAM系统API换取Access Token。
+请求API地址：https://***/profile/oauth2/accessToken
+参数传递方式： application/x-www-form-urlencoded
+请求access_token参数说明：
+字段名
+描述
+类型
+是否签名
+备注
+client_id
+应用唯一标识，在应用注册的时候获得
+String
+是
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+client_secret
+应用密钥，在应用注册的时候获得，须在服务后台传输
+String
+是
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+redirect_uri
+应用callback回调URL，不能URL ENCODE
+String
+是
+由业务系统开发并提供到IAM系统进行注册，该callback回调地址需能接受code参数及target_uri参数
+code
+用户本次访问的code，须在服务后台传输
+String
+是
+从上一步callback中得到
+grant_type
+授权类型
+String
+是
+固定写法：authorization_code
+oauth_timestamp
+当前时间戳
+String
+是
+毫秒级转为String字符串
+nonce_str
+主要保证签名不可预测，推荐生成随机数算法如下：调用随机数函数生成，将得到的值转换为字符串。
+String
+是
+sign
+签名字符串，应用系统的client_secret作为appkey MD5签名的一部分
+String
+否
+签名算法详见集成指引之安全规范
+请求示例：
+client_secret=4f9c5c42-25f9-4994-93ab-769274c9c81c&grant_type=authorization_code&redirect_uri=http://127.0.0.1:8899/paraOsc/callback&code=ST-8-zcad0KcVRUWsChLRWBfV&client_id=100008&nonce_str=oobixhjfjm&oauth_timestamp=1564639909052&sign=07F750AF5B4DD180FCF4382A0A976052
+请求access_token返回值说明：
+返回参数
+描述
+备注
+status
+Int类型，状态码
+200代表正常，其余均为异常
+msg
+错误描述
+成功则为“SUCCESS”
+access_token
+令牌
+出现异常，json字符串不会出现access_token参数项
+返回示例：
+{"status":200,"msg":"SUCCESS","access_token":"PAT-10-FuCzX1MY5TDexPTGK6Hmd1CGesQgiJaf0PdAbqzjfGaxBaevbb"}
+4）请求profile API：应用得到Access Token后，拿Access Token调用IAM系统API换取用户信息
+请求API地址：https://***/profile/oauth2/profile
+参数传递方式： application/x-www-form-urlencoded
+请求用户信息参数说明：
+字段名
+描述
+类型
+是否签名
+备注
+client_id
+应用唯一标识，在应用注册的时候获得
+String
+是
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+client_secret
+应用密钥，在应用注册的时候获得，须在服务后台传输
+String
+是
+在IAM系统进行业务系统注册时，由IAM系统进行分配
+access_token
+访问令牌，须在服务后台传输
+String
+是
+从上一步获取token中得到
+oauth_timestamp
+当前时间戳
+String
+是
+毫秒级转换为string字符串，格式1564639993889
+nonce_str
+主要保证签名不可预测，荐生成随机数算法如下：调用随机数函数生成，将得到的值转换为字符串。
+String
+是
+sign
+签名字符串，应用系统的client_secret作为appkey MD5签名的一部分
+String
+否
+签名算法详见集成指引之安全规范
+请求示例：
+client_secret=4f9c5c42-25f9-4994-93ab-769274c9c81c&client_id=100008&nonce_str=35994437-454b-4b60-bf32-e171e1768eb3&access_token=PAT-10-FuCzX1MY5TDexPTGK6Hmd1CGesQgiJaf0PdAbqzjfGaxBaevbb&oauth_timestamp=1564639993889&sign=9F802A0D79915D00E45CF7263B2CED1B
+请求用户信息返回值说明：
+返回参数
+描述
+备注
+status
+Int类型，状态码
+200代表正常，其余均为异常
+msg
+错误描述
+成功则为“SUCCESS”
+id
+登录主帐号
+出现异常，json字符串不会显示id项
+attributes
+属性集合
+如语言等，出现异常，json字符串不会显示attributes项
+返回示例：
+{"status":200,"id":"shililin","msg":"SUCCESS","attributes":[{"language":["zh"]}]}
+2、集成指引
+一个应用的集成主要有两部分工作组成，一部分为IDM系统需要注册应用；一部分为第三方应用需要少量定制开发（直接发起http请求的方式请求认证）。
+1）IAM配置工作
+a. 管理员登录SSO系统，转入IDM系统，点击【应用管理】-【应用配置】注册第三方应用信息
+b. SSO配置：认证方式需要选择Oauth2.0
+c. 记住如下信息：OAuth Key、应用密码、应用BackURL，如图：
+说明：
+1——Oauth Key和应用密码为唯一值
+2——Oauth Key长度为10位以内数字、字母或数字和字母的混合值均可
+2）应用方集成步骤
+a. 应用系统提供登陆地址和回调地址给IAM。
+第三方系统地址
+说明
+例子
+登录地址
+业务系统的登录地址，在IAM中点击此地址会跳转至业务系统并发起oauth认证
+如PIM系统的登录地址
+回调地址
+业务系统的回调地址，用于发起认证后，接收IAM生成的code的地址
+如PIM系统的callbakck地址：http://127.0.0.1:8899/paraOsc/callback
+b. 应用系统配置相关认证地址和信息
+应用系统需在项目环境中配置认证信息，该配置可放在配置文件，也可放在数据库，具体由应用系 统自身决定。
+配置信息
+配置说明
+例子
+baseURL
+应用系统登陆地址
+http://127.0.0.1/paraOsc
+检测IAM心跳API
+IAM提供， 应用系统配置
+http://10.68.19.232/service/api/v1/oauth2/checkIamService
+请求认证地址
+IAM提供， 应用系统配置
+http://10.68.19.232/profile/oauth2/authorize
+请求accesstoken地址
+IAM提供， 应用系统配置
+http://10.68.19.232/profile/oauth2/accessToken
+请求uid地址
+IAM提供， 应用系统配置
+http://10.68.19.232/profile/oauth2/profile
+Client_id
+应用注册ID，IAM提供
+100008
+Client_secret
+应用注册secret，IAM提供
+4f9c5c42-25f9-4994-93ab-769274c9c81c
+redirect_uri
+回调地址，应用系统提供
+http://127.0.0.1:8899/paraOsc/callback
+granttype
+授权类型，固定写法
+authorization_code
+c. 应用系统建立拦截机制如过滤器或拦截器并发起认证
+针对已经有session的或者指向错误页面的或者某些静态资源可以不向IAM发起认证。
+校验IAM服务是否正常，即调用IAM 心跳API，如校验失败应跳转至自身登录界面，提示用户用系 统用户名和密码登陆。
+API名称
+API参数
+参数说明
+返回值
+例子
+***/service/api/v1/oauth2/checkIamService
+格式参考：client_secret=c1776573-f110-410d-ac4f-432ea769f329&client_id=xC0GdToPTa&nonce_str=e1e1bbb0-c9d3-4374-8d27-db01a49e691c&oauth_timestamp=1534380889283&sign=78A5470D86DEADD3F4F4FC6BC3205523
+client_id：IAM提供的应用注册ID，post请求将其和值拼在一起作为参数
+client_secret：应用注册secret，IAM提供
+nonce_str：主要保证签名不可预测，推荐生成随机数算法如下：调用随机数函数生成，将得到的值转换为字符串。
+oauth_timestamp：当前时间戳，毫秒的long类型
+sign:签名字符串
+“OK”代表正常，其他代表IAM服务异常
+http://10.68.19.232/service/api/v1/oauth2/checkIamService
+拼装IAM请求认证的地址，请求认证的地址拼接参数从第二步的配置信息读取。
+认证地址
+认证方式
+认证参数
+参数说明
+例子
+***/profile/oauth2/authorize
+URL重定向
+client_id
+应用注册ID
+http://paraview.paraesc.com/profile/oauth2/authorize?client_id=100008&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8899%2FparaOsc%2Fcallback&oauth_timestamp=1533282058096&state=123456
+response_type
+返回类型，固定写法：code
+redirect_uri
+应用系统的callbakc地址
+oauth_timestamp
+时间戳：System.currentTimeMillis()
+target_uri
+应用系统的目标地址如待办地址，菜单地址，认证通过后应用系统可自行跳转至此地址
+state
+随机字符串,回调时应用系统检查state参数和之前保存的值是否一致. 用于保持请求和回调的状态，在回调时，会在认证后IAM回传该参数。开发者可以用这个参数验证请求有效性，也可以记录用户请求授权页前的位置。这个参数可用于防止跨站请求伪造（CSRF）攻击
+d. 应用系统在其callback地址中获取IAM传来的code，通过API并获取用户信息
+应用系统获取code后向IAM发起请求token和请求用户信息认证，获取用户后在自身系统存在即认为可以登录。根据code请求token：
+API名称
+请求方式
+API参数
+返回值
+例子
+**/profile/oauth2/accessToken
+HTTP POST
+签名算法：同检测心跳API，API有多少参数都要纳入签名字符串中，区分大小写。Sign除外。
+格式参考：client_id=100008&client_secret=4f9c5c42-25f9-4994-93ab-769274c9c81c&code=ST-4-CR4BsDOPIlaCg30nIq97&redirect_uri=http://127.0.0.1:8899/paraOsc/callback&grant_type=authorization_code&oauth_timestamp=1533283603156&nonce_str=d3826d9a-1a2a-43b6-8e9e-ce0991258b88&sign=532514F1E8FBFE612E91161E0F6433A9
+{"status":200,access_token":"PAT-2-WFpbBm3b3cu2mcwGukrKuadVQIWbZnQwN5PQgeGexP1s5m0gII",“msg”：“SUCCESS”}
+状态码为200代表成功，其余为失败，失败信息可从json字符串的msg参数值获取
+http://paraview.paraesc.com/profile/oauth2/accessToken
+根据token请求用户：此处获取uid即认为登录认证成功，应用系统可创建角色、session等进入自己的主页面。
+API名称
+请求方式
+API参数
+返回值
+例子
+**/profile/oauth2/profile
+HTTP POST
+签名算法：同检测心跳API，API有多少参数都要纳入签名字符串中，区分大小写。Sign除外。
+access_token=PAT-2-rfPvuydvjbbAaRhauY6vk0jK2YCfZfxbPwwlda4F4ODRxGKBer&oauth_timestamp=1533884712276&nonce_str=d3826d9a-1a2a-43b6-8e9e-ce0991258b88&sign=532514F1E8FBFE612E91161E0F6433A9
+{"status":200,"id":"shililin","msg":"SUCCESS","attributes":[{"language":["zh"]}]}
+状态码为200代表成功，其余为失败，失败信息可从json字符串的msg参数值获取
+http://paraview.paraesc.com/profile/oauth2/profile
+e. 异常处理
+应用系统须准备异常错误页面，请求认证的过程中出现任何异常应跳转到自身错误页面，友好提示。
+3、集成规范
+统一身份认证与下游应用系统集成认证，接口应使用安全签名，签名规则如下：
+1) 签名算法
+签名生成的通用步骤如下：
+第一步，设某API所有发送或者接收到的数据为集合M，将集合M内非空参数值的参数按照参 数名ASCII码从小到大排序（字典序），使用键值对的格式（即key1value1key2value2…） 拼接成字符串stringA。特别注意以下重要规则：
+a. 参数名ASCII码从小到大排序（字典序）；
+b. 如果参数的值为空不参与签名；
+c. 参数名区分大小写
+验证调用返回或主动通知签名时，传送的sign参数不参与签名，将生成的签名与该sign值作 校验。接口可能增加字段，验证签名时必须支持增加的扩展字段。
+第二步，在stringA最后拼接上key+client_secret作为appkey(key由IAM提供一个固定的字符串， client_secret由IAM平台注册并提供，生成环境会由IAM提供这两个参数，应用方保存)得到stringSignTemp字符串，并对stringSignTemp进行MD5运算，再将得到的字符串所有字符转换为大写，得到sign值signValue。其中：key由IAM提供, 客户端保存。生成签名字符串加密转化为大写即获取签名字符串sign
+一个参与签名的示例如下：
+client_id0noVkV1iWkclient_secret231ba487-3a8c-4bc1-b1ce-fbb8a52961eecodeST-10-E3fNw4nCd4duX9AaCmvtgrant_typeauthorization_codenonce_str1813908oauth_timestamp1569321075713redirect_urihttp://183.246.181.162:90/user/?q=login.sso.doappkey5af91ebd678c9e1cfc9de668a363b4a04f4c7198231ba487-3a8c-4bc1-b1ce-fbb8a52961ee
+client_id${注册的client_id}
+client_secret${注册的client_secret}
+code${返回的授权code}
+grant_typeauthorization_codenonce_str${随机字符串，客户端生成}
+oauth_timestamp${时间戳，客户端生成，格式样例1533884712276}
+redirect_uri${你的callback地址}
+appkey${IAM提供的签名加盐}${注册的client_secret }
+第三步， 服务端会根据传递参数生成签名并比对，同时核对时间戳时间与当前时间的差是否 在十分钟范围内，此时需要应用系统服务器时间与IAM系统服务器时间同步。
+2) 接口规则
+传输方式
+生产平台采用HTTPS传输，客户端调用API须考虑此条件
+提交方式
+采用POST方法提交，
+数据格式
+检测心跳API返回字符串; 获取token、用户API返回json字符串
+字符编码
+统一采用UTF-8字符编码，API接口url不需要URL encode，跳转认证地址建议需要URL encode
+签名算法
+MD5
+签名要求
+请求和接收数据需要校验签名
+证书要求
+客户申请颁发的证书
+其它要求
+相关传参应按照文档要求在服务后台传输，避免泄露
+4、单点登出
+统一身份认证登录后即进入门户信息系统首页，在门户或OA信息系统首页点击应用单点登录即可进入应用系统。对于各应用系统的退出可满足以下场景(依据实际情况决定)：
+1)  从门户或OA点击应用系统认证登录后点击退出，注销应用系统session并关闭当前应用系统浏览器页签
+2) 用户在浏览器直接输入应用系统地址登录后点击退出，注销应用系统session并跳转至IAM登录页(注销IAM session)
+注销IAM session并重定向地址：
+http://paraview.paraesc.com/logout?service=第三方应用的集成认证地址(该地址即：在浏览器输入，第三方应用系统会拦截并引导授权跳转至IAM)
+5、调用示例
+1）获取调用接口的参数(以请求access_token接口为例)，其中key和client_secret向IAM系统申请
+2）利用工具类发送http/https请求，解析结果

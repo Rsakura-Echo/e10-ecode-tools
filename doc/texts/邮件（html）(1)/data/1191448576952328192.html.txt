@@ -1,0 +1,2 @@
+使用动作流配置发送邮件功能，参考以下文档
+https://www.e-cology.com.cn/sp/doc/docDetail/8139564098180093600

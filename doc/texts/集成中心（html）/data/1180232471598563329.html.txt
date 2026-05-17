@@ -1,0 +1,279 @@
+一、功能背景及价值用途
+OIDC 的全称是 OpenID Connect，是一套基于 OAuth 2.0 的认证 授权协议。OIDC认证主要提供OIDC协议的认证服务，允许业务系统通过OIDC授权模式接入E10。
+【10.0.2309.01基线版本开始支持】
+二、功能概述以及使用说明
+1、OIDC认证配置
+可以在认证协议管理中启用 OIDC认证，并查看 OIDC的接口地址。
+2、OIDC接口地址
+2.1、服务发现地址
+可通过访问服务发现地址，查看 OIDC认证服务的所有端点。
+2.2、请求用户授权接口
+当用户访问应用系统时，应用系统需基于页面重定向的方式向E10系统发起授权登录请求。若用户尚未登录E10系统，将停留在E10的登录页面。用户在该页面输入用户名和密码并成功认证后，E10系统会携带授权码（code参数）重定向回第三方应用系统。
+请求用户授权接口格式为：
+http(s)://{OA_server}/papi/sso/oidc/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope=openid&state={state}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+response_type
+授权类型
+是
+code
+授权码模式固定code
+redirect_uri
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+成功授权后的回调地址。
+1，实际传递的service地址需要在业务系统URL地址的范围内；
+2，若service参数中有携带参数，需要进行URL编码
+scope
+权限范围
+是
+openid
+必须传递openid，获取账号映射中账号映射规则人员信息
+若还需要获取到其他人员属性，需要传递Scope配置的scope，多个值以空格分隔
+state
+随机字符
+否
+A12345678
+认证通过后，将原值回调给应用系统。（建议业务系统为客户端时，尽量携带state）（常用于防重攻击）
+认证授权成功后，可携带授权码code回到到应用系统：
+{redirect_uri}?code=ST-xxxxxxx&state={state}
+2.3、获取Token接口
+通过认证登录并完成授权后，应用系统获取到授权码 code，此时需要调用获取 Token 接口来置换令牌Access Token以及jwt令牌Id_Token。
+获取Token接口格式为：
+http(s)://{OA_server}/papi/sso/oidc/accessToken?grant_type=authorization_code&client_id={client_id}&client_secret={client_secret}&code={code}&redirect_uri={redirect_uri}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+grant_type
+授权类型
+是
+authorization_code
+获取令牌为authorization_code
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+client_secret
+应用密钥
+是
+mBbjNuUILRXarYeVdprWYwYF
+E10系统认证应用管理中该应用注册的应用密钥
+code
+授权码
+是
+ST-xxxxxxx
+请求用户授权接口回调返回的授权码
+redirect_uri
+回调地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+需要与请求用户授权接口传递的redirect_uri保持一致
+校验成功后，返回：
+{
+"msg": "SUCCESS",
+"access_token": "AT-1-5x09geXtAAUrWOpD-RZUBOH-7kpWyUKK",
+"refresh_token": "RT-1-H-QIvq9UXMdY-mShNny1cBwqhSDUTm7q",
+"code": "0",
+"id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlpJb2tPOE5iQmhmWENzQmhBaEpTUHYyZ1FCQTZFdklMIn0.eyJqdGkiOiJUR1QtMy1WYXU0LS1kM2ZwSnNULThnVFJoRGF5c0lYcUxTV1RSdzNlR2w3bWNLc0R0UUhHay0tZ3RMcVB6U2Z1VG41QlppSEowRVRMMTAyMDEwIiwiaXNzIjoiaHR0cHM6Ly9pbnQueXVudGVhbXMuY24vb2lkYy8iLCJhdWQiOiIyNTUzMmI0My1kMzdhLTQ1MWYtOTM3Ny0wZjIyZjI4ZTYwOTMiLCJleHAiOjE2ODgxMjA5NDUsImlhdCI6MTY4ODA5MjE0NSwic3ViIjoiMTk5MDE3NjE4NDQifQ.XdmphV_H26HRageal1_7AI-_QAY_vaSXC6as8oxI4oLou7-4fr0p_Eh4OXNfUvSLkWnttrDA-OfB3QhCns4dMAloUhKTay-Tm716aoE3BEOPfJQ8okhzYV8aeC_W7aJK04FZiFjN6vjTSBL61xNqj30Sism-E5icPxhWWY4hiE6iECLyvdqNQzsyNNwpx3zQql65bw8z2-2rRbKFenFVtBo0PruObKm50EXwFgcrAAWWNxGH04T3Ax3w4A0PR_szIydv-2b4-siHrPOgi-HtTOOq48x_rXwu0QXXJt84rFytKGP5lH2vOMESTzNYkHBbg9kyvaDTp9gIBt1rayBMEw",
+"expires_in": 28800,
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+access_token
+授权令牌
+返回给第三方应用的授权令牌，获取用户信息时需要使用到
+refresh_token
+刷新令牌
+返回给第三方应用的刷新令牌，刷新access_token使用
+id_token
+jwt令牌
+通过jwt可解析到用户信息
+expire
+授权令牌的有效期
+返回给应用的授权令牌的有效期。（注意：有效期以秒为单位）
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+2.4、刷新Token接口
+通过授权Token接口返回的Refresh_Token，刷新授权令牌Access Token。
+刷新Token接口格式为：
+http(s)://{OA_server}/papi/sso/oidc/accessToken?grant_type=refresh_token&client_id={client_id}&client_secret={client_secret}&refresh_token={refresh_token}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+grant_type
+授权类型
+是
+refresh_token
+刷新令牌为refresh_token
+client_id
+应用标识
+是
+9c5a07c0e2ad40229cc73306b6996f6b
+E10系统认证应用管理中该应用注册的应用标识
+client_secret
+应用密钥
+是
+mBbjNuUILRXarYeVdprWYwYF
+E10系统认证应用管理中该应用注册的应用密钥
+refresh_token
+刷新令牌
+是
+RT-1-H-QIvq9UXMdY-mShNny1cBwqhSDUTm7q
+获取授权Token接口返回的刷新令牌
+校验成功后，返回：
+{
+"msg": "SUCCESS",
+"access_token": "AT-1-5x09geXtAAUrWOpD-RZUBOH-7kpWyUKK",
+"code": "0",
+"id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlpJb2tPOE5iQmhmWENzQmhBaEpTUHYyZ1FCQTZFdklMIn0.eyJqdGkiOiJUR1QtMy1WYXU0LS1kM2ZwSnNULThnVFJoRGF5c0lYcUxTV1RSdzNlR2w3bWNLc0R0UUhHay0tZ3RMcVB6U2Z1VG41QlppSEowRVRMMTAyMDEwIiwiaXNzIjoiaHR0cHM6Ly9pbnQueXVudGVhbXMuY24vb2lkYy8iLCJhdWQiOiIyNTUzMmI0My1kMzdhLTQ1MWYtOTM3Ny0wZjIyZjI4ZTYwOTMiLCJleHAiOjE2ODgxMjA5NDUsImlhdCI6MTY4ODA5MjE0NSwic3ViIjoiMTk5MDE3NjE4NDQifQ.XdmphV_H26HRageal1_7AI-_QAY_vaSXC6as8oxI4oLou7-4fr0p_Eh4OXNfUvSLkWnttrDA-OfB3QhCns4dMAloUhKTay-Tm716aoE3BEOPfJQ8okhzYV8aeC_W7aJK04FZiFjN6vjTSBL61xNqj30Sism-E5icPxhWWY4hiE6iECLyvdqNQzsyNNwpx3zQql65bw8z2-2rRbKFenFVtBo0PruObKm50EXwFgcrAAWWNxGH04T3Ax3w4A0PR_szIydv-2b4-siHrPOgi-HtTOOq48x_rXwu0QXXJt84rFytKGP5lH2vOMESTzNYkHBbg9kyvaDTp9gIBt1rayBMEw",
+"expires_in": 28800,
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+access_token
+授权令牌
+返回给第三方应用的授权令牌，获取用户信息时需要使用到
+id_token
+jwt令牌
+通过jwt可解析到用户信息
+expire
+授权令牌的有效期
+返回给应用的授权令牌的有效期。（注意：有效期以秒为单位）
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+2.5、获取用户信息接口
+通过获取授权Token接口获取到令牌 Access Token后，可调用获取用户信息接口获取用户信息。
+获取用户信息接口格式为：
+http(s)://{OA_server}/papi/sso/oidc/profile?access_token={access_token}
+请求方式：POST/GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+access_token
+授权令牌
+是
+TGT-17-ltrkyX7uoV1UyJvtZVQ3OsLwMKLuiiBghgEi8d5jeQejC0Xl---taqwusjwbChnVGvgETW029070
+获取授权Token接口获取到令牌 Access Token
+校验成功后，可返回用户信息：
+{
+"msg": "SUCCESS",
+"code": "0",
+"attributes": {
+"job_num": "WS001",
+"mobile": "13511112223",
+"username": "田小濛人员001"
+},
+"id": "txmry001",
+"status": 200
+}
+返回参数说明：
+参数
+名称
+描述
+id
+用户信息
+OIDC认证应用账号映射里所配置的账号映射规则对应的人员信息
+attributes
+人员其他属性
+若在授权接口传递的 scope 参数值中，除 openid 外还传递了其他 scope 值，则对应的 claims 属性将在 attributes 中返回。
+msg
+错误信息
+成功为SUCCESS
+code
+错误代码
+成功为0
+status
+状态码
+成功200，失败400
+2.6、JWKS公钥端点
+可通过JWKS公钥端点获取用于获取验证id_token令牌数字签名的公钥。
+JWKS公钥端点格式为：
+http(s)://{OA_server}/papi/sso/oidc/jwks
+请求方式：POST/GET
+校验成功后，返回：
+{
+"keys": [
+{
+"kty": "RSA",
+"e": "AQAB",
+"kid": "ZIokO8NbBhfXCsBhAhJSPv2gQBA6EvIL",
+"alg": "RS256",
+"n": "yWt2Wb7ipXqRJK-MvpKU2miQR3Uc-irAJcX13F6If4dDcr54pfzoL0XYgem5ac6D0SfmiCQnUGcRZ22YkLgZ1wlZDX1bEEYXChPN4JiAzDViT_517vMVhFfmhfyU9--7vqIFducBTuAU-W-1Mxb20BPw7VtxVE0geBGf1E7zaQcB2a0a2Pg_UyBlRgaRrBJ_h-mbtcy9WI90epnSChdp8vq7FLZipOfp_Q1idSFLWdr4z91pQD6N2lumE787nJ8NUGC0Qc_zI8N0OAMb3LdIYw_duap9U00MYiuab5cHVnrilBCfOz_xS2B_r1kG798Qy7nZM9RcfmYjLHoepf8lUQ"
+}
+]
+}
+返回参数说明：
+参数
+名称
+描述
+kty
+密钥类型
+e
+公共指数
+kid
+唯一标识
+alg
+算法类型
+n
+密钥值
+2.7、解析id_token
+可通过jwt解析获取token接口返回的id_token值获取用户信息。
+2.8、统一退出接口
+应用系统退出时，可调用E10系统的OIDC退出接口，注销E10系统的会话。
+退出地址格式为：
+http(s)://{OA_server}/sp/integration/oidc/logout?service={service}
+请求方式：GET
+请求参数说明：
+参数
+名称
+是否必须
+示例
+描述
+service
+退出重定向地址
+是
+https%3A%2F%2Fjytcas.e-cology.cn%2Fdemo_cas_client%2Findex.jsp
+E10系统退出后，会重定向这个地址

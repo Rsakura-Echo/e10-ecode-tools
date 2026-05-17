@@ -1,0 +1,39 @@
+一、功能介绍
+本文档旨在介绍如何通过CAS协议实现E10系统与keyclock的集成接入。完成集成后，用户访问E10系统时将直接跳转至keyclock的登录页面。一旦keyclock授权成功，系统将能够回调并登录到E10。
+二、功能概述以及使用说明
+1、考虑E10系统与keyclock系统人员对应关系
+需要考虑与E10系统与keyclock系统人员对应关系。
+目前的文档是基于E10系统人员的账号 与 keyclock系统人员的邮箱保持一致。
+2、E10系统提供回调地址给到keyclock系统
+登录E10系统，在认证接入管理页面中查看回调地址，将回调地址提供给keyclock。
+3、keyclock系统注册E10系统Client
+登录keyclock系统，进入对应Realm，在Clients中创建Client
+选择OpenID Connect， 设置Client ID，唯一标识，需要提供给E10系统。
+启用Client authentication、Authorization，勾选Standard flow
+配置E10系统回调地址
+保存后，到Credentials中复制Client secret 与前面的Client ID 提供给E10系统。
+在Realm settings 中点击OpenID Endpoint Configuration
+将打开的内容复制到（https://www.json.cn/）进行格式化，将里面的authorization_endpoint、token_endpoint、userinfo_endpoint、end_session_endpoint 的参数值 给到E10系统。
+在Users 中添加人员。
+4、E10系统OAuth2集成配置
+E10系统，统一认证接入管理中选择OAuth2.0集成-keycloak集成进行配置，只需要调整基本信息以及几个接口的接口地址，其他无需改动。
+基本信息：配置keyclock提供的Client ID以及Client secret。
+请求用户授权接口：
+接口地址配置keyclock提供的authorization_endpoint
+获取授权Token接口：
+接口地址配置keyclock提供的token_endpoint
+刷新Token接口：
+接口地址配置keyclock提供的token_endpoint
+获取用户信息接口：
+接口地址配置keyclock提供的userinfo_endpoint
+统一退出接口：
+接口地址配置keyclock提供的end_session_endpoint
+5、E10系统维护人员
+目前的文档是基于E10系统人员的账号 与 keyclock系统人员的邮箱保持一致。
+6、E10系统自定义登录地址验证效果
+可在登录页设置中设置 自定义登录地址 验证效果。
+直接访问自定义登录地址，可跳转到keyclock系统认证登录页，keyclock系统登录后，可回调登录E10系统。
+三、更多场景示例
+暂无。
+四、常见问题
+待补充。

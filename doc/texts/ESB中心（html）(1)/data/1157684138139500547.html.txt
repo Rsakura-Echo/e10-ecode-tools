@@ -1,0 +1,6 @@
+对日期时间数据进行指定格式的返回
+DATE_FORMAT函数
+DATEPART函数
+DATE_ADD函数
+DATE_SUB函数
+DATEDIFF函数

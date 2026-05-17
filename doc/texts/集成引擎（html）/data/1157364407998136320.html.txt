@@ -1,0 +1,351 @@
+•  概述
+﻿﻿﻿•  Azure MFA 设置
+•  协议图
+•  请求授权代码
+•  兑换访问令牌的代码
+•  使用访问令牌
+•  刷新访问令牌
+概述
+为了提高协同办公管理平台系统员工的登录安全性，将OA系统和微软多重认证(MFA)系统集成到登录系统中，采用应用模型v2.0、OAuth2.0实现。员工需要通过手机验证系统两次，才能登录OA系统。
+﻿该文档是依据Microsoft标识平台和OAuth2.0授权代码进行详细说明。
+Azure MFA 设置
+1、注册应用系统
+2、端点如下：
+3、配置重定向URI
+4、配置凭据和密码
+5、配置用户的MFA
+协议图
+此图提供了应用程序身份验证流的概览：
+请求授权代码
+授权代码流始于客户端将用户定向到 /authorize 终结点。在此请求中，客户端需要向用户请求获取相应的权限：
+// Line breaks for legibility only
+https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
+client_id=6731de76-14a6-49ae-97bc-6eba6914391e
+&response_type=code
+&redirect_uri=http%3A%2F%2Flocalhost%2Fmyapp%2F
+&response_mode=query
+&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read%20api%3A%2F%2F
+&state=12345
+&code_challenge=YTFjNjI1OWYzMzA3MTI4ZDY2Njg5M2RkNmVjNDE5YmEyZGRhOGYyM2IzNjdmZWFhMTQ1ODg3NDcxY2Nl
+&code_challenge_method=S256
+参数
+必需/可选
+说明
+tenant
+必需
+请求路径中的 {tenant} 值可用于控制哪些用户可以登录应用程序。 有效值为 common、organizations、consumers 和租户标识符。 对于用户从一个租户登录到另一个租户的来宾场景，必须提供租户标识符才能让其登录到资源租户。 有关详细信息，请参阅终结点。
+client_id
+必填
+Azure 门户 – 应用注册体验分配给你的应用的应用程序（客户端）ID。
+response_type
+必填
+必须包括授权代码流的 code 。 如果使用id_token，则还可以包含 id_token 或 token。
+redirect_uri
+必需
+应用的 redirect_uri，你的应用可通过该应用发送和接收身份验证响应。 其必须完全符合在门户中注册的其中一个重定向 URI，否则必须是编码的 URL。 对于本机应用和移动应用，请使用一个建议的值：https://login.microsoftonline.com/common/oauth2/nativeclient（适用于使用嵌入式浏览器的应用）或 http://localhost（适用于使用系统浏览器的应用）。
+scope
+必需
+希望用户同意的范围的空格分隔列表。 对于请求的 /authorize 分支，此参数可以涵盖多个资源。 此值允许应用获取你要调用的多个 Web API 的同意。
+response_mode
+建议
+指定将生成的令牌送回到应用程序时应该使用的方法。 可以为下列值之一：
+- query
+- fragment
+- form_post
+query 在重定向 URI 上提供代码作为查询字符串参数。 如果要使用隐式流请求 ID 令牌，则不能使用 query 中指定的 query。如果只是请求代码，则可以使用 query、fragment 或 form_post。 form_post 对重定向 URI 执行包含代码的 POST。
+state
+建议
+同时随令牌响应返回的请求中所包含的值。 可以是想要的任何内容的字符串。 随机生成的唯一值通常用于 防止跨站点请求伪造攻击。 该值还可用于在身份验证请求发生前，对有关用户在应用中的状态信息进行编码。 例如，它可以对用户所在的页面或视图进行编码。
+prompt
+可选
+表示需要的用户交互类型。 有效值为 login、none、consent 和 select_account。
+- prompt=login 强制用户在该请求上输入其凭据，从而使单一登录无效。
+- prompt=none 则相反。 它确保不向用户显示任何交互式提示。 如果请求无法通过单一登录以无提示方式完成，则 Microsoft 标识平台将返回 interaction_required 错误。
+- prompt=consent 在用户登录后触发 OAuth 同意对话框，要求用户向应用授予权限。
+- prompt=select_account 将中断单一登录，提供帐户选择体验，列出会话或任何记住的帐户中的所有帐户，或者提供选择一起使用其他帐户的选项。
+login_hint
+可选
+可使用此参数预先填充用户登录页面的用户名和电子邮件地址字段。 应用在已经从前次登录提取 login_hintlogin_hint后，可在重新身份验证时使用此参数。
+domain_hint
+可选
+如果包含，应用将跳过用户在登录页面上经历的基于电子邮件的发现过程，导致稍微更加流畅的用户体验。 例如，将其发送到其联合标识提供者。 应用可以在重新身份验证期间使用此参数，方法是从前次登录提取 tid。
+code_challenge
+建议/必需
+用于通过“用于代码交换的证明密钥”(PKCE) 来保护授权代码授予。 如果包含 code_challenge_method，则需要。 有关详细信息，请参阅 PKCE RFC。 目前建议将参数用于所有应用程序类型（公共和机密客户端），Microsoft 标识平台则要求使用授权代码流的单页应用使用此参数。
+code_challenge_method
+建议/必需
+用于为 code_challenge 参数编码 code_verifier 的方法。 此方法应为 ，但是如果客户端不能支持 SHA256，则该规范允许使用 plain。
+如果已排除在外，且包含了 code_challenge，则假定 code_challenge 为纯文本。 Microsoft 标识平台支持 plain 和 S256。 有关详细信息，请参阅 PKCE RFC。 使用授权代码流的单页应用需要此参数。
+此时，系统会要求用户输入凭据并完成身份验证。 Microsoft 标识平台还将确保用户已同意 scope 查询参数中指定的权限。 如果用户未同意其中的任一权限，就让用户同意所需的权限。
+用户经过身份验证并授予同意后，Microsoft 标识平台将使用 response_mode 参数中指定的方法，将响应返回到位于所指示的 redirect_uri 的应用。
+1、成功的响应
+此示例演示使用 response_mode=query 的成功响应：
+GET http://localhost?
+code=AwABAAAAvPM1KaPlrEqdFSBzjqfTGBCmLdgfSTLEMPGYuNHSUYBrq...
+&state=12345
+参数
+说明
+code
+应用请求的 authorization_code。 应用可以使用授权代码请求目标资源的访问令牌。 授权代码的生存期很短。 通常，它们在约 10 分钟后过期。
+state
+如果请求中包含 state 参数，则响应中应显示相同的值。 应用应该验证请求和响应中的 state 值是否完全相同。
+2、错误响应
+错误响应可能也发送到 redirect_uri ，让应用可以适当地处理：
+GET http://localhost?
+error=access_denied
+&error_description=the+user+canceled+the+authentication
+参数
+说明
+error
+一个错误代码字符串，可用于对错误类型进行分类并对错误做出反应。 提供此错误部分是使应用能够对错误做出相应的反应，但不会深入解释错误发生的原因。
+error_description
+帮助开发人员识别身份验证错误原因的特定错误消息。 包含有关为何发生错误的大部分有用信息。
+3、授权终结点错误的错误代码
+下表描述了可在错误响应的 error 参数中返回的各个错误代码：
+错误代码
+说明
+客户端操作
+invalid_request
+协议错误，例如，缺少必需的参数。
+修复并重新提交请求。 此错误通常是在初始测试期间捕获的开发错误。
+unauthorized_client
+不允许客户端应用程序请求授权代码。
+客户端应用程序未注册到 Azure AD 中或者未添加到用户的 Azure AD 租户时，通常会出现此错误。 应用程序可以提示用户，并说明如何安装应用程序并将其添加到 Azure AD。
+access_denied
+资源所有者拒绝了许可
+客户端应用程序可以通知用户：除非用户同意，否则无法继续。
+unsupported_response_type
+授权服务器不支持请求中的响应类型。
+修复并重新提交请求。 此错误通常是在初始测试期间捕获的开发错误。 在混合流中出现此错误表示必须在客户端应用注册上启用 ID 令牌隐式授权设置。
+server_error
+服务器遇到意外的错误。
+重试请求。 这些错误可能是临时状况导致的。 客户端应用程序可能向用户说明，其响应由于临时错误而延迟。
+temporarily_unavailable
+服务器暂时繁忙，无法处理请求。
+重试请求。 客户端应用程序可向用户说明，其响应由于临时状况而延迟。
+invalid_resource
+目标资源无效，原因是它不存在，Azure AD 找不到它，或者未正确配置。
+此错误表示未在租户中配置该资源（如果存在）。 应用程序可以提示用户，并说明如何安装应用程序并将其添加到 Azure AD。
+login_required
+找到的用户太多或未找到任何用户。
+客户端请求了静默身份验证 (prompt=none)，但找不到单个用户。 此错误可能表示会话中有多个处于活动状态的用户或无用户。 此错误考虑所选租户。 例如，如果有两个活动的 Azure AD 帐户和一个 Microsoft 帐户，并且选择了 consumers，则静默身份验证可正常工作。
+interaction_required
+请求需要用户交互。
+需要其他身份验证步骤或同意。 请在没有 prompt=none 的情况下重试请求。
+兑换访问令牌的代码
+授权代码流始于客户端将用户定向到 /authorize 终结点。在此请求中，客户端需要向用户请求获取相应的权限：
+获取 authorization_code 并获取用户授予的权限后，接下来可以兑换 code 以获取资源的 access_token。 通过向 /token 终结点发送 POST 请求来兑换 code：
+// Line breaks for legibility only
+POST /{tenant}/oauth2/v2.0/token HTTP/1.1
+Host: https://login.microsoftonline.com
+Content-Type: application/x-www-form-urlencoded
+client_id=6731de76-14a6-49ae-97bc-6eba6914391e
+&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
+&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...
+&redirect_uri=http%3A%2F%2Flocalhost%2Fmyapp%2F
+&grant_type=authorization_code
+&code_verifier=ThisIsntRandomButItNeedsToBe43CharactersLong
+&client_secret=JqQX2PNo9bpM0uEihUPzyrh    // NOTE: Only required for web apps. This secret needs to be URL-Encoded.
+参数
+必需/可选
+说明
+tenant
+必需
+请求路径中的 {tenant} 值可用于控制哪些用户可以登录应用程序。 有效值为 common、organizations、consumers 和租户标识符。
+client_id
+必需
+在Azure 门户 – 应用注册页中分配给应用的应用程序（客户端）ID。
+scope
+可选
+范围的空格分隔列表。 范围必须全部来自单个资源，以及 OIDC范围（profile、openid、email）。此参数是授权代码流的 Microsoft 扩展，旨在允许应用在令牌兑换期间声明其需要令牌的资源。
+code
+必需的
+在流的第一个阶段获取的 authorization_code。
+redirect_uri
+必需的
+用于获取 authorization_code 的相同 redirect_uri 值。
+grant_type
+必需
+必须是授权代码流的 authorization_code 。
+code_verifier
+建议
+用于获取 authorization_code 的相同 code_verifier。 如果在授权码授权请求中使用 PKCE，则需要。
+client_secret
+机密 Web 应用所需
+在应用注册门户中为应用创建的应用程序机密。 请不要在本机应用或单页应用中使用应用程序机密，因为 client_secret 无法可靠地存储在设备或网页上。 可将 client_secret 安全地存储在服务器端的Web应用和 Web API 需要应用程序机密。 与此处讨论的所有参数一样，客户端机密在发送之前必须进行 URL 编码。 此步骤通常是由 SDK 完成。还支持根据 RFC 6749 在授权标头中提供凭据的基本身份验证模式。
+1、成功的响应
+以下示例显示了成功的令牌响应：
+{
+"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",
+"token_type": "Bearer",
+"expires_in": 3599,
+"scope": "https%3A%2F%2Fgraph.microsoft.com%2Fmail.read",
+"refresh_token": "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4...",
+"id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIyZDRkMTFhMi1mODE0LTQ2YTctOD...",
+}
+参数
+说明
+access_token
+请求的访问令牌。 应用可以使用此令牌对受保护的资源（如 Web API）进行身份验证。
+token_type
+指示令牌类型值。 Azure AD 支持的唯一类型是 Bearer。
+expires_in
+访问令牌的有效期（以秒为单位）。
+scope
+access_token 的有效范围。 可选。 此参数是非标准的，如果省略，令牌将用于流的初始阶段中所请求的范围。
+refresh_token
+OAuth 2.0 刷新令牌。 应用可以使用此令牌，在当前访问令牌过期之后获取其他访问令牌。 刷新令牌的生存期较长。 它们可以长期保留对资源的访问权限。 有关刷新访问令牌的详细信息，请参阅本文稍后的刷新访问令牌。
+注意：仅当已请求 作用域时提供。
+id_token
+一个 JSON Web 令牌。 应用可以解码此令牌的段，以请求有关登录用户的信息。 应用可以缓存并显示值，机密客户端可以使用此令牌进行授权。
+注意：仅当已请求 作用域时提供。
+2、错误响应
+此示例是一个错误响应：
+{
+"error": "invalid_scope",
+"error_description": "AADSTS70011: The provided value for the input parameter 'scope' is not valid. The scope https://foo.microsoft.com/mail.read is not valid.\r\nTrace ID: 255d1aef-8c98-452f-ac51-23d051240864\r\nCorrelation ID: fb3d2015-bc17-4bb9-bb85-30c5cf1aaaa7\r\nTimestamp: 2016-01-09 02:02:12Z",
+"error_codes": [
+70011
+],
+"timestamp": "2016-01-09 02:02:12Z",
+"trace_id": "255d1aef-8c98-452f-ac51-23d051240864",
+"correlation_id": "fb3d2015-bc17-4bb9-bb85-30c5cf1aaaa7"
+}
+参数
+说明
+error
+一个错误代码字符串，可用于对错误类型进行分类并对错误做出反应。
+error_description
+帮助开发人员识别身份验证错误原因的特定错误消息。
+error_codes
+可帮助诊断的 STS 特定错误代码列表。
+timestamp
+发生错误的时间。
+trace_id
+可帮助诊断的请求唯一标识符。
+correlation_id
+可帮助跨组件诊断的请求唯一标识符。
+3、令牌终结点错误的错误代码
+错误代码
+说明
+客户端操作
+invalid_request
+协议错误，例如，缺少必需的参数。
+修复请求或应用注册，然后重新提交请求。
+invalid_grant
+授权代码或 PKCE 代码验证程序无效或已过期。
+尝试向 /authorize 终结点发送新请求，并验证 code_verifier 参数是否正确。
+unauthorized_client
+经过身份验证的客户端无权使用此权限授予类型。
+客户端应用程序未注册到 Azure AD 中或者未添加到用户的 Azure AD 租户时，通常会出现此错误。 应用程序可以提示用户，并说明如何安装应用程序并将其添加到 Azure AD。
+invalid_client
+客户端身份验证失败。
+客户端凭据无效。 若要修复，应用程序管理员应更新凭据。
+unsupported_grant_type
+授权服务器不支持权限授予类型。
+更改请求中的授权类型。 这种类型的错误应该只在开发过程中发生，并且应该在初始测试过程中检测到。
+invalid_resource
+目标资源无效，原因是它不存在，Azure AD 找不到它，或者其未正确配置。
+此代码指示资源（如果存在）尚未在租户中配置。 应用程序可以提示用户，并说明如何安装应用程序并将其添加到 Azure AD。
+interaction_required
+非标准，因为 OIDC 规范仅在 /authorize 终结点上调用此代码。 请求需要用户交互。 例如，需要其他身份验证步骤。
+使用同一范围重试 /authorize 请求。
+temporarily_unavailable
+服务器暂时繁忙，无法处理请求。
+请在短暂延迟后重试该请求。 客户端应用程序可能向用户说明，其响应由于临时状况而延迟。
+consent_required
+请求需要用户同意。 此错误是非标准的。 根据 OIDC 规范，它通常仅在 /authorize 终结点上返回。 在客户端应用无权请求的代码兑换流上使用 scope 参数时返回。
+客户端应将用户发送回具有正确范围的 /authorize 终结点，以触发同意。
+invalid_scope
+应用请求的范围无效。
+将身份验证请求中的 scope 参数值更新为有效值。
+使用访问令牌
+现已成功获取 access_token，可以通过在 Authorization 标头中包含令牌，在 Web API 的请求中使用令牌：
+GET /v1.0/me/messages
+Host: https://graph.microsoft.com
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...
+刷新访问令牌
+访问令牌的生存期较短。 在其过期后请将其刷新，以继续访问资源。 为此，可以向 /token 终结点提交另一个 POST 请求。 提供 refresh_token 而不是 code。 刷新令牌对客户端已获得同意的所有权限有效。 例如，对 scope=mail.read 请求发出的刷新令牌可用于请求 scope=api://contoso.com/api/UseResource 的新访问令牌。
+Web 应用和本机应用的刷新令牌没有指定的生存期。 通常，刷新令牌的生存期相对较长。 但是，在某些情况下，刷新令牌会过期、被吊销，或缺少执行操作的足够权限。 应用程序需要预期和处理令牌颁发终结点返回的错误。 单页应用会获得一个生存期为 24 小时的令牌，并且每天需要新的身份验证。 启用第三方 Cookie 时，可以在 iframe 中静默执行此操作。 必须在没有第三方 Cookie 的浏览器（例如 Safari）的顶级框架（完整页面导航或弹出窗口）中执行此操作。
+刷新令牌用于获取新访问令牌时不会被撤销。 应丢弃旧的刷新令牌。 OAuth 2.0 规范指出：“授权服务器可能会发出新的刷新令牌，在这种情况下，客户端必须丢弃旧的刷新令牌，并将其替换为新的刷新令牌。 向客户端颁发新的刷新令牌后，授权服务器可能会撤销旧的刷新令牌。”
+// Line breaks for legibility only
+POST /{tenant}/oauth2/v2.0/token HTTP/1.1
+Host: https://login.microsoftonline.com
+Content-Type: application/x-www-form-urlencoded
+client_id=535fb089-9ff3-47b6-9bfb-4f1264799865
+&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
+&refresh_token=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE9UkP3pSx1aXxUjq...
+&grant_type=refresh_token
+&client_secret=sampleCredentia1s    // NOTE: Only required for web apps. This secret needs to be URL-Encoded
+参数
+类型
+说明
+tenant
+必需
+请求路径中的 {tenant} 值可用于控制哪些用户可以登录应用程序。 有效值为 common、organizations、consumers 和租户标识符。
+client_id
+必填
+Azure 门户 – 应用注册体验分配给你的应用的应用程序（客户端）ID。
+grant_type
+必填
+必须是授权代码流的此阶段的 refresh_token 。
+scope
+可选
+范围的空格分隔列表。 在此阶段中请求的范围必须相当于或为原始 authorization_code 请求分支中所请求的范围子集。 如果此请求中指定的范围涵盖多个资源服务器，Microsoft 标识平台将返回第一个范围中指定的资源的令牌。
+refresh_token
+必需
+在流的第二个分支中获取的 refresh_token。
+client_secret
+必填（对于 Web 应用）
+在应用注册门户中为应用创建的应用程序机密。 不应在本机应用中使用该机密，因为无法在设备上可靠存储 client_secret。 可将 client_secret 安全地存储在服务器端的 Web 应用和 Web API 需要应用程序机密。 此机密需要进行 URL 编码。
+1、成功的响应
+以下示例显示了成功的令牌响应：
+{
+"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",
+"token_type": "Bearer",
+"expires_in": 3599,
+"scope": "https%3A%2F%2Fgraph.microsoft.com%2Fmail.read",
+"refresh_token": "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4...",
+"id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIyZDRkMTFhMi1mODE0LTQ2YTctOD...",
+}
+参数
+说明
+access_token
+请求的访问令牌。 应用可以使用此令牌对受保护的资源（如 Web API）进行身份验证。
+token_type
+指示令牌类型值。 Azure AD 唯一支持的类型是 Bearer。
+expires_in
+访问令牌的有效期（以秒为单位）。
+scope
+access_token 的有效范围。
+refresh_token
+新的 OAuth 2.0 刷新令牌。 将旧刷新令牌替换为新获取的此刷新令牌，以确保刷新令牌的有效期尽可能地长。
+注意：仅当已请求 作用域时提供。
+id_token
+未签名的 JSON Web 令牌。 应用可以解码此令牌的段，以请求有关登录用户的信息。 应用可以缓存并显示这些值，但不应依赖它们来获取任何授权或安全边界。 有关 id_token 的详细信息，请参阅 id_token。
+注意：仅当已请求 作用域时提供。
+2、错误响应
+{
+"error": "invalid_scope",
+"error_description": "AADSTS70011: The provided value for the input parameter 'scope' is not valid. The scope https://foo.microsoft.com/mail.read is not valid.\r\nTrace ID: 255d1aef-8c98-452f-ac51-23d051240864\r\nCorrelation ID: fb3d2015-bc17-4bb9-bb85-30c5cf1aaaa7\r\nTimestamp: 2016-01-09 02:02:12Z",
+"error_codes": [
+70011
+],
+"timestamp": "2016-01-09 02:02:12Z",
+"trace_id": "255d1aef-8c98-452f-ac51-23d051240864",
+"correlation_id": "fb3d2015-bc17-4bb9-bb85-30c5cf1aaaa7"
+}
+参数
+说明
+error
+一个错误代码字符串，可用于对错误类型进行分类并对错误做出反应。
+error_description
+帮助开发人员识别身份验证错误根本原因的特定错误消息。
+error_codes
+可帮助诊断的 STS 特定错误代码列表。
+timestamp
+发生错误的时间。
+trace_id
+可帮助诊断的请求唯一标识符。
+correlation_id
+可帮助跨组件诊断的请求唯一标识符。

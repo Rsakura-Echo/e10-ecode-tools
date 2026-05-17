@@ -1,0 +1,7 @@
+任务审批包括以下审批，点击可查看详情：
+1. 完成审批：https://eteams.cn/community/help/1971040507416516186
+2. 修改审批：https://eteams.cn/community/help/1971040704221416257
+3. 接收审批：https://eteams.cn/community/help/1971040718387416258
+4. 状态审批：https://eteams.cn/community/help/1971040965303416343
+5. 创建审批：https://eteams.cn/community/help/1971040964671516342
+6. 创建审批：https://eteams.cn/community/help/1971047071748916628
