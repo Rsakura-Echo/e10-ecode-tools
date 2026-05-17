@@ -4,6 +4,56 @@
 
 **核心原则：能配置不二开，能前端不后端。**
 
+## 使用前提
+
+本工具包基于 Claude Code，使用 DeepSeek V4 Pro 作为后端模型。
+
+### 1. 安装 Node.js（推荐 nvm）
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.zshrc
+nvm install 23
+nvm use 23
+node --version   # 确认安装成功
+```
+
+### 2. 安装 Claude Code
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude --version  # 确认安装成功
+```
+
+### 3. 配置 DeepSeek V4 Pro
+
+创建或编辑 `~/.claude/settings.json`：
+
+```json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "sk-你的deepseek-api-key",
+    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro",
+    "API_TIMEOUT_MS": "300000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  }
+}
+```
+
+> DeepSeek API Key 在 https://platform.deepseek.com/api_keys 创建。
+
+### 4. 验证
+
+```bash
+cd e10-ecode-tools
+claude
+```
+
+进入 Claude Code 后，输入 `/help` 确认正常启动，然后直接描述你的 E10 开发需求。
+
 ## 快速开始
 
 ```bash
