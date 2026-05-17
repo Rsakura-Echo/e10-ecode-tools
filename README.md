@@ -8,7 +8,7 @@
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/user/e10-ecode-tools.git
+git clone https://github.com/Rsakura-Echo/e10-ecode-tools.git
 cd e10-ecode-tools
 
 # 2. 安装 Python 依赖（自动创建 venv）
