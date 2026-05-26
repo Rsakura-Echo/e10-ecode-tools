@@ -1,0 +1,13 @@
+.eb-title-ecode .ui-title-right .ui-title-right-container {
+  display: flex !important;
+  justify-content: right;
+}
+
+.eb-title-ecode .ui-title-right .ui-title-right-container > button {
+  flex: 0 0 auto;
+}
+
+.eb-title-ecode .ui-title-right .ui-title-right-container .weapp-ebdf-view-header-head-right {
+  flex: 0 0 auto;
+  width: auto;
+}

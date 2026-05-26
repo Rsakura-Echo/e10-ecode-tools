@@ -1,0 +1,15 @@
+
+
+#widget_789946538601332737 .weapp-form-input-wrapper {
+  display: flex;
+}
+
+#widget_789946538601332737 .weapp-form-input-wrapper span {
+  flex: 0 0 auto;
+  min-width: 0px;
+  width: auto;
+}
+
+#widget_789946538601332737 .weapp-form-input-wrapper .form-modal-btn {
+  margin-left: 12px;
+}

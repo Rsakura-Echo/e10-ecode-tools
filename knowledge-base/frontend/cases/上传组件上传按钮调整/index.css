@@ -1,0 +1,15 @@
+
+.cus-upload-body {
+  height: 30px;
+  line-height: 30px;
+}
+
+
+.cus-upload-btn {
+  border: 1px solid var(--border-color);
+  border-radius: var(--btn-radius);
+  font-size: 12px;
+  display: inline-block;
+  padding: 0 12px;
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+
+.ecode-title-right {
+  display: flex;
+  justify-content: right;
+}
+
+.ecode-title-right > div {
+  margin-left: 12px;
+}

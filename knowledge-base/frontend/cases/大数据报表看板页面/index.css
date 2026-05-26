@@ -1,0 +1,105 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.ecode-report-page {
+  height: 100%;
+  width: 100%;
+  background-color: #02004d;
+}
+
+.ecode-report-page-top-title {
+  color: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 200px;
+  text-align: center;
+  margin: auto;
+  font-size: 30px;
+  top: 15px;
+}
+
+.ecode-report-page-top-body {
+  position: relative;
+  display: flex;
+}
+
+.ecode-report-page-top-body svg {
+  flex: 1;
+}
+
+
+.ecode-report-page-content {
+  width: 1920px;
+  margin: auto;
+  display: flex;
+}
+
+.ecode-report-page-left {
+  width: 490px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+
+.ecode-report-page-left-num {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.ecode-report-page-left-num-label {
+  border: 1px solid #094B7C;
+  width: 210px;
+  height: 58px;
+  line-height: 58px;
+  color: white;
+  margin: 0 6px;
+  background-color: rgb(103 208 242 / 20%);
+}
+
+.ecode-report-page-left-num-value {
+  border: 1px solid #094B7C;
+  width: 210px;
+  height: 98px;
+  line-height: 98px;
+  color: white;
+  margin: 0 6px;
+  font-size: 38px;
+}
+
+.ecode-report-page-middle-bar-item {
+  border: 1px solid #0D53B7;
+  width: 155px;
+  height: 178px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 6px;
+}
+
+.ecode-report-page-middle-bar {
+  display: flex;
+  margin-top: 20px;
+}
+
+.ecode-report-page-middle-bar-num {
+  font-size: 28px;
+}
+.ecode-report-page-middle-bar-unit,
+.ecode-report-page-middle-bar-cate {
+  font-size: 18px;
+  margin-top: 6px;
+}
+.ecode-report-page-middle-bar-rate {
+  font-size: 16px;
+  color: #8080A8;
+  margin-top: 12px;
+}

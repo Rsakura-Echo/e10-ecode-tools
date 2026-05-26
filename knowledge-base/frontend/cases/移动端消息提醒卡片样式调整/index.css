@@ -1,0 +1,6 @@
+
+.sys-entity-message .sys-entity-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px 0 rgb(87 105 141 / 8%);
+}

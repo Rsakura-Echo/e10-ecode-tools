@@ -1,0 +1,1 @@
+{"code":500,"status":false,"message":"java.lang.RuntimeException: >>>>>>hdfs download failed<<<<<<","msg":"java.lang.RuntimeException: >>>>>>hdfs download failed<<<<<<"}

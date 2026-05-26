@@ -1,0 +1,7 @@
+
+
+
+.ui-year-view-panel-dayWrap .disbaled-click.cell .middle-isCurrentMonth {
+  color: #ccc;
+  cursor: not-allowed;
+}

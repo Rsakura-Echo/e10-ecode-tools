@@ -1,0 +1,20 @@
+
+
+.ecode-field-scan {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  z-index: 1;
+}
+
+
+.ecode-scan-com {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

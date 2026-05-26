@@ -1,0 +1,159 @@
+#root {
+  font-size: 14px;
+}
+.weapp-passport-layout {
+  min-width: unset;
+  background-color: #f7f3f2;
+}
+.weapp-passport-layout-content {
+  overflow-x: hidden;
+}
+
+.ecode-com-carousel-bg {
+  background-color: #536079;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecode-login-carousel {
+  position: fixed;
+  left: 15%;
+  top: calc(50% - 225px);
+  width: 450px;
+  height: 450px;
+  z-index: 1;
+  -webkit-app-region: no-drag !important;
+}
+
+.weapp-passport-layout-content .weapp-passport-common-login-panel {
+  top: calc(50% - 226px);
+  left: 58% !important;
+  width: 350px;
+  height: 452px;
+  transform: translateX(0) translateY(0);
+  -webkit-app-region: no-drag !important;
+}
+
+.ui-carousel-pagination .swiper-pagination-bullet-carousel {
+  width: 14px;
+  height: 3px;
+}
+
+.ui-carousel-pagination .swiper-pagination-bullet-carousel {
+  background-color: #D8D8D8;
+}
+
+.ui-carousel-pagination .swiper-pagination-carousel-active {
+  width: 14px;
+  background-color: #457EFF;
+}
+
+.weapp-passport-common-login-panel-scan-btn,
+.weapp-passport-common-login-panel-link {
+  display: none !important;
+}
+
+@media screen and (max-width:1000px){
+  .ecode-login-carousel{
+    left: 5%;
+  }
+}
+
+.app-773115699900391425-ecode-login-cheked-dom {
+  margin: 20px 0 32px;
+  display: flex;
+}
+
+.app-775135562923868254-clientOperation {
+  position: fixed;
+  z-index: 10;
+  right: 15px;
+  top:15px;
+  -webkit-app-region: no-drag !important;
+}
+.weapp-passport-common-login-panel-btn .ui-btn.ui-btn-primary {
+  background-color: #457EFF;
+}
+
+.ui-layout.weapp-passport-layout.ecode-login {
+  -webkit-app-region: drag;
+}
+
+.ecode-login-cheked-dom-button {
+  display: flex;
+  margin-left: 10%;
+}
+
+.ecode-login-cheked-dom-forget-password {
+  display: none;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  
+    width: 100%;
+}
+
+.ecode-custom-password-${appId} {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10vh;
+}
+.ecode-custom-password-${appId}-all {
+    display: flex;
+    flex-direction: column;
+        align-items: center;
+}
+.ecode-custom-password-${appId}-all .ecode-custom-password-${appId}-the {
+    display: flex;
+    align-items: center;
+    padding: 2vh 10px;
+}
+.ecode-custom-password-${appId}-all .ecode-custom--password-text {
+    width: 80px;
+    margin-right: auto;
+}
+.ecode-custom-password-notice{
+    width: 100%;
+    padding: 10px 10px;
+        color: #ff6161;
+    font-weight: bold;
+    font-size: 18px;
+    display: none;
+}
+.ecode-custom-password-button{
+     margin: 1vh;
+    
+} 
+/* .ecode-lili-ul li{
+    text-indent: 90px;
+} */
+.ecode-custom-password-newnotice{
+    width: 100%;
+        padding: 3vh;
+        color: #ff6161;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.ecode-custom-password-${appId}-top-notice {
+        color: #ff6161;
+    margin-bottom: 0vh;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 3vh;
+}
+.ecode-custom-change-password-buttons{
+    padding-top: 2vh;
+}
+
+.ecode-custom-password-newnotice .ecode-lili-ul li {
+        margin: 2vh 0;
+}
+
+.weapp-passport-common-login-panel-config {
+  display: none;
+}

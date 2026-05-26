@@ -1,0 +1,22 @@
+
+
+
+.ietip .wf-reject-msg {
+    position: relative;
+    padding: 8px 8px 8px 16px;
+    border-radius: 6px;
+    color: rgb(255, 146, 0);
+    font-size: 12px;
+    line-height: 16px;
+    
+    border: 1px solid #fec;
+    background-color: #fff7e6;
+}
+.ietip .wf-reject-msg a{ color:blue;text-decoration: none;cursor: pointer }
+.ietip .wf-reject-msg font{ color: blue; }
+.ietip .wf-reject-msg .icon-coms02-Warning-01 {
+    margin-right: 8px;
+    font-size: 18px;
+    color: #fa0;
+    vertical-align: text-bottom;
+}

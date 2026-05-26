@@ -1,0 +1,11 @@
+
+
+
+
+.ui-browser-panel .ui-browser-selected-panel .ui-browser-selected-panel-deleted.is-show.show-btns {
+  display: none;
+}
+
+.ui-browser-panel .ui-browser-selected-panel .ui-browser-selected-panel-list-wrap {
+  flex: 1;
+}

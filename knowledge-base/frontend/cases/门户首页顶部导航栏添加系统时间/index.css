@@ -1,0 +1,14 @@
+
+
+.ecode-time-parent {
+  display: flex;
+}
+
+
+#ecode-system-time {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 12px;
+}

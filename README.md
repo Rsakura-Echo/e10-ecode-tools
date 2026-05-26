@@ -228,7 +228,7 @@ knowledge-base/
 │   ├── 06-utils-library.md      # @weapp/utils 工具库
 │   ├── 07-ui-components.md      # UI 组件库参考
 │   ├── 08-esb-serverless.md     # ESB 动作流
-│   ├── 10-real-world-patterns.md # 实战案例库
+│   ├── cases/                    # 真实案例库
 │   ├── 19-frontend-module-system.md # 模块系统
 │   ├── 20-frontend-plugins-controls.md # 公共插件、调试
 │   ├── 25-workflow-js-sdk.md    # 流程详情 JS-SDK

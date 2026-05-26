@@ -1,0 +1,61 @@
+import { toArray } from './array.js';
+import { isAutoFocusAllowedCached, isVisibleCached, notHiddenInput, VisibilityCache } from './is.js';
+import { NodeIndex, orderByTabIndex } from './tabOrder.js';
+import { getFocusables, getParentAutofocusables } from './tabUtils.js';
+
+/**
+ * given list of focusable elements keeps the ones user can interact with
+ * @param nodes
+ * @param visibilityCache
+ */
+export const filterFocusable = (nodes: HTMLElement[], visibilityCache: VisibilityCache): HTMLElement[] =>
+  toArray(nodes)
+    .filter((node) => isVisibleCached(visibilityCache, node))
+    .filter((node) => notHiddenInput(node));
+
+export const filterAutoFocusable = (nodes: HTMLElement[], cache: VisibilityCache = new Map()): HTMLElement[] =>
+  toArray(nodes).filter((node) => isAutoFocusAllowedCached(cache, node));
+
+/**
+ * only tabbable ones
+ * (but with guards which would be ignored)
+ */
+export const getTabbableNodes = (
+  topNodes: Element[],
+  visibilityCache: VisibilityCache,
+  withGuards?: boolean
+): NodeIndex[] =>
+  orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards), visibilityCache), true, withGuards);
+
+/**
+ * actually anything "focusable", not only tabbable
+ * (without guards, as long as they are not expected to be focused)
+ */
+export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
+  orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
+
+/**
+ * return list of nodes which are expected to be auto-focused
+ * @param topNode
+ * @param visibilityCache
+ */
+export const parentAutofocusables = (topNode: Element, visibilityCache: VisibilityCache): Element[] =>
+  filterFocusable(getParentAutofocusables(topNode), visibilityCache);
+
+/*
+ * Determines if element is contained in scope, including nested shadow DOMs
+ */
+export const contains = (scope: Element | ShadowRoot, element: Element): boolean => {
+  if ((scope as HTMLElement).shadowRoot) {
+    return contains((scope as HTMLElement).shadowRoot as ShadowRoot, element);
+  } else {
+    if (
+      Object.getPrototypeOf(scope).contains !== undefined &&
+      Object.getPrototypeOf(scope).contains.call(scope, element)
+    ) {
+      return true;
+    }
+
+    return toArray(scope.children).some((child) => contains(child, element));
+  }
+};

@@ -1,0 +1,43 @@
+
+
+
+.ebapp-ecode-createwf {
+  height: 100%;
+  width: 100%;
+}
+
+#c7a0795fa9df46b98d096d0b76e1672f .ebcoms-customer-html-empty {
+  height: calc(100% - 40px);
+}
+
+.ebapp-ecode-createwf-list {
+  overflow-y: auto;
+  max-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12px;
+}
+
+.ebapp-ecode-createwf-item {
+  width: 25%;
+  padding: 12px;
+  display: flex;
+  border-radius: 7px;
+  box-shadow: 0px 4px 17px -5px #00000019;
+  cursor: pointer;
+  align-items: center;
+}
+.ebapp-ecode-createwf-logo {
+  width: 40px;
+  height: 40px;
+}
+.ebapp-ecode-createwf-logo img {
+  height: 100%;
+  width: 100%;
+}
+.ebapp-ecode-createwf-item:hover {
+  opacity: .75;
+}
+.ebapp-ecode-createwf-name {
+  margin-left: 12px;
+}

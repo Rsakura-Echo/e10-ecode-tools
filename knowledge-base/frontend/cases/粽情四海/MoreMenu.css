@@ -1,0 +1,76 @@
+.app-729087887109857281-moremenu {
+  display: flex;
+  width: 100%;
+}
+
+.app-729087887109857281-moremenu-list {
+  display: flex;
+  height: 50px;
+  align-items: center;
+}
+
+.app-729087887109857281-moremenu-data-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0px 15px;
+  text-align: center;
+  background-color: aqua;
+  cursor: pointer;
+}
+
+.app-729087887109857281-moremenu-data-item:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+.app-729087887109857281-moremenu-data-item-text {
+  white-space: nowrap;
+}
+
+.app-729087887109857281-moremenu-btn {
+  width: 40px;
+  font-size: 16px;
+  font-size: var(--font-size-16);
+  position: relative;
+}
+
+.app-729087887109857281-moremenu-btn-hide {
+  display: none;
+}
+
+.app-729087887109857281-drowdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.app-729087887109857281-drowdown-menu {
+  position: absolute;
+  width: 119px;
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #FFF;
+  cursor: pointer;
+  top: 50px;
+  z-index: 9999;
+}
+
+.app-729087887109857281-drowdown-menu-hide {
+  display: none;
+}
+
+.app-729087887109857281-drowdown-item {
+  height: 40px;
+  line-height: 40px;
+}
+
+.app-729087887109857281-drowdown-item:hover {
+  background-color: yellow;
+}
+
+.app-729087887109857281-drowdown-item-text {
+  text-align: center;
+}

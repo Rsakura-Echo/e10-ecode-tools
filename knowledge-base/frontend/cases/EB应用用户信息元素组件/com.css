@@ -1,0 +1,47 @@
+
+
+.ebapp-ecode-com-userinfo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+
+.ebapp-ecode-com-userinfo-left {
+  flex: 0 0 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px;
+}
+.ebapp-ecode-com-userinfo-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, .25);
+}
+
+.ebapp-ecode-com-userinfo-username {
+  width: 100%;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.ebapp-ecode-com-userinfo-infolist {
+  display: flex;
+  flex-direction: column;
+}
+
+.ebapp-ecode-com-userinfo-infoitem {
+  display: flex;
+  height: 30px;
+  line-height: 30px;
+}
+
+.ebapp-ecode-com-userinfo-lebal {
+  flex: 0 0 100px;
+}
+.ebapp-ecode-com-userinfo-right {
+  flex: 1;
+}

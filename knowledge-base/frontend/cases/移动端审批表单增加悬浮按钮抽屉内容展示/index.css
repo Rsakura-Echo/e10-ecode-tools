@@ -1,0 +1,50 @@
+
+
+.ecode-wf-index-btn {
+  background: white;
+  position: fixed;
+  right: 20px;
+  bottom: 120px;
+  border-radius: 50%;
+  width: 50px;
+  box-shadow: 2px 3px 5px rgb(93 156 236 / 35%);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.ecode-wf-index-btn .ui-icon svg{
+  width: 28px;
+  height: 28px;
+  color: rgb(93 156 236 / 1);
+}
+
+.ecode-wf-index-btn:hover {
+  opacity: .75;
+}
+
+
+.ecode-drawer-com {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.ecode-drawer-com-shadow {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .45);
+}
+
+.ecode-drawer-com-body {
+  background: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 45%;
+}

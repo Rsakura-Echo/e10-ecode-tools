@@ -1,0 +1,8 @@
+
+.cust-form-date .ui-icon {
+  cursor: pointer;
+}
+
+.cust-form-date .ui-icon:hover {
+  color: #ccc;
+}

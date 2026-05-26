@@ -1,0 +1,13 @@
+
+.odoc-send-btn-div {
+  display: flex;
+  align-items: center;
+}
+
+.odoc-send-btn-div > button {
+  flex: 0 0 auto;
+}
+
+.odoc-send-btn-wrap .ui-title-col:nth-of-type(2) {
+  display: flex;
+}

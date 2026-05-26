@@ -1,0 +1,50 @@
+
+.ecode-eb-com-weather {
+  width: 100%;
+  height: 100%;
+}
+
+.ecode-eb-com-weather-toolbar {
+  padding: 12px;
+  display: flex;
+}
+
+.ecode-eb-com-weather-toolbar-select {
+  flex: 1;
+}
+
+.ecode-eb-com-weather .ui-select {
+  width: 100%;
+  max-width: 100%;
+}
+
+.ecode-eb-com-weather .ui-input-wrap {
+  max-width: 100%;
+}
+
+.ecode-eb-com-weather-body-msg {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.ecode-eb-com-weather-body {
+  padding: 12px;
+}
+
+.ecode-eb-com-weather-body-desc {
+  margin-top: 12px;
+}
+
+
+.ecode-eb-com-weather-extra {
+  display: flex;
+}
+
+.ecode-eb-com-weather-extra-item {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.ecode-eb-com-weather-extra-item :hover {
+  opacity: .75;
+}

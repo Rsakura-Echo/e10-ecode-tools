@@ -1,0 +1,17 @@
+
+.ecode-case-tablewithexcel-table-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ecode-case-tablewithexcel-table-title {
+  flex: 1;
+}
+.ecode-case-tablewithexcel-table-btns .ui-btn {
+  margin-left: 12px;
+}
+
+.ecode-case-tablewithexcel-opt {
+  display: flex;
+}

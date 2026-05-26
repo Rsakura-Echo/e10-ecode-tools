@@ -1,0 +1,23 @@
+
+#home-ball {
+  position: fixed;
+  z-index: 999;
+  width: 38px;
+  height: 38px;
+  background: white;
+  bottom: 30px;
+  right: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px #ececec;
+}
+
+
+.home-ball-body {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

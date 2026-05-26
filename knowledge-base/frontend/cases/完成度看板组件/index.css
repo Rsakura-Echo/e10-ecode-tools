@@ -1,0 +1,83 @@
+
+.ecode-com-m-progress-bar-card {
+  background-color: #1C2633;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.ecode-com-m-progress-bar-card-header {
+  display: flex;
+  height: 38px;
+  line-height: 38px;
+}
+.ecode-com-m-progress-bar-card-title {
+  flex: 1;
+  color: gray;
+}
+
+.ecode-com-m-progress-bar-card-tabs {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.ecode-com-m-progress-bar-card-tab {
+  width: 60px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 16px;
+  color: gray;
+  border: 1px solid gray;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.ecode-com-m-progress-bar-card-tab.select-active {
+  color: white;
+  border-color: white;
+}
+
+.ecode-com-m-progress-bar-card-items {
+  display: flex;
+  font-size: 14px;
+  color: gray;
+  justify-content: space-between
+}
+
+.ecode-com-m-progress-bar-card-item-value {
+  display: flex;
+  margin-top: 6px;
+  align-items: baseline;
+}
+
+.ecode-com-m-progress-bar-card-bar-body {
+  display: flex;
+}
+
+.ecode-com-m-progress-bar-card-bar-line {
+  flex: 1;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 11px;
+  overflow: hidden;
+  margin-right: 6px;
+  background-color: #66676F;
+}
+.ecode-com-m-progress-bar-card-bar-line-fill { /*#F2C869*/
+  height: 100%;
+  background: linear-gradient(90deg, #F2C869, red);
+  border-radius: 11px;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, .35);
+}
+.ecode-com-m-progress-bar-card-bar {
+  margin-bottom: 12px;
+  align-items: baseline;
+}
+
+.ecode-com-m-progress-bar-card-bar-text {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+}

@@ -1,0 +1,82 @@
+
+
+.ecode-eb-com-dept {
+  padding: 12px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecode-eb-com-dept-toolbar {
+  margin-bottom: 12px;
+}
+
+.ecode-eb-com-dept-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.ecode-eb-com-dept-item {
+  display: flex;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  color: rgba(0, 0, 0, .85);
+}
+
+.ecode-eb-com-dept-item:hover {
+  background-color: #ececec; 
+}
+
+.ecode-eb-com-dept-name {
+  width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ecode-eb-com-dept-mobile {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ecode-eb-com-dept-active {
+  width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ecode-eb-com-dept-date {
+  width: 72px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#e4363d27dfc24f89a9105a478b75b0b0 {
+  display: flex;
+  flex-direction: column;
+}
+#e4363d27dfc24f89a9105a478b75b0b0 .ebcoms-customer-html-empty {
+  height: 0;
+  flex: 1;
+}
+
+
+
+
+.weapp-ebpv-layout .ecode-eb-com-dept .ui-spin-container,
+.weapp-ebpv-layout .ecode-eb-com-dept .ui-spin-nested-loading {
+  height: 0;
+  flex: 1;
+}
+
+
+.weapp-ebpv-layout .ecode-eb-com-dept .ui-spin-container {
+  height: 100%;
+  overflow: auto;
+}

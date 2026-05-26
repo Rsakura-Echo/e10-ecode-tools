@@ -1,0 +1,22 @@
+
+#ad7c506c0ff44443b69149143c1496f6 .ebcoms-customer-html-empty > div{
+  width: 100%;
+  height: 100%;
+}
+
+.ecode-com-carousel-bg {
+  background-color: #536079;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecode-com-div {
+  height: 260px;
+  margin-bottom: 12px;
+}
+
+.ecode-com-div > div {
+  height: 100%;
+}

@@ -12,6 +12,33 @@ type: project
 
 ## 知识库
 
+### 真实案例库（优先参考）
+
+**`knowledge-base/frontend/cases/`** 收录了 262 个从 E10 ecode 平台真实项目导出的完整代码，**按场景分 16 个分类**。这些是经过生产验证的可用代码，**优先参考**。
+
+**三步检索法**（0.003 秒定位）：
+
+```bash
+# 第1步：按场景/技术点搜索 INDEX.md（262 案例的索引，含分类+描述+技术标签）
+grep -ni "关键词" knowledge-base/frontend/cases/INDEX.md
+
+# 第2步：命中后查看完整案例代码
+cat "knowledge-base/frontend/cases/<案例名>/README.md"  # 先看说明
+ls "knowledge-base/frontend/cases/<案例名>/"             # 再看文件列表
+
+# 第3步：如需更精准匹配，全文搜索案例 JS 代码
+grep -rni "关键词" knowledge-base/frontend/cases/ --include="*.js"
+```
+
+**索引分类**：组件复写(48) / 流程(46) / 表单字段(44) / 按钮操作(31) / 列表搜索(22) / UI样式布局(19) / 会议管理(10) / Dialog弹窗(9) / 附件上传(9) / 接口拦截(8) / 工具方案(7) / 移动端(5) / Title标题栏(2) / ESB动作流(1) / 端到端方案(1)
+
+每个案例目录包含：
+- `entry.js` / `*.js` - 完整的前端代码
+- `README.md` - 案例说明（含截图）
+- `*.png` / `*.css` - 截图和样式
+
+### 知识库文档
+
 前端开发文档位于 `knowledge-base/frontend/`，排查手册位于 `knowledge-base/other/`，使用 Grep 按需检索：
 
 ```bash
@@ -31,7 +58,9 @@ grep -rni "关键词" knowledge-base/other/ --include="*.md"
 | `knowledge-base/frontend/06-utils-library.md` | @weapp/utils 工具库 API |
 | `knowledge-base/frontend/07-ui-components.md` | UI 组件库参考（PC/Mobile） |
 | `knowledge-base/frontend/08-esb-serverless.md` | ESB 动作流、Serverless Action |
-| `knowledge-base/frontend/10-real-world-patterns.md` | **实战案例库（真实验证可用）** — Dialog 弹窗、Title 拦截、ESB 触发3种方式、全局变量速查、常见陷阱 |
+| `knowledge-base/frontend/cases/INDEX.md` | **真实案例库索引** — E10 平台导出项目 + 实战验证代码模式，优先参考 |
+| `knowledge-base/frontend/cases/` | **真实案例目录** — 每个子目录为一个完整案例（代码 + 说明 + 截图） |
+| `knowledge-base/frontend/cases/REFERENCE.md` | **参考速查** — 全局变量、常见陷阱、ESB 触发方式对比 |
 | `knowledge-base/frontend/19-frontend-module-system.md` | 模块导入导出、前置/异步加载、开发依赖、模板变量 |
 | `knowledge-base/frontend/20-frontend-plugins-controls.md` | 公共插件、第三方JS、weId判断、调试、代码屏蔽 |
 | `knowledge-base/frontend/25-workflow-js-sdk.md` | **流程详情 JS-SDK** — 拦截事件、钩子事件、操作菜单、系统字段、页签扩展、实战模式 |
@@ -166,6 +195,12 @@ axios.post('/api/secondev/xxx', {...});
 
 当用户描述需求时，按以下步骤分析：
 
+**0. 优先检索真实案例库**：
+   - 先读 `knowledge-base/frontend/cases/INDEX.md` 查看案例列表
+   - 用需求关键词搜索案例代码：`grep -rni "关键词" knowledge-base/frontend/cases/ --include="*.js"`
+   - **如果找到相似案例 → 优先基于案例模板修改**，调整 weId、字段、接口地址等
+   - **如果未找到相似案例 → 继续步骤 1，在知识库文档中查找方案**
+
 1. **识别需求类型**：
    - 组件复写（修改已有功能）→ 使用 regOvProps / regOvComponent
    - 新页面（独立功能）→ 使用 Switch 路由注册
@@ -194,6 +229,7 @@ axios.post('/api/secondev/xxx', {...});
    - 遵循 ecode 规范
    - 包含 import 语句
    - 注释说明关键逻辑
+   - **如果基于案例模板修改，标注案例来源**
 
 ## 输出格式
 
@@ -236,5 +272,5 @@ axios.post('/api/secondev/xxx', {...});
 9. 使用 `endsWith` 匹配 weId 末端，不要用 `===` 全等匹配（Title 组件拦截除外，需用 weId 全等匹配）
 10. ESB Action 需要后端 Java 代码 + XML 配置，前端通过 API 调用触发
 11. 内联样式（`style={{...}}`）应尽量替换为 index.css 中的 className
-12. ESB 触发接口：`/api/ebuilder/form/esb/runEsb`，参数 `{ dataIds, esbActionIds, params }`
+12. ESB 触发接口：`POST /api/esb/server/event/triggerActionFlow`，参数 `{ customParams: {mainTable:{}}, moduleSource: "ecode", esbFlowId }`，成功判断 `res.resultCode == '200'`（详见 `08-esb-serverless.md`）
 13. **asyncImport 必须在 entry.js 顶层调用**：不能放在 onClick/onChange 等事件回调中动态调用，会报 `Ecode async import() failed`。正确做法：顶层 `const p = asyncImport(...)` 预加载，回调中 `p.then(mod => mod.fn())` 取结果

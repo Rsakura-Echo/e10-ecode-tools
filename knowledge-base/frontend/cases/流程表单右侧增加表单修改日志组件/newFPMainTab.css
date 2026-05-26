@@ -1,0 +1,36 @@
+.NewFPMainTab-container {
+  display: flex;
+
+}
+ 
+.NewFPMainTab-left-div {
+    flex: 1; /* 占据剩余空间 */
+    /* background-color: lightblue; */
+    /* padding: 10px; */
+  }
+  
+  .NewFPMainTab-right-div {
+    flex: 0 1 500px; /* 不伸缩，初始宽度200px */
+    padding: 10px;
+    overflow: hidden; /* 超出部分隐藏 */
+    transition: flex 0.3s; /* 动画效果 */
+  }
+
+  .NewFPMainTab-right-div.collapsed {
+    flex: 0 1 0; /* 收缩到最小宽度 */
+  }
+
+
+  .NewFPMainTab-right-Icon-div{
+    background: #5d9cec;
+    width: 18px;
+    margin-left: -16px;
+    position: fixed;
+    z-index: 99;
+    height: 56px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+    

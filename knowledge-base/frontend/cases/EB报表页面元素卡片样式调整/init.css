@@ -1,0 +1,13 @@
+
+#ebpage_769264166432301174 .weapp-ebpv-layout .ebcom {
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 1px 2px 2px 2px #ececec;
+  border: 0px;
+}
+
+#ebpage_769264166432301174 .weapp-ebpv-layout .ebcom .ebcoms-charts-custom-header,
+#ebpage_769264166432301174 .weapp-ebpv-layout .ebcom .header {
+  color: white;
+  background-color: var(--primary);
+}

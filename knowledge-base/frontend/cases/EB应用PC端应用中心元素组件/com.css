@@ -1,0 +1,49 @@
+
+
+
+
+
+
+.ebapp-ecode-com-applist {
+  height: calc(100% - 40px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecode-com-applist-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ecode-com-applist-itemlist {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 6px;
+}
+
+.ecode-com-applist-item {
+  width: 25%;
+  padding: 12px;
+  display: flex;
+  border-radius: 7px;
+  box-shadow: 0px 4px 17px -5px #00000019;
+  cursor: pointer;
+  align-items: center;
+}
+
+.ecode-com-applist-logo {
+  width: 40px;
+  height: 40px;
+}
+.ecode-com-applist-logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.ecode-com-applist-item:hover {
+  opacity: .75;
+}
+.ecode-com-applist-name {
+  margin-left: 12px;
+}

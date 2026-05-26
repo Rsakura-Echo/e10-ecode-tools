@@ -1,0 +1,19 @@
+#sso-wrap {
+  position: fixed;
+  left: 50px;
+  bottom: 60px;
+}
+.sso-button {
+  background-color: #5d9cec;
+  /* width: 48px; */
+  /* height: 48px; */
+  /* line-height: 48px; */
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px;
+  color: white;
+}
+.sso-button：hover {
+  opacity: .75;
+}

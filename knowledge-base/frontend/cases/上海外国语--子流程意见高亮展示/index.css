@@ -1,0 +1,25 @@
+.cus-padding{
+  padding: 12px;
+}
+
+.cus-container{
+  position: relative;  
+  border: 1px solid gray;
+  padding-top:5px;
+}
+
+.cus-top-left-text{
+    position: absolute;  
+    top: -12px;
+    left:10px;
+    background-color: #fff;  
+    font-size: 16pt;  
+    color: #000;  
+    z-index:999;
+    padding: 0 10px;
+}
+.cus-sub-comment{
+  border: 1px solid black;
+  border-bottom-style:solid !important;
+  border-bottom-color:black !important;
+}

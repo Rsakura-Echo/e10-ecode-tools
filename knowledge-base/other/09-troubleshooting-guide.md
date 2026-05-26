@@ -869,7 +869,7 @@ jar 包报错：
 
 ![异步加载](https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725591042-image.png)
 
-> 详见 [04-新页面开发](04-new-page-development.md) 和 [03-组件复写](03-component-override.md)。**入口文件 entry.js 中如需使用 UI 组件，通过 `window.weappUi` 访问**（参考 [10-实战案例库](10-real-world-patterns.md)）。
+> 详见 [04-新页面开发](04-new-page-development.md) 和 [03-组件复写](03-component-override.md)。**入口文件 entry.js 中如需使用 UI 组件，通过 `window.weappUi` 访问**（参考 [真实案例库](../frontend/cases/INDEX.md)）。
 
 ---
 

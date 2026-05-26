@@ -1,0 +1,22 @@
+
+.cus_intervent .cus_item{
+    width:100%;
+    display:flex;
+    background-color:white;
+    align-items:center;
+}
+
+.cus_intervent .cus_item_field{
+    width: 30%;
+    margin-left: 10px;
+    
+}
+
+.cus_intervent .cus_item_value{
+    width: 70%;
+    margin-right:6px;
+}
+
+.cus_item_last{
+    margin-bottom: 9px;
+}

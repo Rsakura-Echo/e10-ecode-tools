@@ -1,0 +1,33 @@
+.ecode-login .weapp-passport-common-login-panel {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+
+  box-shadow: 0 12px 48px rgba(26,33,52,.11);
+  left: 80%;
+  opacity: 1 !important;
+}
+
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-common-login-panel-bg {
+  background-color: white;
+}
+
+.ecode-login .weapp-passport-common-login-panel-dark.weapp-passport-ui-form-item .ui-input, 
+.weapp-passport-common-login-panel-dark.weapp-passport-ui-form-item.ui-input-wrap,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-ui-form-item .ui-input {
+  border-color: inherit !important;
+}
+
+.ecode-login .weapp-passport-common-login-panel-dark,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-common-login-panel-head-word-wrapper h1,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-common-login-panel-link a,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-ui-form-item,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-ui-form-item .ui-input,
+.ecode-login .weapp-passport-common-login-panel-dark .weapp-passport-ui-form-item-label {
+  color: inherit !important;
+}
+
+.ecode-login .weapp-passport-login-bgimg {
+  background-image: unset !important;
+  background: #FFFEFE;
+}

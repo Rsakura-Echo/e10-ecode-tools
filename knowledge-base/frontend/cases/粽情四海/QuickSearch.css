@@ -1,0 +1,70 @@
+.app-729087887109857281-quick-search.e10header-quick-search {
+  position: relative !important;
+  min-width: 36px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  margin: 0 15px !important;
+  color: #fff !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-button {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-button .ui-icon-wrapper {
+  color: #fff !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-button .ui-icon-wrapper svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search.open .e10header-quick-search-field {
+  position: relative !important;
+  width: 210px !important;
+  height: 100% !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search.open .e10header-quick-search-field .e10header-quick-search-field-input {
+  width: 210px !important;
+  height: 30px !important;
+  padding: 0 40px 0 0 !important;
+  opacity: 1 !important;
+  color: #fff !important;
+  caret-color: #fff !important;
+  background-color: rgba(0, 0, 0, .1) !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input .e10header-quick-search-type,
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input .e10header-quick-search-type .ui-icon-wrapper  {
+  color: #fff !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input input {
+  color: #fff !important;
+  caret-color: #fff !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input input:first-child {
+  padding: 0 5px 0 10px !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input input::-webkit-input-placeholder {
+  color: #fff !important;
+  opacity: .6 !important;
+}
+
+.app-729087887109857281-quick-search.e10header-quick-search .e10header-quick-search-field .e10header-quick-search-field-input .ui-input-clear {
+  color: #fff !important;
+}

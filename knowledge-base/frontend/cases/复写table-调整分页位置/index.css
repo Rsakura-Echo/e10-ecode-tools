@@ -1,0 +1,17 @@
+.ecode-left-footer .ui-table-grid-tfoot .ui-table-grid-tfoot-page {
+  float: left;
+}
+
+.ecode-right-footer .ui-table-grid-tfoot .ui-table-grid-tfoot-page {
+  float: right;
+}
+.ecode-center-footer .ui-table-grid-tfoot {
+  text-align: center;
+}
+.ecode-center-footer .ui-table-grid-tfoot .ui-table-grid-tfoot-page {
+  float: unset;
+}
+
+.ecode-center-footer .ui-table-grid-tfoot .ui-table-grid-tfoot-page {
+  margin: auto;
+}

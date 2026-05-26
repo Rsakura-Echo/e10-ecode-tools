@@ -1,0 +1,25 @@
+.app-729087887109857281 .weapp-portal-view,
+.app-729087887109857281 .weapp-portal-view .weapp-portal-view-tablist > div:first-child .weapp-ebpv-styled {
+  background-color: transparent !important;
+}
+
+.app-729087887109857281 .weapp-portal-view > div,
+.app-729087887109857281 .weapp-portal-view .weapp-portal-view-tablist > div:first-child .weapp-ebpv-styled > div {
+  padding: 0 !important;
+}
+
+.app-729087887109857281 .weapp-portal-view .weapp-portal-view-tablist > .ui-menu-tab {
+  background-color: #f6f6f6;
+}
+
+.app-729087887109857281 .weapp-portal-sys-home .weapp-portal-common-content .weapp-portal-side-col .side-content-inner {
+  padding-right: 0;
+}
+
+.app-729087887109857281 .weapp-portal-sys-home .weapp-portal-common-content .weapp-portal-side-col .side-content-item {
+  background-color:#fff;
+} 
+
+.app-729087887109857281 .weapp-portal-sys-home .weapp-portal-common-content .weapp-portal-side-col .ui-btn {
+  background-color: transparent;
+}

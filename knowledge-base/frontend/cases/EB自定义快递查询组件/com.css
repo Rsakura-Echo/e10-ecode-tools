@@ -1,0 +1,42 @@
+
+
+.ecode-eb-com-kuaidi {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+}
+
+.ecode-eb-com-kuaidi-toolbar {
+  display: flex;
+}
+.ecode-eb-com-kuaidi-list {
+  height: calc(100% - 70px)
+}
+.ecode-eb-com-kuaidi-toolbar-input {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.ecode-eb-com-kuaidi-item {
+  display: flex;  
+  height: 28px;
+  line-height: 28px;
+}
+
+.ecode-eb-com-kuaidi-date {
+  width: 135px;
+}
+
+.ecode-eb-com-kuaidi-content {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 6px;
+}
+
+.ecode-eb-com-kuaidi-list {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  overflow-y: auto;
+}

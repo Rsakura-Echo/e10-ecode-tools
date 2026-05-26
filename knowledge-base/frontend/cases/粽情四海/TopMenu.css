@@ -1,0 +1,48 @@
+.app-729087887109857281-topmenu .ui-menu-hideBottomLine {
+  height: 100%;
+}
+
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-list-item {
+  height: 60px;
+  margin-right: 0px !important;
+}
+
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-overflow-more {
+  height: 60px !important;
+}
+
+.app-729087887109857281-topmenu .ui-menu-tab-top-container {
+  color: #fff;
+  font-size: 16px;
+  font-size: var(--font-size-16);
+}
+
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-list-item:hover,
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-list-item-active {
+  color: #fff;
+  background-color: rgba(0, 0, 0, .10);
+}
+
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-overflow-more-hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, .10);
+}
+
+.app-729087887109857281-topmenu .ui-menu-secondtab-new .ui-menu-overflow-more:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, .10);
+}
+
+.app-729087887109857281-topmenu-title-text {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ui-menu-trigger .app-729087887109857281-topmenu-title-text {
+  color: #333;
+  font-size: 16px;
+  font-size: var(--font-size-16);
+}
+

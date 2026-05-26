@@ -48,7 +48,7 @@ grep -rni "关键词" knowledge-base/other/ --include="*.md"
 ```
 关键参考：
 - `frontend/03-component-override.md` / `frontend/04-new-page-development.md` / `frontend/05-api-request.md`
-- `frontend/08-esb-serverless.md` / `frontend/10-real-world-patterns.md`（实战案例）
+- `frontend/08-esb-serverless.md` / `frontend/cases/INDEX.md`（真实案例库）
 - `frontend/19-frontend-module-system.md`（模块系统）/ `frontend/20-frontend-plugins-controls.md`（公共插件/调试）
 - `frontend/25-workflow-js-sdk.md`（流程详情 SDK）/ `frontend/26-eb-dfpage-sdk.md`（EB 表单建模 SDK）
 

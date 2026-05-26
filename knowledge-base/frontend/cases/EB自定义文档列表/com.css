@@ -1,0 +1,44 @@
+
+
+.ecode-eb-com-doclist {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+
+.ecode-eb-com-doclist-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+}
+.ecode-eb-com-doclist-item {
+  display: flex;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.ecode-eb-com-doclist-item:hover {
+  background: #ececec;
+}
+
+.ecode-eb-com-doclist-name {
+  flex: 1;
+  margin-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ecode-eb-com-doclist-author {
+  flex: 0 0 120px;
+  margin-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ecode-eb-com-doclist-time {
+  flex: 0 0 75px;
+}
+

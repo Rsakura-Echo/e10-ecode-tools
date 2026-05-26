@@ -1,0 +1,146 @@
+.app-737142488378564608-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 5px;
+  color: #2162C6;
+  color: var(--primary);
+}
+
+.app-737142488378564608-toolbar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 15px;
+  cursor: pointer;
+}
+.app-737142488378564608-toolbar-no-default-setting .app-737142488378564608-toolbar-item-split{
+  margin-top: 22px;
+}
+
+
+.app-737142488378564608-toolbar-item-split {
+  width: 2px;
+  height: 15px;
+  margin: 0 10px;
+  background-color: #2162C6;
+  background-color: var(--primary);
+  opacity: .3;
+}
+
+.app-737142488378564608-toolbar-item-open {
+  color: #111;
+  background-color: #fff;  
+  box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-home:hover,
+.app-737142488378564608-logout:hover,
+.app-737142488378564608-toolbar-custom-item:hover {
+  opacity: .8;
+}
+
+.app-737142488378564608-im-counter {
+  line-height: 18px;
+  background-color: #ff4446;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 0 5px;
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -18px;
+}
+
+.app-737142488378564608-im-popup {
+  width: 180px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-app-more-popup {
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-fastcreate-popup {
+  width: 160px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-count-popup {
+  width: 328px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-help-popup {
+  width: 520px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-toolbar-more-popup {
+  width: 180px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-trigger-popup .e10header-tenants,
+.app-737142488378564608-trigger-popup .e10header-dropmenu,
+.app-737142488378564608-trigger-popup .e10header-help  {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+.app-737142488378564608-trigger-popup .e10header-appmenus-content {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.app-737142488378564608-quick-search-popup {
+ left: 320px !important; 
+}
+
+.app-737142488378564608-toolbar-corner-mark {
+  position: absolute;
+  /*top: 35%;*/
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  margin-top: -20px;
+  text-align: center;
+}
+
+.app-737142488378564608-toolbar-corner-mark-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--danger);
+  border-radius: 8px;
+  border: 1px solid var(--base-white);
+}
+
+.app-737142488378564608-toolbar-corner-mark-count {
+  display: inline-block;
+  padding: 0 4px;
+  min-width: 20px;
+  line-height: 18px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background-color: var(--danger);
+  border-radius: 10px;
+  border: 1px solid var(--base-white);
+}
+
+.app-737142488378564608-toolbar-no-default-setting{
+  max-width: 366px;
+  height: 100%;
+  display: flex;
+  overflow: overlay;
+}

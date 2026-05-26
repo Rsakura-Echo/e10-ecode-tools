@@ -1,0 +1,17 @@
+
+.upload-list {
+  display: flex;
+}
+
+.upload-list-item {
+  color: var(--regular-fc);
+  flex:  0 0 auto;
+  font-size: 12px;
+  line-height: 30px;
+  height: 30px;
+  padding: 0 12px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

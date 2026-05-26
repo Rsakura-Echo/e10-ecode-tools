@@ -1,0 +1,30 @@
+
+
+
+
+
+.ecode-select-overlay {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.ecode-select-overlay-content {
+  margin-left: 20px;
+  display: flex;
+}
+
+.ecode-select-overlay-item {
+  margin-right: 12px;
+  border-radius: 3px;
+  border: 1px solid var(--primary);
+  padding: 0 12px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.ecode-select-overlay-item.ecode-so-active {
+  background-color: var(--primary);
+  color: white;
+}

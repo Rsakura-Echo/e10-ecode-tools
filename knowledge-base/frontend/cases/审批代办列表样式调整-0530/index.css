@@ -1,0 +1,15 @@
+
+.ecode-wf-list-custom .weapp-workflow-listview-comp-listdata-requestname-content-text {
+  font-weight: 600;
+}
+
+.ecode-wf-list-custom div.weapp-workflow-listview-comp-listdata-requestname::before {
+  content: ' ';
+  background-color: #FF554C;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 5px;
+}

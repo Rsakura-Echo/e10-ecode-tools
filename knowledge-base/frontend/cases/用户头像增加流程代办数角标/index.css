@@ -1,0 +1,19 @@
+
+
+
+.ecode-avatar-com {
+  position: relative;
+}
+
+.ecode-avatar-com-num {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  /* width: 12px; */
+  /* height: 12px; */
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0 6px;
+  z-index: 1;
+}

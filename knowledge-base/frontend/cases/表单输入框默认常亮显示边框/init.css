@@ -1,0 +1,7 @@
+
+
+.ecode-border-show.ui-input, 
+.ecode-border-show.ui-input-wrap, 
+.ecode-border-show.ui-textarea {
+  border: var(--border-solid);
+}

@@ -1,0 +1,37 @@
+
+
+
+
+
+const paramErr = (data, msg = '参数异常') => ({ code: 1, msg, timestamp: new Date().getTime() })
+const fail = (msg = '操作失败') => ({ code: 1, msg, timestamp: new Date().getTime() })
+const success = (data) => ({ code: 200, msg: '操作成功', data, timestamp: new Date().getTime() })
+const execption = (data, msg = '服务器异常') => ({ code: 10001, msg, data, timestamp: new Date().getTime() })
+const paramIsEmptys = (...params) => {
+    for (let i = 0; i < params.length; i++) {
+        const param = params[i];
+        if (param === "" || param === undefined || param === null)
+            return true;
+    }
+    return false;
+}
+
+
+
+/**
+ * 查询当天的修改次数
+ */
+module.exports = async (params, options, lib) => {
+    const { dbSdk, moment, axios } = lib;
+
+    const list = await dbSdk().table('change_pwd_log').where({
+        userid: options.userId,
+        tenant_key: options.tenantKey,
+        change_time: { 
+            egt: moment().format('YYYY-MM-DD') + ' 00:00:00', 
+            elt: moment().format('YYYY-MM-DD') + ' 23:59:59' 
+        }
+    }).select().exec(true);
+
+    return success(list);
+}  

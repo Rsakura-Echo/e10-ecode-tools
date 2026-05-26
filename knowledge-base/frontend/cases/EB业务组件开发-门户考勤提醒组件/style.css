@@ -1,0 +1,364 @@
+.ecode-custom-com-KhjxElement_0473cc{
+  height: auto;
+  color: black;
+}
+
+.ecode-custom-com-KhjxElement_86131k{
+  height: 100%;
+}
+
+.PA-element-799470791826276353{
+  height: 100%;
+}
+
+.PA-element{
+  height: 100%;
+  font-size: var(--font-size-12);
+  overflow: hidden;
+  width: 100%;
+  clear: both;
+}
+
+.PA-element .PA-content{
+  color: #111111;
+  min-height:170px;
+  overflow-y: auto;
+  padding: 0 16px 16px 16px;
+}
+
+.PA-element .PA-content .PA-performance .PA-empty .ui-icon-wrapper > svg {
+  width: 100px !important;
+  height: 100px !important;
+}
+
+.PA-element .PA-content .PA-performance .PA-empty {
+  padding-left: 0;
+}
+
+.PA-element .PA-content .PA-performance .PA-empty-title {
+  padding-left: 0;
+}
+
+.PA-element .PA-content .PA-performance .ui-empty-image {
+  margin-bottom: 0;
+}
+
+.PA-element .PA-content .PA-performance .PA-empty:hover {
+  background: transparent;
+}
+
+.PA-element .PA-content .PA-performance .ui-empty:hover {
+  background: transparent;
+}
+
+.PA-element .PA-content .PA-performance .ui-empty-image:hover {
+  background: transparent;
+}
+
+.PA-element .PA-content .PA-performance .ui-empty-title:hover {
+  background: transparent;
+}
+
+.PA-element .PA-tab-header {
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  justify-content: space-between;
+}
+
+.PA-element .PA-tab-list {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding-left: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.PA-tab-header .Pa-element-more {
+  color: #999999;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.PA-element .ui-icon-wrapper {
+  display: inline-flex;
+  width: 100% !important;
+  height: 100% !important;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  color: inherit;
+}
+
+.PA-element .ui-icon-wrapper > svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.PA-element .PA-tab-item{
+  position: relative;
+  padding-right: 24px;
+  font-weight: 400;
+  width: auto;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+  height: 100%;
+  line-height: 52px;
+  z-index: 0;
+  font-size: 14px;
+  color: #111111;
+}
+
+.PA-element .PA-tab-item.selected-item {
+  color: #111111;
+  font-weight: 600;
+}
+
+.PA-element .PA-tab-item.selected-item:after {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  content: "";
+  width: 28px;
+  height: 6px;
+  background-image: linear-gradient(270deg, #FFFFFF 0%, var(--primary) 100%);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.PA-element .PA-appraisal{
+  width: auto;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.PA-element .PA-appraisal .PA-appraisal-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(50% - 5px);
+  height: 64px;
+  text-align: center;
+  background: #f7f8fb;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.PA-element .PA-appraisal .PA-appraisal-item:not(:nth-child(5),:nth-child(6)){
+  margin-bottom: 10px;
+}
+
+.PA-element .PA-appraisal .PA-appraisal-more{
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F9F9F9;
+  width: 98.67%;
+  cursor: pointer;
+  color: #676767;
+  margin-top: 6px;
+}
+
+
+.PA-element .PA-appraisal .PA-appraisal-item-score{
+  color: #111111;
+  font-size: var(--font-size-12);
+  line-height: 24px;
+  text-align: left;
+  padding-left: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.PA-element .PA-appraisal .PA-appraisal-item-assessmentCycle{
+  color: #999999;
+  text-align: left;
+  padding-left: 20px;
+  font-size: var(--font-size-12);
+  margin: 0;
+  line-height: 24px;
+}
+
+.PA-element .PA-content .PA-performance div{
+  line-height: 36px;
+  padding-left: 4px;
+}
+
+.PA-element .PA-content .PA-performance div:hover{
+  background: #FAFAFA;
+}
+
+.PA-element .PA-content .PA-performance div span{
+  cursor: pointer;
+}
+
+.PA-element .PA-element-title-flag{
+  position: absolute;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.PA-element-content {
+  padding: 0 16px 16px 16px;
+}
+
+.PA-element-content .PA-element-content-top{
+  display: flex;
+  border-bottom: 1px solid #d5d5d5;
+  padding-bottom: 16px;
+}
+
+.PA-element .PA-element-content-top .PA-element-left{
+  width: 140px;
+  height: 100%;
+}
+
+.PA-element .PA-element-left .PA-element-left-content{
+  position: relative;
+  padding: 8px 0;
+}
+
+.Pa-element-target-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.Pa-element-target-card .Pa-element-target-card-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.Pa-element-target-card .Pa-element-target-card-top .Pa-element-target-card-top-color {
+  margin-right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+}
+
+.Pa-element-target-card .Pa-element-target-card-top .Pa-element-target-card-top-title {
+  height: 18px;
+  line-height: 18px;
+  font-size: var(--font-size-12);
+}
+
+.Pa-element-target-card .Pa-element-target-card-bottom {
+  padding-left: 12px;
+  margin-bottom: 4px;
+  color: #0000ee;
+  font-size: var(--font-size-16);
+  width: 100%;  
+  height: auto;  
+  word-wrap:break-word;  
+  word-break:break-all;  
+  overflow: hidden;
+}
+
+.Pa-element-target-card .Pa-element-target-card-bottom .Pa-element-target-card-bottom-num {
+  text-decoration: none;
+  color: #0000ee;
+}
+
+.Pa-element-target-card .Pa-element-target-card-bottom .Pa-element-target-card-bottom-num:hover {
+  color: #f00;
+}
+
+.Pa-element-target-card .Pa-element-target-card-bottom .Pa-element-target-card-bottom-unit{
+  color: #c6c6c6;
+  font-size: var(--font-size-12);
+}
+
+.PA-element .PA-element-right{
+  width: calc(100% - 160px);
+  height: 100%;
+}
+
+.PA-element .PA-element-right .ui-demo-echarts-content{
+  clear: both;
+}
+
+.PA-element .PA-element-content-top .PA-element-right {
+  display: flex;
+}
+
+.PA-element .PA-element-content-top .PA-element-right .Pa-element-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.PA-element .PA-element-content-top .PA-element-right .Pa-element-chart .ui-echarts {
+  height: 150px;
+  width: 125px;
+}
+
+.PA-element .PA-element-content-top .PA-element-right .Pa-element-chart .Pa-element-chart-title {
+  text-align: center;
+  margin-top: -15px;
+  font-size: var(--font-size-12);
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card {
+  width: 50%;
+  display: flex;
+  margin-top: 10px;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card-icon .ui-icon-wrapper {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card-icon .ui-icon-wrapper > svg{
+  width: 24px !important;
+  height: 24px !important;
+  color: #e2f1e3;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-content {
+  margin-left: 10px;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-num {
+  font-size: var(--font-size-16);
+  color: #0000ee;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-num-a {
+  text-decoration: none;
+  color: #0000ee;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-num-a:hover {
+  color: #f00;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-unit {
+  font-size: var(--font-size-12);
+  color: #c6c6c6;
+  margin-left: 4px;
+}
+
+.PA-element .PA-element-content .PA-element-content-bottom .Pa-element-increase-card .Pa-element-increase-card-title {
+  font-size: var(--font-size-12);
+  color: #868686;
+}
+
+.PA-element .PA-content .PA-performance .ui-empty-image .ui-icon-wrapper{
+  cursor: default;
+}

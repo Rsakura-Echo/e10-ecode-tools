@@ -1,0 +1,64 @@
+
+
+
+.ecode-cust-wf-chart-list {
+  display: flex;
+  padding: 12px;
+  background: white;
+  margin-top: 12px;
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+.ecode-cust-wf-chart-title {
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid #ecec;
+  margin-bottom: 12px;
+}
+
+.ecode-cust-wf-chart-item-box {
+  width: 170px;
+  height: 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ecode-cust-wf-chart-item {
+  display: flex;
+  align-items: center;
+}
+
+.ecode-cust-wf-chart-item-line {
+  height: 2px;
+  width: 120px;
+  background-color: #D7D7D7;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.ecode-cust-wf-chart-item-line.passed-active {
+  background-color: #5D9CEC;
+}
+
+.ecode-cust-wf-chart-item-box {
+  border-radius: 12px;
+  border: 1px solid #CCCCCC;
+  overflow: hidden;
+}
+.ecode-cust-wf-chart-nodename {
+  font-size: 12px;
+}
+.ecode-cust-wf-chart-nodename,
+.ecode-cust-wf-chart-name {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ecode-cust-wf-chart-name {
+  color: white;
+  background: #CCCCCC;
+  width: 100%;
+}

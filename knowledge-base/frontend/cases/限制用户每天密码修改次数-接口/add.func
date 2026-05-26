@@ -1,0 +1,54 @@
+
+
+
+
+const paramErr = (data, msg = '参数异常') => ({ code: 1, msg, timestamp: new Date().getTime() })
+const fail = (msg = '操作失败') => ({ code: 1, msg, timestamp: new Date().getTime() })
+const success = (data) => ({ code: 200, msg: '操作成功', data, timestamp: new Date().getTime() })
+const execption = (data, msg = '服务器异常') => ({ code: 10001, msg, data, timestamp: new Date().getTime() })
+const paramIsEmptys = (...params) => {
+    for (let i = 0; i < params.length; i++) {
+        const param = params[i];
+        if (param === "" || param === undefined || param === null)
+            return true;
+    }
+    return false;
+}
+
+function uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var uuid = s.join("");
+    return uuid;
+}
+
+
+
+/**
+ * 增加变更记录
+ */
+module.exports = async (params, options, lib) => {
+    const { dbSdk, moment, axios } = lib;
+
+    try {
+        await dbSdk().table('change_pwd_log')
+        .data({
+            id: uuid(), change_time: moment().format('YYYY-MM-DD HH:mm:ss'),
+            userid: options.userId, tenant_key: options.tenantKey
+        }).insert().exec();
+        return success();
+    } catch(err) {
+        console.error(err);
+        return execption();
+    }
+
+}  
+
+

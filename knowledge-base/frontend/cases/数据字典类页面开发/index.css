@@ -1,0 +1,26 @@
+
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+.ecode-datadic-body {
+  margin: 20px;
+}
+
+.ecode-datadic-header {
+  margin-bottom: 12px;
+}
+.ecode-datadic-header {
+  display: flex;
+}
+.ecode-datadic-title {
+  flex: 1;
+}
+.ecode-datadic-opt {
+  display: flex;
+}
+.ecode-datadic-opt-item {
+  margin-left: 12px;
+}

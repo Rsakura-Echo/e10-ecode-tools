@@ -1,0 +1,70 @@
+
+
+
+.ecode-cust-wf-status {
+  background: white;
+  margin-top: 12px;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.ecode-cust-wf-status-title {
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid #ecec;
+  margin-bottom: 12px;
+}
+
+.ecode-cust-wf-status-list {
+  display: flex;
+}
+
+.ecode-cust-wf-status-item {
+  display: flex;
+  width: 148px;
+  height: 58px;
+  margin-left: 12px;
+  border: 1px solid #d5d5d5;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.ecode-cust-wf-status-logo {
+  width: 40px;
+}
+
+.ecode-cust-wf-status-logo .ui-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.ecode-cust-wf-status-item.item-allCount {
+  box-shadow: 0 0 5px #ddd;
+  border: 1px solid rgb(0, 138, 255);
+  color: rgb(93, 156, 236);
+}
+
+.ecode-cust-wf-status-item.item-allSubmittedCount {
+  color: rgb(82, 196, 26);
+  box-shadow: 0 0 5px #ddd;
+
+}
+.ecode-cust-wf-status-item.item-allNoSubmittedCount {
+  color: rgb(174, 114, 255);
+  box-shadow: 0 0 5px #ddd;
+}
+.ecode-cust-wf-status-item.item-allViewedCount {
+  color: rgb(250, 173, 20);
+  box-shadow: 0 0 5px #ddd;
+}
+
+.ecode-cust-wf-status-item.item-allNoViewedCount {
+  color: rgb(255, 77, 79);
+  box-shadow: 0 0 5px #ddd;
+}
+
+
+.ecode-cust-wf-status-item .ecode-cust-wf-status-unit {
+  color: black;
+  font-size: 12px;
+}

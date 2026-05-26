@@ -1,0 +1,29 @@
+
+
+
+.weapp-passport-common-login-panel div.weapp-passport-common-login-panel-bg {
+  background-color: white;
+}
+
+
+.weapp-passport-common-login-panel {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 36px 0px #083F84;
+}
+
+.weapp-passport-common-login-panel-head.weapp-passport-common-login-panel-head-word-wrapper h1 {
+  color: rgba(0, 0, 0, .85);
+}
+
+.weapp-passport-trigger-elems {
+  color: #083F84;
+}
+
+.weapp-passport-common-login-panel-link {
+  color: #4C87CB;
+}
+
+.weapp-passport-ui-form-item {
+  color: rgba(0, 0, 0, .45);
+}

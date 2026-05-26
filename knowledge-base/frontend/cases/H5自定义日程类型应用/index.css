@@ -1,0 +1,105 @@
+
+html,body,#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.ecode-calendar-schedule-main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecode-calendar-schedule-calendar {
+  flex: 0 0 auto;
+}
+
+.ecode-calendar-schedule-list {
+  flex: 1;
+}
+
+.ecode-calendar-schedule-list {
+  padding: 16px;
+  background-color: #f7f8f9;
+}
+
+.ecode-calendar-schedule-list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.ecode-calendar-schedule-list-item-title {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.ecode-calendar-schedule-list-item-tag {
+  height: 15px;
+  line-height: 15px;
+  background: rgba(255,83,15,0.08);
+  border: 1px solid rgba(255,83,15,0.24);
+  border-radius: 2px;
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.ecode-calendar-schedule-list-item-tag.urgent {
+  background: rgba(255,83,15,0.08);
+  color: #FF530F;
+}
+
+.ecode-calendar-schedule-list-item-tag.general {
+  background: rgba(83,200,26,0.08);
+  color: #53C81A;
+}
+
+.ecode-calendar-schedule-list-item-tag.important {
+  background: rgba(255,149,15,0.08);
+  color: #FF950F;
+}
+
+.ecode-calendar-schedule-list-item-date {
+  font-size: 13px;
+  color: rgba(0,0,0,0.45);
+  line-height: 15px;
+  height: 15px;
+  margin-left: 6px;
+}
+
+.ecode-calendar-schedule-list-item-content {
+  background: #FFFFFF;
+  box-shadow: 0 3px 12px 0 rgba(92,120,181,0.08);
+  border-radius: 4px;
+  padding: 16px 12px;
+}
+
+.ecode-calendar-schedule-list-empty {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.ecode-calendar-schedule-list-empty .ui-icon,
+.ecode-calendar-schedule-list-empty .ui-icon img {
+  width: 98px;
+  height: 98px;
+}
+
+.ecode-calendar-schedule-list-empty > span {
+  font-size: 12px;
+  color: rgba(0,0,0,0.45);
+}
+
+.ecode-calendar-schedule-main .ui-spin-nested-loading {
+  flex: 1;
+}
+.ecode-calendar-schedule-main .ui-spin-nested-loading .ui-spin-container,
+.ecode-calendar-schedule-list {
+  height: 100%;
+}
+
+.ecode-calendar-schedule-list-item:not(:last-child) {
+  margin-bottom: 6px;
+}

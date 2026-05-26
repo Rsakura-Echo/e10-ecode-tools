@@ -1,0 +1,3 @@
+.meeting-calendar-content .fc-timegrid.fc-timeGridDay-view.fc-view .fc-day-today{
+    background-color: var(--base-white);
+}

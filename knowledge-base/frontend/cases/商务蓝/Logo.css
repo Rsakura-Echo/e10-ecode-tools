@@ -1,0 +1,116 @@
+.app-737142488378564608-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 15px;
+}
+
+.app-737142488378564608-logo-text {
+  display: flex;
+  align-items: center;
+}
+
+.app-737142488378564608-logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #2162C6;
+  background-color: var(--primary);
+}
+
+.app-737142488378564608-logo-icon > span {
+  color: #fff;
+  font-size: 16px;
+  font-size: var(--font-size-16);
+  font-family: Arial-ItalicMT;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -1.53px;
+}
+
+.app-737142488378564608-logo-desc {
+  flex: 1;
+  margin-left: 6px;
+}
+
+.app-737142488378564608-logo-desc > span {
+  display: flex;
+  line-height: 19px;
+  color: #2162C6;
+  color: var(--primary);
+  font-size: 16px;
+  font-size: var(--font-size-16);
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  letter-spacing: -0.11px;
+}
+
+.app-737142488378564608-logo-desc > span:first-child {
+  font-size: 12px;
+  font-size: var(--font-size-12);
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  letter-spacing: -0.07px;
+  display: none;
+}
+
+.app-737142488378564608-logo-img {
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+.app-737142488378564608-logo-img-active {
+  max-height: 100%;
+  vertical-align: middle;
+  display: none;
+}
+
+.app-737142488378564608-logo-arrow {
+  margin-left: 6px;
+  color: #2162C6;
+  color: var(--primary);
+}
+
+.app-737142488378564608-logo-open {
+  background-color: #fff;  
+  cursor: pointer;
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-icon {
+  background-color: #2162C6;
+  background-color: var(--primary);
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-icon > span {
+  color: #fff;
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-desc > span {
+  color: #2162C6;
+  color: var(--primary);
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-img {
+  display: none;
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-img-active {
+  display: block;
+}
+
+.app-737142488378564608-logo-open .app-737142488378564608-logo-arrow {
+  color: #2162C6;
+  color: var(--primary);
+  transform: rotate(-180deg);
+  transition: all .15s linear;
+}
+
+.app-737142488378564608-logo-popup {
+  width: 350px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}

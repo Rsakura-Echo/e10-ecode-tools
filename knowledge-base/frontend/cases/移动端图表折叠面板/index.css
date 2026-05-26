@@ -1,0 +1,50 @@
+
+
+
+.ecode-com-m-graph-collapse {
+  padding: 12px;
+  background: #1C2633;
+}
+
+.ecode-com-m-graph-collapse-title {
+  color: whitesmoke;
+  height: 36px;
+  line-height: 36px;
+  font-size: 20px;
+}
+
+.ecode-com-m-graph-collapse-header {
+  display: flex;
+  color: #158972;
+}
+
+.ecode-com-m-graph-collapse-header-name {
+  flex: 1;
+}
+.ecode-com-m-graph-collapse-header-unit {
+  flex: 1;
+}
+
+.ecode-com-m-graph-collapse-list {
+  color: gray;
+}
+
+.ecode-com-m-graph-collapse-item-header {
+  height: 38px;
+  line-height: 38px;
+  display: flex;
+}
+.ecode-com-m-graph-collapse-item-header-logo {
+  margin-right: 12px;
+}
+.ecode-com-m-graph-collapse-item-header-title {
+  display: flex;
+  flex: 1;
+}
+.ecode-com-m-graph-collapse-item-header-value {
+  flex: 1;
+}
+
+.ecode-com-m-graph-collapse-item:not(:first-child) {
+  border-top: 1px solid gray;
+}

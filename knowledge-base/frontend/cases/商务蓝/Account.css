@@ -1,0 +1,55 @@
+.app-737142488378564608-account {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 15px;
+  color: #2162C6;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.app-737142488378564608-account-open {
+  color: #111;
+  background-color: #fff;  
+}
+
+.app-737142488378564608-account-popup {
+  width: 180px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-737142488378564608-account-avatar {
+  display: flex;
+  align-items: center;
+}
+
+.app-737142488378564608-account-desc {
+  width: 100%;
+  margin-left: 10px;
+  line-height: 18px;
+}
+
+.app-737142488378564608-account-user,
+.app-737142488378564608-account-tenant {
+  max-width: 87px;
+  font-size: 12px;
+  font-size: var(--font-size-12);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-737142488378564608-account-tenant {
+  color: #999;
+}
+
+.app-737142488378564608-account-arrow {
+  margin-left: 3px;
+}
+
+.app-737142488378564608-account-open .app-737142488378564608-account-arrow {
+  transform: rotate(-180deg);
+  transition: all .15s linear;
+}

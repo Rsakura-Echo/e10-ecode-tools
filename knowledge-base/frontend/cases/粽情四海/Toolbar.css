@@ -1,0 +1,152 @@
+.app-729087887109857281-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 5px;
+  color: #fff;  
+}
+
+.app-729087887109857281-toolbar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 15px;
+  cursor: pointer;
+}
+.app-729087887109857281-toolbar-no-default-setting .app-729087887109857281-toolbar-item-split{
+  margin-top: 18px;
+}
+
+.app-729087887109857281-toolbar-item-split {
+  width: 2px;
+  height: 15px;
+  margin: 0 10px;
+  background-color: #fff;
+  opacity: .3;
+}
+
+.app-729087887109857281-toolbar-item-open {
+  color: #111;
+  background-color: #fff;  
+  box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-home:hover,
+.app-729087887109857281-logout:hover,
+.app-729087887109857281-mail:hover,
+.app-729087887109857281-clearCache:hover,
+.app-729087887109857281-terminal:hover,
+.app-729087887109857281-app-more-tilingpage:hover,
+.app-729087887109857281-toolbar-custom-item:hover,
+.app-729087887109857281-toolbar-default-item:hover {
+  opacity: .8;
+}
+
+.app-729087887109857281-toolbar-wechat-popup .ui-popover-content{
+  padding: 0;
+}    
+
+.app-729087887109857281-toolbar-wechat-popup .e10header-dropmenu-item-originPopover {
+  transform: none;
+}
+
+.app-729087887109857281-im-counter {
+  line-height: 18px;
+  background-color: #ff4446;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 0 5px;
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -18px;
+}
+
+.app-729087887109857281-im-popup {
+  width: 180px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-app-more-popup {
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-fastcreate-popup {
+  width: 160px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-count-popup {
+  width: 328px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-help-popup {
+  width: 520px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-toolbar-more-popup {
+  width: 180px;
+  background-color: #fff;
+  box-shadow: 2px 12px 10px rgb(0 0 0 / 15%);
+}
+
+.app-729087887109857281-trigger-popup .e10header-tenants,
+.app-729087887109857281-trigger-popup .e10header-dropmenu,
+.app-729087887109857281-trigger-popup .e10header-help  {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+.app-729087887109857281-trigger-popup .e10header-appmenus-content {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.app-729087887109857281-toolbar-corner-mark {
+  position: absolute;
+  /*top: 9%;*/
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  margin-top: -20px;
+  text-align: center;
+}
+
+.app-729087887109857281-toolbar-corner-mark-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--danger);
+    border-radius: 8px;
+    border: 1px solid var(--base-white);
+  }
+
+.app-729087887109857281-toolbar-corner-mark-count {
+  display: inline-block;
+  padding: 0 4px;
+  min-width: 20px;
+  line-height: 18px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background-color: var(--danger);
+  border-radius: 10px;
+  border: 1px solid var(--base-white);
+}
+
+.app-729087887109857281-toolbar-no-default-setting {
+  max-width: 366px;
+  height: 100%;
+  display: flex;
+  overflow: overlay;
+}

@@ -24,7 +24,7 @@ knowledge-base/
 - [06-utils-library.md](./frontend/06-utils-library.md) - @weapp/utils 工具库 API 参考
 - [07-ui-components.md](./frontend/07-ui-components.md) - UI 组件库参考（18个组件详细 API + 63个组件速查，PC/Mobile）
 - [08-esb-serverless.md](./frontend/08-esb-serverless.md) - ESB 动作流与 Serverless
-- [10-real-world-patterns.md](./frontend/10-real-world-patterns.md) - 实战案例库（Dialog/Title/ESB 真实验证模式）
+- [cases/INDEX.md](./frontend/cases/INDEX.md) - 真实案例库（E10 平台导出项目 + 实战验证代码模式）
 - [19-frontend-module-system.md](./frontend/19-frontend-module-system.md) - 前端模块系统：模块化、入口文件、前置/异步加载、模块导入导出、开发依赖、模板变量
 - [20-frontend-plugins-controls.md](./frontend/20-frontend-plugins-controls.md) - 公共插件、第三方JS/Vue集成、生效范围控制、调试、监控、代码屏蔽
 - [25-workflow-js-sdk.md](./frontend/25-workflow-js-sdk.md) - 流程详情前端 JS-SDK：拦截事件/钩子事件、操作菜单控制、系统字段、页签扩展、签字意见

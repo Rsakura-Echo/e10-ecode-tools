@@ -1,0 +1,7 @@
+
+
+
+div.weapp-ebdf-view-header .ui-title-col .ui-title-right, .weapp-ebdf-view-header .ui-title-col .ui-title-right-container {
+  display: flex;
+  justify-content: right;
+}

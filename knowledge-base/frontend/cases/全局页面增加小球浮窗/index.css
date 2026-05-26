@@ -1,0 +1,19 @@
+
+
+.ecode-float-ball-main {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4ba9f2;
+  color: white;
+  cursor: pointer;
+  line-height: 50px;
+  text-align: center;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.ecode-float-ball-main:hover {
+  opacity: .65;
+}

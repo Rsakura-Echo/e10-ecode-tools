@@ -1,0 +1,226 @@
+.app-737142488378564608-asidemenu {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu {
+  width: 100%;
+  color: #fff;
+  font-size: 14px;
+  font-size: var(--font-size-14);
+  /* z-index: 100; */
+}
+
+.app-737142488378564608-asidemenu .ui-scroller__wrap {
+  height: calc(100vh - 162px) !important;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item, 
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-subitem-title {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  border: none;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-app-icon, 
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-app-icon-box {
+  display: block;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item .ui-icon, 
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-subitem-title .ui-icon {
+  color: #fff;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item:hover .ui-icon, 
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-subitem-title:hover .ui-icon,
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item-active .ui-icon,
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item-active-hover .ui-icon {
+  color: #fff;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item:hover,
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-subitem-title:hover,
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item-active-hover {
+  color: #fff;
+  background-color: #86B6EC;
+} 
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item-active {
+  color: #fff;
+  background-color: #003D88;
+}
+
+
+.app-737142488378564608-asidemenu .ui-menu-menu > .ui-menu-list > .ui-menu-list-subitem > .ui-menu-list .ui-menu-list-item-content {
+  text-indent: 6px;
+}
+
+.app-737142488378564608-asidemenu-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ui-menu-list-subitem .app-737142488378564608-asidemenu-title-text {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-737142488378564608-asidemenu-title-count {
+  margin-left: 10px;
+}
+
+.app-737142488378564608-asidemenu-setting-icon {
+  /* display: none; */
+  margin-left: 10px;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-subitem-title:hover .app-737142488378564608-asidemenu-setting-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* 基于原来新增 */
+.app-737142488378564608-asidemenu .ui-menu-list-item-lefticon {
+  width: 100%;
+}
+
+.app-737142488378564608-asidemenu-item {
+  display: flex;
+  align-items: center; 
+  width: 100%;
+}
+.app-737142488378564608-asidemenu-popup.ui-menu-trigger .ui-menu-scroller .ui-scroller__wrap,
+.app-737142488378564608-asidemenu-popup .ui-menu-trigger .ui-menu-scroller .ui-scroller__wrap {
+  max-height: calc(100vh - 120px);
+}
+
+.app-737142488378564608-asidemenu-item .ui-app-icon {
+  margin-right: 20px;
+}
+
+.app-737142488378564608-asidemenu-item-content {
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-737142488378564608-asidemenu-item-right {
+  padding: 0px 6px;
+}
+
+.app-737142488378564608-asidemenu-item-content-title-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 35px;
+}
+
+.app-737142488378564608-asidemenu-item-right {
+  position: absolute;
+  right: 15px;
+}
+
+.app-737142488378564608-asidemenu-popup.ui-menu-trigger,
+app-737142488378564608-asidemenu-popup .ui-menu-trigger {
+  min-width: none !important;
+  max-width: none !important;
+} 
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list-item-content {
+  min-width: 100px;
+}
+
+.app-737142488378564608-asidemenu-popup .app-737142488378564608-asidemenu-title {
+  min-width: 100px;
+}
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list-subitem .app-737142488378564608-asidemenu-title-text {
+  max-width: 160px;
+}
+
+.app-737142488378564608-asidemenu-popup .app-737142488378564608-asidemenu-title-text {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list-item-righticon {
+  padding-left: 0px;
+}
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-subitem-title:hover,
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-item:hover {
+  background-color: #EAEFF5;
+}
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-subitem-title:hover,
+.app-737142488378564608-asidemenu-popup.ui-menu-trigger .ui-menu-list-subitem-title:hover,
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-item-active-hover {
+  color: #2162C6;
+  color: var(--primary);
+}
+
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-item-active,
+.app-737142488378564608-asidemenu-popup .ui-menu-list .ui-menu-list-item-active-hover {
+  background-color: #EAEFF5;
+}
+
+/* .app-737142488378564608-asidemenu .ui-scroller__bar.is-vertical {
+  z-index: 1;
+} */
+
+.app-737142488378564608-asidemenu-angle-count {
+  color: #fff;
+  background-color: #ff4d4f;
+  background-color: var(--danger);
+  min-width: 20px;
+  min-width: calc(var(--hd)*20);
+  border-radius: 20px;
+  border-radius: calc(var(--hd)*20);
+  font-size: 12px;
+  font-size: var(--font-size-12);
+  text-align: center;
+  padding: 2px 4px;
+  padding: calc(var(--hd)*2) calc(var(--hd)*4);
+}
+
+
+/* 想切换一种菜单类型但是行不通，改动过大 */
+/* .app-737142488378564608-asidemenu .ui-menu-list-subitem-title {
+  justify-content: space-around;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-nav,
+.app-737142488378564608-asidemenu .ui-menu-tab-left,
+.app-737142488378564608-asidemenu .ui-menu-tab-left .ui-menu-nav-wrap {
+  width: 100%;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-list-subitem-title .ui-icon {
+  color: #fff;
+}
+ 
+.app-737142488378564608-asidemenu .ui-menu-list-subitem .ui-menu-list-item-content {
+  color: #fff;
+}
+
+.app-737142488378564608-asidemenu .ui-menu-nav-scroll {
+  height: calc(100vh - 162px);
+}
+
+.app-737142488378564608-asidemenu .ui-menu-list-subitem-title:hover {
+  background-color: rgb(134, 182, 236);
+}
+
+.app-737142488378564608-asidemenu .ui-menu-menu .ui-menu-list-item-active {
+  background-color: rgb(0, 61, 136);
+} */

@@ -1,0 +1,76 @@
+.app-737142488378564608-asidecalendar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 30px 0 10px;
+}
+
+.app-737142488378564608-asidecalendar-left {
+  display: flex;
+  justify-content: center;
+  width: 83px;
+}
+
+.app-737142488378564608-asidecalendar-line {
+  width: 0px;
+  height: 50px;
+  border-left: solid 1px #fff;
+  opacity: 0.6;
+}
+
+.app-737142488378564608-asidecalendar-right {
+  width: 110px;
+  padding-left: 10px;
+}
+
+.app-737142488378564608-asidecalendar-solar {
+  width: 60px;
+}
+
+.app-737142488378564608-asidecalendar-week {
+  height: 22px;
+  line-height: 22px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background-image: linear-gradient(180deg, #f7847b 0%, #ec4d45 100%);
+}
+
+.app-737142488378564608-asidecalendar-date {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 28px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.app-737142488378564608-asidecalendar-date-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ffffff, #ffffff 50%, #e3e3e3 50%, #e3e3e3 100%);
+}
+
+.app-737142488378564608-asidecalendar-month-date {
+  height: 28px;
+  line-height: 28px;
+  color: #fff;
+  font-size: 20px;
+  text-align: left;
+}
+
+.app-737142488378564608-asidecalendar-year {
+  height: 17px;
+  line-height: 17px;
+  color: #fff;
+  font-size: 12px;
+  text-align: left;
+  margin-top: 10px;
+}

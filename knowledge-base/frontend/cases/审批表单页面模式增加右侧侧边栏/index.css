@@ -1,0 +1,39 @@
+.wf-content-with-ext.wffp-frame-content {
+  display: flex;
+}
+
+.wf-content-with-ext.wffp-frame-content .wffp-frame-main {
+  flex: 1;
+}
+
+.ecode-ext-content-div {
+  height: 100%;
+  background-color: white;
+}
+
+.wf-content-with-ext.wffp-frame-content .ecode-ext-content-dom {
+  padding-bottom: 0;
+  margin-left: 12px;
+}
+
+.ecode-ext-content-div {
+  display: flex;
+}
+
+.ecode-ext-content-div-line {
+  display: flex;
+  align-items: center;
+}
+
+.ecode-ext-content-div-line > .ui-icon {
+  position: relative;
+  left: -11px;
+  cursor: pointer;
+  color: white;
+  background-color: var(--primary);
+  border-radius: 50%;
+}
+
+.ecode-ext-content-div-line > .ui-icon:hover {
+  opacity: .75;
+}

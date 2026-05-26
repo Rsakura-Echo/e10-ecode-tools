@@ -1,0 +1,66 @@
+.app-729087887109857281 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-width: 1366px;
+}
+
+.app-729087887109857281 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-width: 1366px;
+}
+
+.app-729087887109857281-header {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;  
+}
+
+.app-729087887109857281-main {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+.app-729087887109857281-navbar {
+  position: relative;
+  width: 100%;
+  height: 42px;
+  padding: 0 60px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, .6);
+}
+
+.app-729087887109857281-content {
+  position: relative;
+  /* width: 100%; */
+  height: calc(100% - 52px);
+  overflow-y: auto;
+  margin: 0 60px 0;
+  background-color: #f6f6f6;
+}
+
+.app-729087887109857281-header-logo {
+  height: 100%;
+}
+
+.app-729087887109857281-header-menu {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.app-729087887109857281-header-toolbar {
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-729087887109857281-header-account {
+  height: 100%;
+}

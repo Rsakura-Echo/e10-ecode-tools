@@ -1,0 +1,24 @@
+
+
+
+
+.wf-bottom-opt {
+  bottom: 0;
+  position: fixed;
+  height: 60px;
+  left: 0;
+  right: 0;
+  background: white;
+}
+
+
+.wf-bottom-opt {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 12px;
+}
+
+.wf-bottom-opt-body button {
+  margin-right: 12px;
+}

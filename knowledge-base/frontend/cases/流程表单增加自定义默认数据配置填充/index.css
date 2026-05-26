@@ -1,0 +1,23 @@
+
+
+
+.ecode-wf-fill-ball-com {
+  width: 52px;
+  height: 52px;
+  position: fixed;
+  right: 30px;
+  bottom: 50px;
+  background: white;
+  box-shadow: 1px 1px 4px 1px rgb(0 0 0 / 45%);
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+
+
+.ecode-wf-fill-ball-com:hover {
+  opacity: .75; 
+}

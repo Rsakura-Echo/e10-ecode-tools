@@ -1,0 +1,4 @@
+.m-flowpage-comment-list .m-flowpage-comment-list-operate {
+  pointer-events: none;
+  color: rgba(0, 0, 0, .75);
+}

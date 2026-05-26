@@ -92,26 +92,129 @@ public WeaResult<Map<String, Object>> execute(Map<String, Object> params) {
 
 ## 前端调用 ESB 动作流
 
-前端通常通过后端 API 间接触发 ESB 动作流：
+### 自定义动作流介绍
+
+自定义动作流支持自定义输入、输出参数，借用动作流内、外部集成能力，可以快速完成内部模块间数据集成、内部系统与外部系统间集成。
+
+### 方式一：HTTP 方式触发（ecode/JS 推荐）
+
+#### 0. 参数准备
+
+配置好自定义动作流后，获取触发参数：
+
+```json
+{
+    "customParams": {
+        "mainTable": {
+            "dataId": "#可选",
+            "docType": "#可选"
+        }
+    },
+    "moduleSource": "#可选",
+    "esbFlowId": "1764943003169984583"
+}
+```
+
+**参数说明**：
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| esbFlowId | String | 动作流 ID（**必填**） |
+| moduleSource | String | 模块来源标识，ecode 触发时填 `"ecode"` |
+| customParams | JSONObject | 自定义触发参数，按需求替换，去掉 `#可选`/`#必填` 标注 |
+
+封装触发参数时，按照需求替换自定义字段值即可。
+
+#### 1. HTTP 调用
+
+```
+POST /api/esb/server/event/triggerActionFlow
+Content-Type: application/json
+```
+
+**注意**：需要走 E10 登录验证（eteamsId）。
+
+**调用示例**：
 
 ```js
-import axios from 'axios';
+import { request } from '@weapp/utils';
 
-// 调用后端API，由后端触发ESB动作流
-axios.post('/api/secondev/esb/trigger', {
-  flowId: 'xxx',
-  params: {
-    startDate: '2024-01-01',
-    endDate: '2024-12-31'
+request({
+  method: 'post',
+  url: '/api/esb/server/event/triggerActionFlow',
+  data: {
+    customParams: { mainTable: {} },
+    moduleSource: 'ecode',
+    esbFlowId: '846583664090419200',
+  },
+}).then((res) => {
+  if (res.resultCode && res.resultCode == '200') {
+    // 执行成功
   }
-}).then(res => {
-  console.log(res.data);
 });
 ```
 
-或在二开后端中通过 SDK 触发：
+**响应判断**：通过 `res.resultCode == '200'`（字符串比较）判断成功，**不是** `res.data.status`。
+
+### 方式二：SDK 方式触发（Java）
+
+#### 引入 SDK
+
+```xml
+<dependency>
+   <groupId>com.weaver</groupId>
+   <artifactId>weaver-esb-server-api</artifactId>
+</dependency>
+```
+
+> 注意：如果在 ecode 中使用 SDK 需要上传此 JAR 包。
+
+#### 触发自定义动作流
 
 ```java
-// 二开后端调用 ESB 动作流
-// 通过 EsbServerlessRpcRemoteInterface 调用
+@Autowired
+private EsbActionFlow esbActionFlow;
+
+/**
+ * 执行动作流，指定超时时间
+ * @param params     EventParams 触发参数
+ * @param tenantKey  租户 key
+ * @param timeout    自定义超时时间，单位 s
+ */
+esbActionFlow.customTriggerEsbFlow(eventParams, tenantKey, timeout);
 ```
+
+**EventParams 需要传的参数**：
+
+| 参数 | 说明 |
+|------|------|
+| esbFlowId | 动作流 ID |
+| employeeId | 人员 ID |
+| source | 触发源模块标识（ecode 触发填 `"ecode"`） |
+| customParams | 自定义触发参数（同步骤 0 中准备的参数） |
+
+> 注意：SDK 方式触发动作流，执行消息通过 E10 基座 MQ 发送，需要确保 MQ 正常安装并使用。
+
+### 方式三：唯一值触发（不推荐）
+
+#### 背景
+
+通过 ecode 或 JS 代码触发自定义动作流需要传动作流 ID（esbFlowId），但动作流 ID 在导入导出或复制过程中会产生变化。为解决此问题，动作流会生成唯一标识（uniqueIndent），此标识在导入导出、复制过程中不变。
+
+#### 获取唯一值
+
+在 `esb_setting` 库（私有化下为 `weaver-esb-setting` 服务对应数据库）查询：
+
+```sql
+SELECT ea.primary_key FROM esb_application ea WHERE id = '动作流ID';
+```
+
+#### 替换参数
+
+拿到唯一值后：
+- **HTTP 方式**：参数中**不传 `esbFlowId`**，改传 `uniqueIndent`（值为查出的 `primary_key`）
+- **SDK 方式**：EventParams 中**不封装 `esbFlowId`**，改为封装 `uniqueIndent`
+
+> 注意：存在同一租户下多个动作流唯一值相同的情况（如同一动作流迁入/复制多次），此时只执行创建时间（create_time）最新的动作流。
+
+> 更新于 2026-05-26，来源：ecode 自定义动作流对接文档
