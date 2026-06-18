@@ -33,6 +33,7 @@ grep -rni "关键词" knowledge-base/backend/ --include="*.md"
 | `knowledge-base/backend/18-backend-rpc.md` | 调用标准服务（RPC/SAPI） |
 | `knowledge-base/backend/21-backend-openplatform-utils.md` | 开放平台、标准服务调用、Webservice、国际化、UUID/锁/线程池/日志 |
 | `knowledge-base/backend/22-backend-debug-monitor.md` | 后端调试（天梭平台/日志）、监控管理（配置/JAR包管理） |
+| `knowledge-base/backend/28-business-field.md` | 业务字段（BusinessService）— 表单业务字段模块的整合与接入，代码位置 `weaver-common-form-extend` |
 
 ## 核心开发规范
 
@@ -75,7 +76,7 @@ src/main/resources/
 1. **识别需求类型**：
    - 接口开发 → API Controller（/api）或 SAPI Controller（/sapi）
    - ESB 动作流 → Action + Dubbo XML
-   - 数据库操作 → DataBaseService + SAPI调用
+   - 数据库操作 → SecondevDataSetUtil（直接注入，executeSql/executeSqlWithTrans）
    - 缓存 → 注册缓存模块 + BaseCache 操作
    - 消息队列 → Producer / Consumer
    - 定时任务 → @ESchedulerHandler
@@ -190,7 +191,7 @@ public class XxxScheduler {
 2. **Entity 需支持序列化**：在 Dubbo RPC 调用中，实体参数需序列化
 3. **分布式锁 tryLock 必须在 try {} 外面**
 4. **先部署代码再修改 XML 配置**，否则服务启动异常
-5. **SQL 需要 Base64 编码**后传入执行接口
-6. **请求头必须携带租户信息**（tenantKey / employeeId / eteamsId）
+5. **数据库操作统一使用 `SecondevDataSetUtil`**（250501+基线），直接注入调用，无需手动构造 HTTP 请求和 Base64 编码。executeSql 返回结构为三层：`rawResult → data → records → rows`，详见 `knowledge-base/backend/12-backend-database.md`
+6. **SQL 字符串拼接时必须白名单校验参数**（日期/数字正则），防止注入
 7. **缓存常量必须以 SECONDEV_ 为前缀**，变量名与值必须一致
 8. **自定义配置注册类必须放在固定包路径**：`com.weaver.custom.configcenter`

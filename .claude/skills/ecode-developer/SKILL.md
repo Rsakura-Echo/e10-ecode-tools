@@ -63,8 +63,9 @@ grep -rni "关键词" knowledge-base/other/ --include="*.md"
 | `knowledge-base/frontend/cases/REFERENCE.md` | **参考速查** — 全局变量、常见陷阱、ESB 触发方式对比 |
 | `knowledge-base/frontend/19-frontend-module-system.md` | 模块导入导出、前置/异步加载、开发依赖、模板变量 |
 | `knowledge-base/frontend/20-frontend-plugins-controls.md` | 公共插件、第三方JS、weId判断、调试、代码屏蔽 |
-| `knowledge-base/frontend/25-workflow-js-sdk.md` | **流程详情 JS-SDK** — 拦截事件、钩子事件、操作菜单、系统字段、页签扩展、实战模式 |
+| `knowledge-base/frontend/25-workflow-js-sdk.md` | **流程页 JS-SDK（weappWorkflow）** — 流程提交/批准/退回/转发/转办等操作拦截与钩子、操作菜单控制、签字意见读写、系统字段取值赋值、页签扩展切换、URL参数解析 |
 | `knowledge-base/frontend/26-eb-dfpage-sdk.md` | **EB 表单建模 dfpageSDK** — 表格视图/表单视图 SDK、保存前校验、批量操作、自定义弹框 |
+| `knowledge-base/frontend/27-form-engine-js-sdk.md` | **表单引擎 JS-SDK（WeFormSDK / formSdk）** — 表单字段读写（getFieldValue/changeFieldValue）、字段值变化事件（bindFieldChangeEvent）、字段显示属性控制（只读/必填/隐藏）、明细表完整操作（增删行/排序/批量）、字段组件自定义渲染、字段联动触发、浏览按钮/选择框/日期等特定字段操作 |
 | `knowledge-base/other/09-troubleshooting-guide.md` | 常见问题排查手册 |
 
 ## 核心开发模型
@@ -194,6 +195,17 @@ axios.post('/api/secondev/xxx', {...});
 ## 需求分析流程
 
 当用户描述需求时，按以下步骤分析：
+
+### 开发方式判断（重要）
+
+E10 前端二开分为两种方式：
+
+| 方式 | 特征 | 使用场景 | 频率 |
+|------|------|---------|------|
+| **表单代码块嵌入** | JS 代码直接嵌入流程表单/EB 表单的代码块中，代码与表单一一绑定 | 操作流程表单、EB 表单的字段、明细表、提交拦截等 | 项目上更频繁 |
+| **ecode 无侵入拦截** | 通过 regOvProps/regOvComponent/regHook 等 API 在 ecode 开发平台实现 | 复写系统组件、跨模块拦截、独立新页面等 | 更灵活 |
+
+**无论哪种方式，只要涉及操作流程表单（WeFormSDK），都必须参考 `knowledge-base/frontend/27-form-engine-js-sdk.md`**。
 
 **0. 优先检索真实案例库**：
    - 先读 `knowledge-base/frontend/cases/INDEX.md` 查看案例列表

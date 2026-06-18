@@ -27,8 +27,9 @@ knowledge-base/
 - [cases/INDEX.md](./frontend/cases/INDEX.md) - 真实案例库（E10 平台导出项目 + 实战验证代码模式）
 - [19-frontend-module-system.md](./frontend/19-frontend-module-system.md) - 前端模块系统：模块化、入口文件、前置/异步加载、模块导入导出、开发依赖、模板变量
 - [20-frontend-plugins-controls.md](./frontend/20-frontend-plugins-controls.md) - 公共插件、第三方JS/Vue集成、生效范围控制、调试、监控、代码屏蔽
-- [25-workflow-js-sdk.md](./frontend/25-workflow-js-sdk.md) - 流程详情前端 JS-SDK：拦截事件/钩子事件、操作菜单控制、系统字段、页签扩展、签字意见
+- [25-workflow-js-sdk.md](./frontend/25-workflow-js-sdk.md) - 流程页 JS-SDK（weappWorkflow）：流程提交/批准/退回/转发/转办操作拦截与钩子、操作菜单控制、签字意见读写、系统字段取值赋值、页签扩展切换
 - [26-eb-dfpage-sdk.md](./frontend/26-eb-dfpage-sdk.md) - EB 表单建模 JS-dfpageSDK：表格视图/表单视图 SDK、保存前校验、批量操作、自定义弹框、JavaScript 动作 API
+- [27-form-engine-js-sdk.md](./frontend/27-form-engine-js-sdk.md) - 表单引擎 JS-SDK（WeFormSDK / formSdk）：93 篇 API 文档 + 案例，专注于表单字段读写、字段值变化事件、字段显示属性控制、明细表操作、字段组件自定义渲染、联动触发等
 
 ## 后端部分（backend/）
 
@@ -43,6 +44,7 @@ knowledge-base/
 - [18-backend-rpc.md](./backend/18-backend-rpc.md) - 调用标准服务（RPC/SAPI）
 - [21-backend-openplatform-utils.md](./backend/21-backend-openplatform-utils.md) - 开放平台发布、标准服务调用、Webservice、国际化、UUID/锁/线程池/日志
 - [22-backend-debug-monitor.md](./backend/22-backend-debug-monitor.md) - 后端调试（本地+线上排错）、监控管理平台（配置/JAR包管理）
+- [28-business-field.md](./backend/28-business-field.md) - 业务字段（BusinessService）：表单业务字段模块整合与接入，代码位置 `weaver-common-form-extend`
 
 ## 其他（other/）
 

@@ -50,11 +50,14 @@ grep -rni "关键词" knowledge-base/other/ --include="*.md"
 - `frontend/03-component-override.md` / `frontend/04-new-page-development.md` / `frontend/05-api-request.md`
 - `frontend/08-esb-serverless.md` / `frontend/cases/INDEX.md`（真实案例库）
 - `frontend/19-frontend-module-system.md`（模块系统）/ `frontend/20-frontend-plugins-controls.md`（公共插件/调试）
-- `frontend/25-workflow-js-sdk.md`（流程详情 SDK）/ `frontend/26-eb-dfpage-sdk.md`（EB 表单建模 SDK）
+- `frontend/25-workflow-js-sdk.md`（流程页 SDK — 流程提交/退回/签字意见）/ `frontend/26-eb-dfpage-sdk.md`（EB 表单建模 SDK）/ `frontend/27-form-engine-js-sdk.md`（表单引擎 SDK — 字段读写/明细表/联动）
 
 **3️⃣ 后端二开（前端不够时）**
 ```bash
 grep -rni "关键词" knowledge-base/backend/ --include="*.md"
+```
+关键参考：
+- `backend/28-business-field.md`（业务字段 BusinessService 模块 — 表单标准工具包）
 grep -rni "关键词" secondev/workspace/ --include="*.java"
 ```
 
