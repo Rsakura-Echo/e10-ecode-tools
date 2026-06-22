@@ -2,400 +2,161 @@
 
 ## 概述
 
-二开通过 dataSource API 执行 SQL，支持内部数据源（LOGIC）和外部数据源（EXTERNAL）。
+250501 基线起提供 `SecondevDataSetUtil` 工具类，二开直接注入使用，不再需要手动构造 HTTP 请求和 Base64 编码。
 
-## 数据源类型
+## SecondevDataSetUtil（推荐）
+
+### 基本用法
+
+```java
+@Autowired
+private SecondevDataSetUtil secondevDataSetUtil;
+
+// 查询（支持预编译占位符 ?）
+Map<String, Object> result = secondevDataSetUtil.executeSql(
+    SourceType.LOGIC, groupId, sql, params);
+
+// 事务操作（不支持预编译，参数需字符串拼接）
+String transId = String.valueOf(IdGenerator.generate());
+secondevDataSetUtil.executeSqlWithTrans(
+    SourceType.LOGIC, groupId, sql, null,
+    transId, true, false, false);  // startTrans=true
+secondevDataSetUtil.executeSqlWithTrans(
+    SourceType.LOGIC, groupId, sql, null,
+    transId, true, true, false);   // commit=true
+```
+
+### 返回结构（重要）
+
+`executeSql` 返回的 `Map<String, Object>` 结构如下：
+
+```
+{
+  "code": 0,           // Integer, 0=成功
+  "msg": "success",    // String
+  "status": true,      // Boolean
+  "data": {            // LinkedHashMap — 数据载体
+    "sqlType": "select",
+    "code": 0,
+    "records": [       // ArrayList — 真正的行数据
+      {"id": 1276334572400173197, "username": "张三", "JOB_NUM": "001", ...},
+      {"id": 1276334572400173198, "username": "李四", "JOB_NUM": "002", ...}
+    ],
+    "count": 2,
+    "message": null,
+    "status": "OK"
+  },
+  "fail": false        // Boolean
+}
+```
+
+**解析范式（三层提取）：**
+
+```java
+Map<String, Object> rawResult = secondevDataSetUtil.executeSql(SourceType.LOGIC, groupId, sql, null);
+
+// 第一层: rawResult → data
+Object dataObj = rawResult.get("data");
+
+List<Map<String, Object>> rows = new ArrayList<>();
+
+if (dataObj instanceof List) {
+    // data 直接是 List
+    rows = (List<Map<String, Object>>) dataObj;
+} else if (dataObj instanceof Map) {
+    Map<String, Object> dataMap = (Map<String, Object>) dataObj;
+    if (dataMap.containsKey("records")) {
+        // 第二层: data → records → 第三层: 行数据
+        rows = (List<Map<String, Object>>) dataMap.get("records");
+    } else {
+        // data Map 的值即为行 (单行场景或 row-index 格式)
+        for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
+            if (entry.getValue() instanceof Map) {
+                rows.add((Map<String, Object>) entry.getValue());
+            }
+        }
+    }
+}
+```
+
+**单行查询捷径** — 如果 SQL 只返回一行（如 `SELECT ... LIMIT 1`），可直接从 `records` 第一条取值：
+
+```java
+List<Map<String, Object>> rows = (List<Map<String, Object>>) 
+    ((Map<String, Object>) result.get("data")).get("records");
+if (!rows.isEmpty()) {
+    BigDecimal gp = new BigDecimal(String.valueOf(rows.get(0).get("G_P")));
+}
+```
+
+### executeSqlWithTrans 事务操作
+
+不支持预编译占位符 `?`，SQL 参数需字符串拼接。**所有拼接入参必须做注入校验。**
+
+```java
+String transId = String.valueOf(IdGenerator.generate());
+
+// 开启事务
+secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, groupId, 
+    "INSERT INTO t_table (col1, col2) VALUES ('" + safeVal1 + "', '" + safeVal2 + "')",
+    null, transId, true, false, false);
+
+// 更多操作...
+
+// 提交
+secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, groupId, "",
+    null, transId, true, true, false);
+
+// 或回滚
+secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, groupId, "",
+    null, transId, true, false, true);
+```
+
+## 数据源类型（SourceType）
 
 | 枚举值 | 说明 |
 |--------|------|
-| `LOGIC` | 内部数据源（OA各模块业务数据/逻辑表） |
+| `LOGIC` | 内部数据源（OA各模块业务数据） |
 | `EXTERNAL` | 外部数据源（数据加工中配置的外部连接） |
-| `FORM` | ebuilder 表单数据 |
-| `ETEAMS` | 数据仓库 |
+
+## 常用 groupId
+
+| 业务模块 | groupId |
+|---------|---------|
+| e-builder 表单 | `weaver-ebuilder-form-service` |
+| 人事（HR） | `weaver-hr-service` |
+| 流程 | `weaver-workflow-report-serviceworkflowreport` |
+| 流程列表 | `weaver-workflow-list-service` |
+| 考勤 | `weaver-attend-service` |
+| 任务 | `weaver-project-servicetask` |
+| 绩效 | `weaver-wr-performance-service` |
+| 薪酬 | `weaver-hrm-salary` |
+| 招聘 | `weaver-recruit-service` |
+
+> `weaver-hr-service` 可查询 `eteams.employee`、`eteams.grade` 等 HR 基础表。
+
+## SQL 注入防范
+
+字符串拼接 SQL 时，必须对参数做白名单校验：
+
+```java
+// 日期: yyyy-MM-dd
+if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) throw new IllegalArgumentException("非法日期");
+
+// 年月: yyyy-MM
+if (!yearMonth.matches("\\d{4}-\\d{2}")) throw new IllegalArgumentException("非法年月");
+
+// 数字
+Long.valueOf(input);  // 异常则拒绝
+```
 
 ## 公共数据库表
 
-E10 部署后默认有公共数据库 `eteams`，存放公共表。操作时需指定库名：
+E10 部署后默认有公共数据库 `eteams`，查询时需指定库名：
 
 ```sql
--- {$publicdb} 表示公共库名（24.1101基线开始支持）
-SELECT id, name FROM {$publicdb}.EMPLOYEE WHERE id = ? AND delete_type = 0
+SELECT e.id, e.username, e.JOB_NUM, g.CODE
+FROM eteams.employee e
+LEFT JOIN eteams.grade g ON e.GRADE = g.id
+WHERE e.delete_type = 0 AND e.STATUS = 'normal'
 ```
-
-## 步骤 1：获取数据源分组
-
-在执行业务 SQL 之前，需要找到目标表所在的 groupId：
-
-```java
-@Service
-public class DataBaseService {
-
-    @Autowired
-    CommonRestService commonRestService;
-    @Autowired
-    private RestClient restClient;
-
-    /**
-     * 根据 sourceType 获取数据库分组列表
-     * @param sourceType 枚举：LOGIC / EXTERNAL / FORM / ETEAMS
-     */
-    public Map<String, Object> getDataGroups(String sourceType) {
-        // 拼接参数
-        MultiValueMap<String, Object> valueMap = new LinkedMultiValueMap<>();
-        valueMap.add("sourceType", sourceType);
-
-        // 拼接请求头（携带租户/用户信息）
-        HttpHeaders requestHeaders = getHttpHeaders();
-        List<MediaType> acceptTypes = new ArrayList<>();
-        acceptTypes.add(MediaType.APPLICATION_JSON);
-        requestHeaders.setAccept(acceptTypes);
-        requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        // 调用 SAPI 接口获取分组
-        return restClient.postForObject(
-            requestHeaders,
-            "/sapi/datasource/ds/group",
-            valueMap,
-            Map.class
-        );
-    }
-}
-```
-
-**LOGIC 出参示例**：
-```json
-[
-    {
-      "name": "流程",
-      "serviceMark": "workflow",
-      "id": "weaver-workflow-report-serviceworkflowreport"
-    },
-    {
-      "name": "任务",
-      "serviceMark": "task",
-      "id": "weaver-project-servicetask"
-    },
-    {
-      "name": "日志",
-      "serviceMark": "elog",
-      "id": "weaver-elog-service"
-    },
-    {
-      "name": "会议",
-      "serviceMark": "meeting",
-      "id": "weaver-meeting-service"
-    },
-    {
-      "name": "OKR",
-      "serviceMark": "goal",
-      "id": "weaver-wr-goal-service"
-    },
-    {
-      "name": "流程列表",
-      "serviceMark": "workflow",
-      "id": "weaver-workflow-list-service"
-    },
-    {
-      "name": "考勤",
-      "serviceMark": "attend",
-      "id": "weaver-attend-service"
-    },
-    {
-      "name": "组织画像",
-      "serviceMark": "portrait",
-      "id": "weaver-portrait-service"
-    },
-    {
-      "name": "工作流报告",
-      "serviceMark": "workflow",
-      "id": "weaver-workflow-report-serviceworkflow_report"
-    },
-    {
-      "name": "绩效",
-      "serviceMark": "kpi",
-      "id": "weaver-wr-performance-service"
-    },
-    {
-      "name": "项目",
-      "serviceMark": "mainline",
-      "id": "weaver-project-service"
-    },
-    {
-      "name": "基础定时模块",
-      "serviceMark": "escheduler",
-      "id": "weaver-basic-schedule-service"
-    },
-    {
-      "name": "HRM",
-      "serviceMark": "hrm",
-      "id": "weaver-hrm-service"
-    },
-    {
-      "name": "e-builder报表",
-      "serviceMark": "",
-      "id": "weaver-edcreportd-service"
-    },
-    {
-      "name": "e-builder应用",
-      "serviceMark": "ebuilder",
-      "id": "weaver-ebuilder-app-service"
-    },
-    {
-      "name": "e-builder表单",
-      "serviceMark": "ebuilder",
-      "id": "weaver-ebuilder-form-service"
-    },
-    {
-      "name": "文件",
-      "serviceMark": "file",
-      "id": "weaver-file-service"
-    },
-    {
-      "name": "公文管理",
-      "serviceMark": "odoc",
-      "id": "weaver-odoc-service"
-    },
-    {
-      "name": "数据源",
-      "serviceMark": "datasource",
-      "id": "weaver-datasource-service"
-    },
-    {
-      "name": "计划报告",
-      "serviceMark": "workreport",
-      "id": "weaver-wr-plan-service"
-    },
-    {
-      "name": "电子签",
-      "serviceMark": "signcontract",
-      "id": "weaver-signcenter-service"
-    },
-    {
-      "name": "动作流监控",
-      "serviceMark": "esb",
-      "id": "weaver-esb-setting-serviceesb"
-    },
-    {
-      "name": "表单加密",
-      "serviceMark": "datasecurity",
-      "id": "weaver-datasecurity"
-    },
-    {
-      "name": "人事",
-      "id": "weaver-hr-service"
-    },
-    {
-      "name": "动作流",
-      "serviceMark": "esb",
-      "id": "weaver-esb-setting-serviceesbCustom"
-    },
-    {
-      "name": "绩效核算",
-      "serviceMark": "ebuilder",
-      "id": "weaver-ebuilder-contract-servicecmdatauFJXHS"
-    },
-    {
-      "name": "EB合同管理",
-      "id": "weaver-ebuilder-contract-service"
-    },
-    {
-      "name": "待办事项",
-      "id": "weaver-my-service"
-    },
-    {
-      "name": "签名",
-      "id": "weaver-signature-service"
-    },
-    {
-      "name": "邮件",
-      "serviceMark": "email",
-      "id": "weaver-mail-base-service"
-    },
-    {
-      "name": "薪酬",
-      "serviceMark": "hrmsalary",
-      "id": "weaver-hrm-salary"
-    },
-    {
-      "name": "系统安全",
-      "serviceMark": "",
-      "id": "weaver-security-framework-service"
-    },
-    {
-      "name": "公文交换中心",
-      "serviceMark": "odocexchange",
-      "id": "weaver-odocexchange-service"
-    },
-    {
-      "name": "招聘管理",
-      "serviceMark": "recruit",
-      "id": "weaver-recruit-service"
-    },
-    {
-      "name": "基础在线服务",
-      "id": "weaver-basic-online-web-service"
-    },
-    {
-      "name": "微搜",
-      "id": "weaver-esearch-search-service"
-    },
-    {
-      "name": "统一审批中心",
-      "serviceMark": "intunifytodos",
-      "id": "weaver-intunifytodo-server-config-service"
-    },
-    {
-      "name": "公共数据源",
-      "serviceMark": "common",
-      "id": "weaver-component-web-service"
-    },
-    {
-      "name": "数据分析",
-      "serviceMark": "analyze",
-      "id": "weaver-analyze-service"
-    },
-    {
-      "name": "ESB连接器",
-      "serviceMark": "esb",
-      "id": "weaver-esb-setting-serviceesbConnect"
-    },
-    {
-      "name": "外部流程",
-      "serviceMark": "workflow",
-      "id": "weaver-workflow-core-serviceworkflowCoreOuterwf"
-    },
-    {
-      "name": "绩效考核",
-      "serviceMark": "ebuilder",
-      "id": "weaver-wr-performance-eb-service"
-    },
-    {
-      "name": "问题定位平台",
-      "serviceMark": "tissot",
-      "id": "weaver-tissot-service"
-    },
-    {
-      "name": "规则引擎",
-      "serviceMark": "logicflow",
-      "id": "weaver-logicflow-service"
-    },
-    {
-      "name": "工作流表单",
-      "serviceMark": "workflow",
-      "id": "weaver-workflow-report-serviceworkflowFormReport"
-    },
-    {
-      "name": "统一认证中心",
-      "id": "weaver-intunifyauth-server-base-service"
-    }
-  ]
-```
-
-**EXTERNAL 出参示例**：
-```json
-[
-  { "dbType": "Mysql8", "id": "626641698703319040", "name": "e10_hr_sync" },
-  { "dbType": "DaMeng", "id": "673747972984938496", "name": "达梦测试" }
-]
-```
-
-## 步骤 2：执行 SQL
-
-### 构造请求头（携带租户上下文）
-
-```java
-public HttpHeaders getHttpHeaders() {
-    HttpHeaders requestHeaders = new HttpHeaders();
-    String tenantKey = TenantRpcContext.getTenantKey();
-    String eteamsId = TenantRpcContext.getEteamsId();
-    String employeeId = TenantRpcContext.getEmployeeId();
-
-    if (employeeId != null && !employeeId.isEmpty()) {
-        requestHeaders.set("employeeId", employeeId);
-    }
-    if (tenantKey != null && !tenantKey.isEmpty()) {
-        requestHeaders.set("tenantKey", tenantKey);
-    }
-    if (eteamsId != null && !eteamsId.isEmpty()) {
-        requestHeaders.set("eteamsId", eteamsId);
-    }
-    return requestHeaders;
-}
-```
-
-### 执行 SQL（LOGIC 或 EXTERNAL）
-
-```java
-import cn.hutool.core.codec.Base64;
-import cn.hutool.json.JSONUtil;
-import com.weaver.ebuilder.datasource.api.entity.ExecuteSqlEntity;
-import com.weaver.ebuilder.datasource.api.enums.SourceType;
-
-public Map<String, Object> execute(String sourceType, String groupId, String sql) {
-    ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
-    executeSqlEntity.setSql(Base64.encode(sql));  // SQL 需要 Base64 编码
-    executeSqlEntity.setGroupId(groupId);
-    executeSqlEntity.setSourceType(SourceType.valueOf(sourceType));
-
-    // 拼接参数
-    MultiValueMap<String, Object> valueMap = new LinkedMultiValueMap<>();
-    valueMap.add("params", JSONUtil.toJsonStr(executeSqlEntity));
-
-    // 拼接请求头
-    HttpHeaders requestHeaders = getHttpHeaders();
-    List<MediaType> acceptTypes = new ArrayList<>();
-    acceptTypes.add(MediaType.APPLICATION_JSON);
-    requestHeaders.setAccept(acceptTypes);
-    requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-    // 调用接口执行 SQL
-    return restClient.postForObject(
-        requestHeaders,
-        "/sapi/datasearch/external/data/executeSql",
-        valueMap,
-        Map.class
-    );
-}
-```
-
-## 完整使用示例
-
-```java
-@Service("datasource_test")
-public class DataBaseService {
-
-    @Autowired
-    CommonRestService commonRestService;
-    @Autowired
-    private RestClient restClient;
-
-    // 1. 获取 LOGIC 分组
-    public void demo1() {
-        Map<String, Object> groups = getDataGroups("LOGIC");
-        // 找到目标 groupId，例如流程："weaver-workflow-report-serviceworkflowreport"
-    }
-
-    // 2. 查询数据
-    public void demo2() {
-        String groupId = "weaver-workflow-list-service";
-        String sql = "SELECT * FROM wfc_testinfo_log WHERE id = 973258354118836227 "
-                   + "AND delete_type = 0 AND tenant_key = 'thsv5s4n2c'";
-        Map<String, Object> result = execute("LOGIC", groupId, sql);
-    }
-
-    // 3. 查询外部数据源（EXTERNAL）
-    public void demo3() {
-        String groupId = "842668710322556928"; // 从 getDataGroups 获取
-        String sql = "SELECT * FROM ecod_folder WHERE delete_type = 0";
-        Map<String, Object> result = execute("EXTERNAL", groupId, sql);
-    }
-}
-```
-
-## 关键注意事项
-
-1. **SQL 需要 Base64 编码**后传入
-2. **请求头必须携带租户信息**（tenantKey / employeeId / eteamsId）
-3. **二开建表统一使用 EB 表单搭建**，不直接建表
-4. 达梦数据库判断：`"DM".equalsIgnoreCase(WeaDatabaseIdProvider.databaseId)`
-5. 1201 基线及以上支持带事务的统一执行接口 `/sapi/secondev/ds/executeSqlAll`

@@ -12,7 +12,7 @@ type: project
 |--------|--------|----------|------|
 | 1️⃣ | `doc/texts/`（实施文档） | 语义向量搜索 | 系统自带功能？配置入口、操作步骤 |
 | 2️⃣ | `knowledge-base/frontend/` `knowledge-base/backend/`（二开文档） | Grep | 前端：组件复写、新页面、ESB动作流、API调用；后端：API/SAPI、数据库、缓存等 |
-| 3️⃣ | `secondev/workspace/`（后端项目） | Grep Java | API/SAPI 接口、ESB Action、数据库操作 |
+| 3️⃣ | `/Users/sakura/work/secondev/workspace/`（后端项目，独立目录） | Grep Java | API/SAPI 接口、ESB Action、数据库操作 |
 
 ## 核心原则
 
@@ -58,7 +58,7 @@ grep -rni "关键词" knowledge-base/backend/ --include="*.md"
 ```
 关键参考：
 - `backend/28-business-field.md`（业务字段 BusinessService 模块 — 表单标准工具包）
-grep -rni "关键词" secondev/workspace/ --include="*.java"
+grep -rni "关键词" /Users/sakura/work/secondev/workspace/ --include="*.java"
 ```
 
 ### 第三步：输出整合方案

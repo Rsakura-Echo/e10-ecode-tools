@@ -10,7 +10,7 @@ type: project
 
 检索 `doc/texts/` 下 **85 个模块 / 6208 篇文档**，通过语义向量索引（bge-small-zh-v1.5, 512维）。
 
-不涉及 `knowledge-base/`（前端二开）和 `secondev/`（后端项目）。
+不涉及 `knowledge-base/`（前端二开）和 `secondev/`（后端项目，已移至 `/Users/sakura/work/secondev/`）。
 
 ## 前置条件
 

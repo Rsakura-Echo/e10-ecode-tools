@@ -53,7 +53,8 @@ tools/venv/bin/python tools/search_server.py --port 9876 &
 
 | 目录 | 用途 |
 |------|------|
-| `secondev/workspace/frontend-projects/` | 前端二开子项目 |
-| `secondev/workspace/secondev-2601/` | 后端二开 Gradle 项目 |
+| `/Users/sakura/work/secondev/workspace/frontend-projects/` | 前端二开子项目（独立目录） |
+| `/Users/sakura/work/secondev/workspace/secondev-2601/` | 后端二开 Gradle 项目（独立目录） |
 
-> `doc/extracted/`（11GB 原始 HTML）和 `secondev/` 不随插件分发。
+> `secondev/` 已移出为 E10 的同级独立目录 `/Users/sakura/work/secondev/`。
+> `doc/extracted/`（11GB 原始 HTML）不随插件分发。
