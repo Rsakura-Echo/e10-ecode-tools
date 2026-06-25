@@ -26,6 +26,8 @@ __pycache__/
 
 # 旧版索引（已弃用）
 doc/kb_index.db
+doc/kb_index.db-shm
+doc/kb_index.db-wal
 
 # LLM Wiki 桌面应用
 tools/LLM Wiki.app
