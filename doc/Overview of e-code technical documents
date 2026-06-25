@@ -1,0 +1,2643 @@
+
+一、e-code是什么
+1.1 背景
+1.2 目标
+1.3 项目问题和需求二开说明
+1.4 e-code 简介
+1.5 e-code平台新功能介绍文档
+1.6 e-code开发平台支持浏览器说明
+二、前端开发
+2.1 快速开始 - 创建一个项目
+2.1.1 进入开发平台
+2.1.2 新建项目
+2.1.3 发布项目
+2.1.4 样式处理
+2.2 如何查找可开发的标准组件
+2.3 通用前端业务
+2.3.1 组件参数复写
+2.3.2 组件替换
+2.3.3 新页面开发
+2.3.4 公共插件
+2.3.5 加载第三方 js 库
+2.3.6 e-code集成Vue
+2.3.7 e-code前端接口请求和拦截二开
+2.3.8 组件复写限定判断
+2.4 深入开发
+2.4.1 模块化
+2.4.2 入口文件
+2.4.3 前置加载
+2.4.4 异步加载
+2.4.5 模块导入导出
+2.4.6 开发依赖
+2.4.7 加载第三方资源
+2.4.8 模板变量
+2.4.8.1 创建模板变量
+2.4.8.2 变量使用
+2.5 前端二开规范
+2.6 控制代码块的生效范围
+2.6.1 指定人员或角色
+2.6.2 区分PC和移动
+2.6.3 公共应用和租户应用
+2.7 如何调试
+2.7.1 PC
+2.7.2 移动端调试工具
+2.8 前端二开监控管理平台
+2.9 代码屏蔽调试
+三、后端开发
+3.1 快速开始 - 发布一个新接口
+3.1.1 搭建本地项目
+3.1.2 导入依赖
+3.1.3 编写接口
+3.1.4 编译打包
+3.1.5 部署验证
+3.2 通用后端场景及SDK
+3.2.1 数据库操作
+执行自定义SQL
+数据源类型
+公共数据库表操作
+241201基线及以前
+根据数据源类型获取groupId数据
+执行sql
+250101基线--250401基线
+获取数据库分组
+执行内部LOGIC sql（不支持预编译）
+执行外部EXTERNAL sql(支持预编译方式)
+获取预编译sql占位符List\<SqlParamEntity\>
+1201基线及以上支持的LOGIC与EXTERNAL统一接口，1101基线及以下不支持
+执行sql完整案例代码：
+250501基线提供二开执行sql工具类
+参考文档
+获取数据库类型
+3.2.2 发布http接口
+3.2.3 自定义action接口
+3.2.4 分布式定时任务
+3.2.5 发布接口到开放平台
+3.2.6 二开服务调用标准服务接口
+3.2.7 配置文件
+3.2.8 缓存
+3.2.9 消息队列
+Queue
+Topic
+3.2.10 webservice 二开方案
+3.2.11 国际化
+3.2.12 其他
+获取用户租户信息
+分布式UUID
+分布式锁
+线程池组件
+日志输出
+3.3 后端二开规范
+3.4 如何调试
+3.4.1 本地代码调试
+3.4.2 线上环境报错如何排查
+3.5 后端二开监控管理平台
+3.5.1 配置管理
+3.5.2 jar包版本管理
+四、常见开发场景及案例
+4.1 门户开发
+特色主题开发
+登录页改造
+门户元素二开
+4.2 流程
+4.3 e-builder
+4.3.1 e-builder表单
+4.3.2 e-builder页面
+4.4 知识
+4.4.1 自定义存储
+4.4.2 对接新插件预览
+4.5 ESB动作流
+4.5.1 自定义Action开发
+4.6 集成
+4.6.1 统一认证
+4.6.2 集成登录
+4.6.3 统一待办
+4.7 其他
+4.7.1 自定义浏览按钮
+五、其他
+5.1 e-code权限配置
+5.2 e-code常见问题及解决方案
+5.3 e-code 二开代码屏蔽调试说明
+六、附录：各模块API
+6.1 公共开发文档
+6.2 各模块API文档
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1721982593-image.png
+
+一、e-code是什么
+1.1 背景
+为了支撑 E10 整体的定制开发，增强 E10 低代码平台的个性化能力，打造的平台化开发体系。
+
+面向社会化开发人员，包括总部、EBU、客户、伙伴、外包、友商等等。
+
+E10 目前不开放标准源码，所有定制化开发通过 e-code 实现。
+
+1.2 目标
+支持进行 E10 平台的全面增强，覆盖各种不同场景的开发、集成，并支持完全无侵入以及插件化的机制。
+
+除了可以进行 E10 平台的增强，也可以基于 E10 平台去构建完全个性化的应用，包括在线开发 SAAS 体系的应用。
+
+除了提供开发和管理的工具链，重点是整体平台化的组件、api、能力、前后端引擎等等的构建，此文档进行全面的指引。
+
+成为面向开发者的低代码平台，开发者可以用较少的代码实现深度的个性化需求。
+
+1.3 项目问题和需求二开说明
+总部这边优先处理 bug 问题的处理，确保产品本身的稳定。
+
+一些优化类或需求类：
+
+若总部这边来得及并可满足项目时间和在标准产品需求内，可上海做。
+
+次之，本身来不及，总部这边优先先把二开口子放开，满足项目上可通过 e-code 非侵入式开发。若已经已经有口子，也可以直接用 e-code 去做，是否有口子可以跟模块确认。或者没法开口子必须在标准产品中去增改的，那也上海做。所以针对每个需求包括优化类的，确定实现思路和时间
+
+1.4 e-code 简介
+e-code 全称【e-code 在线开发平台】，是一个面向社会化开发人员的低代码平台，用于增强 E10 平台的前后端个性化能力，提供全程在线 IDE，开发的核心思想是完全无侵入式以及高复用、一键发布，可全面无侵入定制 E10 平台，也可以在 E10 平台上快速开发新应用。
+
+技术栈 （1）前端：JS、CSS、Html、JSX、ES6、React 、前端生态；（2）后端：Java、SpringBoot、SpringCloud、Dubbo、Nacos、Redis 等
+
+持续集成&部署 （1）前端：一键打包发布，无需手动部署；（2）后端：本地搭建开发环境，一键部署线上，支持接入个性化CI/CD平台
+
+基础能力 （1）前端：150+ 组件、基础 jsapi、业务组件 50+、EB 搭建内容、可快速创造新复用能力；（2）后端：1000+ api、50+ sdk、50+ 平台能力、EB 搭建内容、可快速创造新复用能力
+
+插件化 基于开发平台开发架构开发的内容，都可形成插件，满足热插拔复制、复用、共享，也可作为标准化插件发布到产品体系。
+
+1.5 e-code平台新功能介绍文档
+部分功能发布日志如下，完整功能说明请查阅 ：E10 e-code开发平台功能说明文档
+
+基线版本	新增/优化功能	功能文档
+10.0.2509.01	e-code新增针对前端request和axios请求拦截的api准入控制	功能说明文档
+10.0.2508.01	e-code二开jar包新增审核功能	功能说明文档
+10.0.2507.01	e-code支持按应用&资源文件路径屏蔽调试
+e-code 自动识别报错并提示	功能说明文档
+10.0.2505.01	e-code项目应用支持分权管理	功能说明文档
+10.0.2504.01	e-code支持全局代码搜索	功能说明文档
+10.0.2503.01	e-code支持特色主题项目类型	功能说明文档
+10.0.2502.01	e-code支持快捷屏蔽代码块调试功能	功能说明文档
+10.0.2502.01	e-code支持vue开发	功能说明文档
+10.0.2412.01	e-code支持智能化开发	功能说明文档
+10.0.2411.01	e-code监控平台jar包部署与维护	功能说明文档
+1.6 e-code开发平台支持浏览器说明
+浏览器	最低支持版本
+Chrome	71.0.3578.98
+Safari	15.4 (17613.1.17.1.13)
+Edge	109.0.1518.140
+二、前端开发
+2.1 快速开始 - 创建一个项目
+2.1.1 进入开发平台
+主团队管理员访问所在系统路径 /ecode 或者 /ecode/project 进入 e-code。
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722495095-image.png
+
+2.1.2 新建项目
+点击列表右上角 【新建项目】 按钮，输入项目名称和描述即可完成创建。
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480245-image.png
+
+点击自己创建的 HelloWorld 项目进入编辑器页面，点击左上角搜索框后的加号【➕】按钮，创建 React 子项目。
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480347-image.png
+
+新项目会默认生成后入口文件 entry.js，一般用来做前置注册使用。
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480363-image.png
+
+到这一步我们就可以开始书写代码了。参考事例代码我们使用 react 渲染一个 HelloWord 到标准页面去！
+
+import { render } from 'react-dom';
+
+// 创建 App 挂载元素
+const root = document.createElement('div');
+document.body.appendChild(root);
+
+// 样式处理，也可以新建 css 文件
+const style = {
+  position: 'absolute',
+  zIndex: 9999,
+  top: 100,
+  left: '50%',
+  transform: 'translate(-50%, 0)',
+  fontSize: 60,
+  fontWeight: 600,
+  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)'
+};
+
+function App () {
+  return (
+    <div style={style}>
+      Hello World
+    </div>
+  );
+}
+
+render(<App />, root);
+2.1.3 发布项目
+在子项目 【右键】 点击 【发布】 可以选择发布范围
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480433-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480440-image.png
+
+发布成功后我们就可以到系统页面刷新查看，如果看到以下效果，恭喜你已经成功！
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480449-image.png
+
+现在我们只有一个入口 entry.js 文件，如果想写 css 怎么办？
+
+2.1.4 样式处理
+在子项目 【右键】 点击 【新建】 可以选择新建的文件类型。目前支持 文件夹、js、css、md 四种。以 HelloWord 项目为例，我们把 div 的样式从 style 属性迁移到 css 文件内。css 一般建议右键将文件设置为前置加载。
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480481-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480488-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1741759982-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480498-image.png
+
+className不能使用weId做样式限定
+
+className使用appid变量：
+
+注意事项：css中appid变量：${appId} 支持基线版本：10.0.2408.01
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480493-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1741761486-image.png
+
+2.2 如何查找可开发的标准组件
+安装最新的 Chrome 插件 React Developer Tools
+
+打开开发者工具（F12），找到 Component 页签
+
+使用左上角小箭头从页面上选取内容
+
+组件库 @weapp/ui 中的基础组件，或者在调试工具中组件名称为 weapp 开头的、格式为 [库名]的组件，基本都支持通过 @weapp/utils 注册复写工具进行处理，详见后文案例
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480521-image.png
+
+2.3 通用前端业务
+2.3.1 组件参数复写
+使用 @weapp/utils 的 regOvProps 可以对 UI 公共组件库以及业务模块组件的 props 参数进行复写，以达到整体或者局部处理 regOvProps(libName, compenentName, overwriteFunction, order)
+
+参数	说明	类型
+libName	weapp 标准命名规范生成的全局库名	appInfo('@weapp/name').libraryName
+compenentName	组件名称	string
+overwriteFunction	复写 props 的钩子方法	() => props
+order	由于不止有一次复写，请指定生效的优先级，工具将链式按照优先级顺序调用	number
+【事例】
+
+复写 E10 组件库 @weapp/ui 中的 Button 组件，将整个系统的按钮字体修改为红色 #f00
+
+实际开发请根据需求判断页面地址、props.weId 等方式限定生效范围，不要污染全局
+结果需要返回改造后的 props
+如果是表单字段可以通过表单字段的field字段属性来进行判断
+官方文档事例项目/组件参数复写 - C/entry.js
+
+import { regOvProps } from '@weapp/utils';
+
+regOvProps('weappUi', 'Button', (props) => {
+  props.style = {
+    ...props.style,
+    color: '#f00'
+  };
+  return props;
+}, 0);
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722480963-image.png
+
+2.3.2 组件替换
+使用 @weapp/utils 的 regOvComponent 可以对 UI 公共组件库以及业务模块组件进行替换，以达到整体或者局部处理
+
+regOvComponent(libName, compenentName, overwriteFunction, order)
+
+参数	说明	类型
+libName	weapp 标准命名规范生成的全局库名	appInfo('@weapp/name').libraryName
+compenentName	组件名	string
+overwriteFunction	复写替换组件的方法	(originCom) => React.Component
+order	由于不止有一次复写，请指定生效的优先级，工具将链式按照优先顺次调用	number
+【事例】
+
+替换 E10 组件库 @weapp/ui 中的 Button 组件，将整个系统的按钮左上角添加一个小红点
+
+实际开发请根据需求判断页面地址、props.weId 等方式限定生效范围，不要污染全局
+示例：
+
+table组件weId值：f56o40_9d1m87_ktrfwy_su9cgs_8d2ywu_i83sct
+
+正确判断方法：
+regOvProps('weappUi', 'Table', (props) => {
+  const {weId=''} = props;
+  if(weId && weId.endsWith("_i83sct")){
+    //逻辑处理
+  }
+  return props;
+}, 0);
+
+错误判断方法：
+regOvProps('weappUi', 'Table', (props) => {
+  const {weId=''} = props;
+if(weId==='f56o40_9d1m87_ktrfwy_su9cgs_8d2ywu_i83sct'){
+    //逻辑处理
+  }
+  return props;
+}, 0);
+请使用 asyncImport 异步引入组件 Suspense 加载，入口文件只做注册使用，减小体积
+
+不要在前置加载中的文件中直接使用组件库，会找不到组件报错
+
+建议使用 forwardRef 来传递实例，并尽量保持内部方法可传递
+
+需要保持原组件功能的，可以通过 props 也传递下去，比如不希望做完全替换，只是添加，调整结构，添加异步接口操作等
+
+官方文档事例项目/组件参数复写 - C/entry.js
+
+组件替换标准组件时需要转发ref，否则会影响标准功能
+
+import React from 'react';
+import { regOvComponent } from '@weapp/utils';
+import { asyncImport } from '@weapp/ecodesdk';
+
+const NewButton = React.lazy(() => asyncImport('${appId}', 'NewButton'));
+
+regOvComponent('weappUi', 'Button', (Com) => {
+  return React.forwardRef((props, ref) => {
+    const {weId} = props;
+    if(weId && weId.endsWith('_hvf5bo@newFlow_rrt9fb')){
+      return (
+        <React.Suspense fallback={() => {}}>
+          <NewButton {...props} ref={ref} OriginCom={Com} />
+        </React.Suspense>
+      )
+    }
+    return <Com {...props} ref={ref}/>
+  });
+}, 0)
+官方文档事例项目/组件替换 - C/NewButton.js
+
+// clas组件方式传递ref
+export default class NewButton extends React.Component {
+  render() {
+    const { OriginCom, forwardedRef } = this.props;
+    return (
+      <span className="app-${appId}-newButton">
+        <span className="app-${appId}-newButton-point" />
+        <OriginCom {...this.props} ref={forwardedRef} />
+      </span>
+    )
+  }
+}
+// Function函数方式转发ref
+ const NewButton = React.forwardRef((props, ref)=>{
+   const {OriginCom} = props;
+   return (
+     <span className="app-${appId}-newButton">
+     <span className="app-${appId}-newButton-point" />
+       <OriginCom {...props} ref={ref} />
+     </span>
+   )
+ })
+ export default NewButton;
+官方文档事例项目/组件替换 - C/index.css（前置）
+
+/*appid模版变量支持基线：10.0.2408.01*/
+
+.app-\$\{appId\}-newButton {
+  position: relative;
+}
+
+.app-720941244693372928-newButton-point {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #f00;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  left: 0;
+  z-index: 1;
+}
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1694170291-image.png
+
+2.3.3 新页面开发
+特别注意:
+
+/sp/custom 对应 PC端路由
+
+/mobile/custom 对应移动端路由
+
+以下示例采用pc端路由, 实际开发中 根据需求自行调整即可
+
+@weapp/ecodesdk 按照 E10 标准规范生成空白单页项目，提供了 Switch 组件插入路由的开发机制。我们可以使用 @weapp/utils 的 regOvProps 对 Switch 组件的 children 进行 Route 注册：
+
+regOvProps('weappEcodesdk', 'Switch', overwriteFunction, order)
+
+参数	说明	类型
+libName	'weappEcodesdk'	appInfo('@weapp/ecodesdk').libraryName
+compenentName	'Switch'	string
+overwriteFunction	复写 props 的钩子方法	() => props
+order	由于不止有一次复写，请指定生效的优先级，工具将链式按照优先级顺序调用	number
+【事例】
+
+注册两个路由为 todo 和 mine 的组件，相互直接进行跳转。
+
+ecodesdk 的单页访问路径为 /sp/custom
+
+将自己的注册路由都带上本应用的 appId 以防和其他开发冲突，例如 /sp/custom/${appId}/todo
+
+通过 props.chilren 为 Switch 注册 Route 子组件，参照 react-router-dom 文档，不能注册其他类型子组件，必须为 Route，再下一级路由可自由处理。
+
+chilren 注册后续会提供统一的方法（待事例和 API 更新）
+
+如果项目受整体管控需要支持二级路径，可以使用 @weapp/utils 的 appInfo 方获取 publicUrl
+
+官方文档事例项目/新页面开发 - C/entry.js
+
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { regOvProps, appInfo, regReactChildren } from '@weapp/utils';
+import { asyncImport, jsonp } from '@weapp/ecodesdk';
+
+const Todo = React.lazy(() => asyncImport('${appId}', 'Todo'));
+const Mine = React.lazy(() => asyncImport('${appId}', 'Mine'));
+
+const { publicUrl } = appInfo('@weapp/ecodesdk');
+
+const todo = (
+  <Route path={`${publicUrl}/sp/custom/` + '${appId}/todo'}>
+    <React.Suspense fallback= {() => { }}>
+      <Todo />
+    </React.Suspense>
+  </Route>
+);
+const mine = (
+  <Route path={`${publicUrl}/sp/custom/` + '${appId}/mine'}>
+    <React.Suspense fallback= {() => { }}>
+      <Mine />
+    </React.Suspense>
+  </Route>
+);
+
+regOvProps('weappEcodesdk', 'Switch', (props) => {
+  console.log('props', props, regReactChildren);
+  regReactChildren(props, todo);
+  regReactChildren(props, mine);
+  return props;
+}, 0);
+官方文档事例项目/新页面开发 - C/Todo.js
+
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { appInfo } from '@weapp/utils';
+const { publicUrl } = appInfo('@weapp/ecodesdk');
+class Todo extends React.Component {
+  render() {
+    return (
+      <>
+        Todo
+        <Link to={`${publicUrl}/sp/custom/` + '${appId}/mine'}>跳转到 Mine</Link>
+      </>
+    );
+  }
+}
+export default withRouter(Todo);
+官方文档事例项目/新页面开发 - C/Mine.js
+
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { appInfo } from '@weapp/utils';
+const { publicUrl } = appInfo('@weapp/ecodesdk');
+class Mine extends React.Component {
+  render() {
+    return (
+      <>
+        Mine
+        <Link to={`${publicUrl}/sp/custom/` + '${appId}/todo'}>跳转到 Todo</Link>
+      </>
+    );
+  }
+}
+export default withRouter(Mine);
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1694171248-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1694171263-image.png
+
+2.3.4 公共插件
+怎样开发一些公共方法或者公共组件供其他二次开发或者业务开发使用？ 【事例】
+
+本事例主要开发一个公共方法 regReactChildren 和一个公共组件 RedCircle
+
+按照正常模块从 entry.js 导出需要开发的组件或者方法即可
+使用的时候通过 @weapp/ecodesdk 的 jsonp.require 方法引用即可 官方文档事例项目/公共插件 - C/entry.js
+import React from 'react';
+import { asyncImport } from '@weapp/ecodesdk';
+const Circle = React.lazy(() => asyncImport('${appId}', 'RedCircle'));
+function RedCircle (props) {
+  return (
+    <React.Suspense fallback={() => {}}>
+      <Circle {...props} />
+    </React.Suspense>
+  );
+}
+export { RedCircle };
+export function regReactChildren (props, element, index = 0) {
+  if (React.Children.count(props.children) > 0){
+    React.Children.toArray(props.children);
+    props.children.splice(index, 0, element);
+  } else {
+    props.children = [element];
+  }
+}
+官方文档事例项目/公共插件 - C/RedCircle.js
+
+import React from 'react';
+const defaultStyle = {
+  backgroundColor: '#fOO',
+  width: 100,
+  height: 100,
+  borderRadius: 50,
+} 
+export default function RedCircle (props) {
+  return (
+    <div style={{ ...defaultStyle, ...props.style }} />
+  )
+}
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722482508-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722482513-image.png
+
+2.3.5 加载第三方 js 库
+注意： 一般不建议自行引入其他三方资源，标准依赖已经十分完善，请尽量在标准支持范围内完成需求，这样可以控制加载体积和性能 可以通过 loadjs 引入生产文件方式使用，资源可以放到应用的 resources 目录下，这个资源目录下的文件右键可以复制地址
+
+严禁直接加载外部在线资源，包括 cdn 地址，请下载在线资源到本地并上传到 resources 目录下引用！
+
+import loadjs from 'loadjs';
+// 选中 resources/vue.js 右键，可以复制资源地址
+// 这里严禁使用外部在线资源，包括 cdn 地址，请下载在线资源到本地并上传到 resources 目录下引用！
+loadjs('/ecodestatic/test/resources/652532173878018049/vue.js', {
+    success: () => {
+        // do something
+    }
+})
+2.3.6 e-code集成Vue
+e-code集成Vue说明文档
+
+2.3.7 e-code前端接口请求和拦截二开
+e-code前端接口请求和拦截说明
+
+2.3.8 组件复写限定判断
+1.通过weId判断，如props.weId: "1ya7y7_5xscdt_bw3fqs_5v7elm"
+	例：props.weId.endsWith("_5v7elm"),通常以最后一个以下划线结尾的字符串，因为有时可以往前多取weId内容(props.weId.endsWith("_bw3fqs_5v7elm"))
+	
+	weId的来源：如A组件（weId：5xscdt）>B（A组件的子组件，weId：bw3fqs）>C（B组件的子组件，weId：5v7elm） 三层组件
+
+	实际页面上渲染后的weId是父组件的weId+"_"+子组件的weId，即最终weId：
+	A组件（weId：5xscdt）>B（A组件的子组件，weId：5xscdt_bw3fqs）>C（B组件的子组件，weId：5xscdt_bw3fqs_5v7elm）
+
+2.通过url判断，如地址为：/sp/workflow/list
+	例：window.location.pathName.includes('/sp/workflow/list') 或者 window.location.pathName==='/sp/workflow/list' ，可灵活选择
+	
+3.通过url参数判断，如地址为：/sp/workflow/list?hideLeftTree=true
+	let urlParams = weappUtils.qs.parse(window.location.search, { ignoreQueryPrefix: true })
+	例：window.location.pathName.includes('/sp/workflow/list') && urlParams.hideLeftTree===true
+4.通过组件props的属性判断
+	如：props.id==='xxx', 或者表单的字段props.fieldId==='xxx'
+5.如果在eb页面，或者流程之类的页面中
+	可以直接根据对应模块提供的sdk获取相关参数判断，具体根据业务模块的sdk判断
+2.4 深入开发
+2.4.1 模块化
+在 E10 版本的 ecode 中支持编译标准的 JavaScript modules 模块，但是由于运行时兼容性的限制，会有一些需要注意的差异点
+
+ecode 以编辑器中创建的 .js 文件为单位提供模块化编译，暂不支持编译其他格式文件
+
+导出模块使用 export，参考 官方文档事例/模块导出和导入/app1/exports.js
+
+静态导入模块使用 import，参考 官方文档事例/模块导出和导入/app1/import.js
+
+不支持标准的 import() 动态导入模块，需要使用 ecodesdk 提供的 asyncImport 方法，详见下文 ecode 中的模块导出和导入
+
+只支持标准的 ES6 API 和 JSX 相关编译，不支持其他超前属性兼容
+
+2.4.2 入口文件
+新建项目会默认会自动创建一个前置加载的入口文件 entry.js，默认绑定文件名，如果手动创建需要手动设置为前置加载
+
+入口文件本身需要前置加载，和前置加载文件一样，但额外会进行一次默认代码执行。只有具有入口文件的项目在发布后才会进行执行和生效
+
+没有入口文件或者入口文件不进行前置加载的的项目，发布后前置加载和异步加载模块可被其他项目引用，但项目本身不会执行
+
+入口文件不能被其他文件引用，可能由于找不到模块导致报错
+
+2.4.3 前置加载
+通过右键菜单我们可以将一个文件设置为前置加载，前置加载的 .js 文件代码会被编译进前置加载文件 /ecodestatic/dev/init.js，在 ecodesdk 加载之后马上进行加载
+
+前置加载的文件可以导出模块，可以被其他前置加载文件、异步加载文件、入口文件导入使用
+
+前置加载的 .css 文件会被合并到 /ecodestatic/dev/init.css
+
+2.4.4 异步加载
+不设置前置加载的 .js 文件，会被编译进当前应用的按需异步加载文件 /ecodestatic/release/${appId}/index.js
+
+在其他文件使用 import { asyncImport } from '@weapp/utils' 加载到对应模块时才会按需加载对应的文件
+
+非前置加载的 .css 文件，会被编译进当前应用的按需异步加载文件 /ecodestatic/release/${appId}/index.css
+
+2.4.5 模块导入导出
+注意：
+
+1、请不要引用入口文件，可能由于找不到模块导致报错
+
+2、请不要产生文件间的循环引用，部分模块将无法被处理而导致报错
+
+3、不支持在 js 文件中引用其他类型文件
+
+参考 官方文档事例/模块导出和导入：
+
+官方文档事例/模块导出和导入/app1/entry.js
+// 同一个应用中 `前置文件(模块)` 导入 `前置文件(模块)`
+import defaultExport, * as fileExportsJs from "./exports";
+import { a, b } from "./exports";
+import { c , d as importD } from "./exports";
+官方文档事例/模块导出和导入/app1/component/index.js
+// 同一个应用中 `非前置文件(模块)` 导入 `其他文件(模块)`
+import Todo from './Todo';
+import { a, b } from "../exports";
+官方文档事例/模块导出和导入/app1/entry.js
+// 导入 `非前置文件(模块)`// 跨应用将 ${appId} 更换为指定的应用 appId 即可
+import { asyncImport } from '@weapp/ecodesdk';
+asyncImport('${appId}', 'component/index').then(esmodule => { 
+    console.log('模块导出和导入/app1/entry.js, component/index: ', esmodule);
+});
+官方文档事例/模块导出和导入/app1/entry.js
+// 导入 `非前置文件(模块)` 中导出的 React 组件// 跨应用将 ${appId} 更换为指定的应用即可
+const Todo = React.lazy(() => asyncImport('${appId}', 'component/index'));
+const Item = React.lazy(() => asyncImport('${appId}', 'component/Todo').then(esmodule => ({
+  default: esmodule.Item
+})));
+const App2Main = React.lazy(() => asyncImport('652535876106272768', 'Main.js'));
+官方文档事例/模块导出和导入/app1/entry.js
+// 跨应用导入另一个应用的 `前置文件(模块)`
+import { jsonp } from '@weapp/ecodesdk';
+const { pre } = jsonp.require('652535876106272768', 'pre.js');
+官方文档事例/模块导出和导入/app1/entry.js
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1694498766-image.png
+
+官方文档事例/模块导出和导入/app1/component/index.js
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1694498797-image.png
+
+自定义组件应用模块导入
+// 导入 `非前置文件(模块)` 中导出的 React 组件// 跨应用将 ${appId} 更换为指定的应用即可
+const Todo = React.lazy(() => asyncCustAppImport('coms','${appId}', 'component/index'));
+const Item = React.lazy(() => asyncCustAppImport('coms','${appId}', 'component/Todo').then(esmodule => ({
+  default: esmodule.Item
+})));
+const App2Main = React.lazy(() => asyncCustAppImport('coms','652535876106272768', 'Main.js'));
+2.4.6 开发依赖
+依赖	说明
+react@17	用于构建用户界面的 JavaScript 库
+react-dom@17	用于构建用户界面的 JavaScript 库
+axios@0.21	基于 Promise 的 HTTP 库
+mobx@4	简单、可扩展的状态管理
+mobx-react@6	方便在 React 组件中使用 mobx 的工具库
+mobx-react-lite@6	Hooks 轻量版
+react-router-dom@5	React 的声明式路由
+loadjs@4	一个适用于现代浏览器的小型异步加载器
+@weapp/utils	E10 公共工具库
+@weapp/ecodesdk	ecode E10 工具库
+@weapp/ui	E10 公共组件库（仅支持在异步非前置文件中使用
+// react@17
+import React from 'react';
+// react-dom@17
+import ReactDOM from 'react-dom';
+// axios@0.21
+import axios from 'axios';
+// mobx@4
+import * as mobx from 'mobx';
+// mobx-react@6
+import { observer } from "mobx-react";
+// react-router-dom@5
+import { Route, withRouter, Link } from "react-router-dom";
+// loadjs@4
+import loadjs from 'loadjs';
+// @weapp/utils E10 工具库
+import { regOvProps, regOvComponent } from '@weapp/utils';
+// @weapp/ecodesdk ecode 工具包
+import { asyncImport } from '@weapp/ecodesdk';
+// @weapp/ui E10 组件库，加载晚于 ecode, 仅支持在异步非前置文件中使用
+import { Button } from '@weapp/ui';
+2.4.7 加载第三方资源
+注意：一般不建议自行引入其他三方资源，标准依赖已经十分完善，请尽量在标准支持范围内完成需求，这样可以控制加载体积和性能
+
+可以通过 loadjs 引入生产文件方式使用，资源可以放到应用的 resources 目录下，这个资源目录下的文件右键可以复制地址
+
+import loadjs from 'loadjs';
+// 选中 resources/vue.js 右键，可以复制资源地址
+loadjs('${appRes}/vue.js', {
+    success: () => {
+        // do something
+    }
+})
+2.4.8 模板变量
+模板变量可用于应用内全局变量声明 - (目前仅ecode中创建的应用支持、页面表单代码块尚未支持) 在应用迁入迁出过程中 相关声明的变量会根据关联自动替换
+
+2.4.8.1 创建模板变量
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1733988947-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1733988963-image.png
+
+2.4.8.2 变量使用
+${变量名} 的形式进行使用
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1733988977-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1733988990-image.png
+
+2.5 前端二开规范
+前端二次开发规范
+
+2.6 控制代码块的生效范围
+注意：生效范围仅对租户应用生效，对公共应用不生效
+
+2.6.1 指定人员或角色
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722587283-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722587301-image.png
+
+2.6.2 区分PC和移动
+pad 按 PC 处理
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722587323-image.png
+
+2.6.3 公共应用和租户应用
+公共应用：对所有租户都生效
+
+租户应用：只对当前租户生效
+
+选择指定租户生效：
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722587474-image.png
+
+2.7 如何调试
+2.7.1 PC
+编写中
+
+2.7.2 移动端调试工具
+vconsole 移动端调试面板
+
+2.8 前端二开监控管理平台
+主团队管理员访问/ecode/monitor/react/applist
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722600824-image.png
+
+2.9 代码屏蔽调试
+授权码调试说明
+
+三、后端开发
+3.1 快速开始 - 发布一个新接口
+3.1.1 搭建本地项目
+1、下载 IDEA 项目模版，解压
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729594840-image.png
+
+2、IDEA 打开本地项目，选择刚解压的项目模版
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729594867-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729594910-image.png 3、创建自定义子项目
+
+创建目录 secondev-md-demo https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729595356-image.png
+创建gradle文件 secondev-md-demo/secondev-md-demo.gradle https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729595452-image.png
+给secondev-md-demo.gradle文件添加内容 https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729595631-image.png
+description = "子模块demo项目"
+
+dependencies {
+    // 子项目私有依赖添加
+}
+刷新gradle配置后，会将新建的目录加载成子项目，在子项目下创建java资源目录 https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729595776-image.png
+4、项目依赖 gradle 构建打包，如本地 IDEA 内在线下载较慢，可下载 gradle 离线包手动配置
+
+3.1.2 导入依赖
+1、查看二开服务在哪台服务器上
+
+登录运维平台，访问业务服务列表
+
+注意：如果业务服务列表无数据，则访问【升级中心】-【升级助手】-【服务版本】，搜索关键词 secondev，如果仍无数据，容器化环境下会有两个运维平台服务，请登录另一个运维平台服务查看 如下图，服务列表中有【E10】服务，说明当前系统是单体部署的模式，但是没有【weaver-secondev-service】服务，说明二开服务是合并在 E10 服务中的，这种情况下不建议本地调试，建议先将二开服务从 E10 中拆分部署；
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588374-image.png
+
+如下图，服务列表中没有【E10】，但是有若干 e10-xxx 服务，说明当前系统是微服务组合部署的模式；有【weaver-secondev-service】服务，说明二开服务是单独部署的，二开服务部署在 10.10.27.212 这台服务器上；如果服务列表中没有 secondev 服务，但是通过右上角搜索框搜索出来 secondev，则说明二开服务是组合在某一个服务下的，该组合服务部署的服务器即为二开所在服务器；
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588399-image.png
+
+2、打包下载到本地
+
+【非容器化环境】
+
+SSH 连接 secondev 服务器，ps -ef|grep secondev找到应用部署目录
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588448-image.png
+
+找到二开服务目录下应用包 webapps 目录，压缩打包此目录下的 ROOT 文件夹，tar -zcvf secondev.tar.gz ROOT
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588453-image.png
+
+通过 ftp 工具，下载压缩的文件 secondev.tar.gz
+【容器化环境】
+
+连接 k8s master 节点，kubectl get po列出 pod，如果有命名空间，需要 -n 指定下命名空间
+找到 secondev 服务所在的 pod，如果二开服务是组合部署的，则组合服务名称对应 pod 名称，kubectl exec -it 二开服务pod名称 /bin/bash进入容器内部
+应用目录一般在 /usr/local/tomcat/webapps/，压缩打包此目录下的ROOT目录，tar -zcvf /usr/local/secondev.tar.gz ROOT
+退出当前容器exit
+从容器内拷贝文件到虚拟机kubectl cp 二开服务pod名称:/usr/local/secondev.tar.gz /tmp/secondev.tar.gz
+通过 ftp 或其他工具下载虚拟机文件/tmp/secondev.tar.gz到本地
+下载好二开服务包到本地后，解压
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588481-image.png
+
+WEB-INF/lib目录下的所有 jar 拷贝至 IDEA 项目secDevLib目录下
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729594987-image.png
+
+WEB-INF/classes目录下的所有文件拷贝至secDevClasses目录下 https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729655657-image.png
+3.1.3 编写接口
+编写接口前，请仔细查阅二开规范文档：后端二次开发规范
+
+package com.weaver.seconddev.demo.controller
+
+import com.weaver.common.authority.annotation.WeaPermission;
+import com.weaver.common.base.entity.result.WeaResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/secondev/demo")
+@WeaPermission(publicPermission = true)
+public class HelloController {
+
+    @GetMapping("/hello")
+    public WeaResult<String> hello(@RequestParam("msg") String msg) {
+        return WeaResult.success("Hello, " + msg);
+    }
+
+}
+3.1.4 编译打包
+修改build.gradle文件，增加以下配置，刷新配置之后build
+
+sourceSets {
+    main {
+        java {
+            include '**'
+        }
+
+        resources {
+            // 打jar排除resources目录下所有的文件
+            exclude '**'
+        }
+    }
+}
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729596039-image.png
+
+3.1.5 部署验证
+主团队管理员访问/ecode/monitor/loom/deploy/jar，服务节点选择二开服务weaver-secondev-service，检测服务状态
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722588992-image.png
+
+点击上传，选择刚才本地build好的jar包
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722589707-image.png
+
+1101基线及以上，且运维平台版本V5.0.9.920241128-RC及以上，增加二开jar包上传校验功能 可参考相关文档：二开jar包上传校验功能文档
+
+上传jar包后进入运维平台重启二开服务服务
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722589766-image.png
+
+等待服务启动完成，浏览器通过e10地址访问接口/api/secondev/demo/hello?msg=weaver
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722597158-image.png
+
+3.2 通用后端场景及SDK
+3.2.1 数据库操作
+二开如需建表，统一使用EB表单搭建！
+
+如需初始化表数据，可以通过数据库管理工具连接数据库执行自定义脚本，或开发实现初始化数据。
+
+EB表单系统字段说明
+
+EB表单数据量迁移
+
+执行自定义SQL
+数据源类型
+类型名称	类型说明
+LOGIC	内部数据源（OA模块系统内模块默认数据源）
+EXTERNAL	外部数据源（数据加工中添加的外部链接）
+公共数据库表操作
+E10 部署后，默认存在一个公共数据库 eteams，存放公共表，公共表的操作需要指定公共库名称【24.1101基线版本开始支持，较低版本只能写死库名】：{$publicdb}.，例如人员表 EMPLOYEE，示例：
+
+-- 查询指定人员信息
+SELECT id,name FROM {$publicdb}.EMPLOYEE WHERE id = ? AND delete_type = 0
+补充说明：公共数据表在每个业务数据库中都存在。
+
+241201基线及以前
+根据数据源类型获取groupId数据
+/**
+ * 根据SourceType 获取groupIdMap
+ */
+public void getGroupIdMap(){
+    GroupQuery groupQuery = new GroupQuery();
+    groupQuery.setSourceType(SourceType.LOGIC);
+    List<Map<String, Object>> dataGroups = dataSetService.getDataGroups(groupQuery);
+}
+执行sql
+/**
+ * 执行sql
+ */
+public void logic(){
+    //logic类型就传logic的groupId 然后 sourceType传LOGIC
+    //external类型就传external的groupId 然后 sourceType传EXTERNAL
+    String groupId = "logic_groupid";
+    ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
+    executeSqlEntity.setSql(Base64.encode("select * from table_name where id = 11111"));
+    executeSqlEntity.setGroupId(groupId);
+    executeSqlEntity.setSourceType(SourceType.LOGIC);
+    Map<String, Object> map = dataSetService.executeSql(executeSqlEntity);
+}
+250101基线--250401基线
+获取数据库分组
+/sapi/datasource/ds/group
+sourceType是一个固定的枚举类 那么如何确定需要执行sql的数据表来源于哪个sourceType下呢？
+
+我们需要调用/sapi/datasource/ds/group接口确定自己的数据库属于哪个sourceType
+
+目前只能穷举sourceType 一个个去测试（或者根据业务类型推测），数据加工配置的连接为EXTERNAL
+
+     /**
+     * 根据数据库类型 找到对应数据库
+     *
+     * @param sourceType sourceType 枚举类
+     *                   ETEAMS  :数据仓库
+     *                   FORM: ebuilder表单
+     *                   LOGIC: 各模块提供业务数据(逻辑表)
+     *                   EXTERNAL： 外部数据源
+     * @return
+     */
+    public Map<String, Object> getDataGroups(String sourceType) {
+        try {
+            //拼接参数
+            MultiValueMap<String, Object> valueMap = new LinkedMultiValueMap<>();
+            valueMap.add("sourceType", sourceType);
+
+            return commonRestService.postForObject("/sapi/datasource/ds/group", MediaType.APPLICATION_FORM_URLENCODED, Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+
+        }
+    }
+LOGIC出参示例：
+
+[
+  {
+    "name": "业务表单",
+    "id": "weaver-formreport-service"
+  },
+  {
+    "name": "流程",
+    "id": "weaver-workflow-report-serviceworkflowreport"
+  },
+  {
+    "name": "任务",
+    "id": "weaver-project-servicetask"
+  },
+  {
+    "name": "日志",
+    "id": "weaver-elog-service"
+  },
+  {
+    "name": "会议",
+    "id": "weaver-meeting-service"
+  },
+  {
+    "name": "日报",
+    "id": "weaver-blog-service"
+  },
+  {
+    "name": "OKR",
+    "id": "weaver-wr-goal-service"
+  },
+  {
+    "name": "流程列表",
+    "id": "weaver-workflow-list-service"
+  },
+  {
+    "name": "考勤",
+    "id": "weaver-attend-service"
+  },
+  {
+    "name": "CRM",
+    "id": "weaver-crm-service"
+  },
+  {
+    "name": "组织画像",
+    "id": "weaver-portrait-service"
+  },
+  {
+    "name": "工作流报告",
+    "id": "weaver-workflow-report-serviceworkflow_report"
+  }
+  {
+    "name": "绩效核算",
+    "id": "weaver-ebuilder-form-serviceuFJXHS"
+  }
+]
+EXTERNAL出参示例：
+
+[
+  {
+    "dbType": "Mysql8",
+    "id": "626641698703319040",
+    "name": "e10_hr_sync"
+  },
+  {
+    "dbType": "DaMeng",
+    "id": "673747972984938496",
+    "name": "达梦测试"
+  },
+  {
+    "dbType": "Mysql8",
+    "id": "842668710322556928",
+    "name": "ecode_dev"
+  }
+]
+出参的id 就是我们执行sql需要的groupId
+
+执行内部LOGIC sql（不支持预编译）
+通过数据源的sapi接口执行sql 需要调用 datasource-api 包下的 /sapi/secondev/ds/executeSql方法
+
+执行sql示例:
+
+/**
+     * 执行服务内部sql:/sapi/secondev/ds/executeSql
+     * sourceType  :LOGIC
+     * groupId  :   weaver-ebuilder-app-service 可以通过group接口获取
+     * sql : 要执行的sql语句
+     * 不支持占位执行
+     */
+    public Map<String, Object> executeLogicSql(SourceType sourceType, String groupId, String sql) {
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("sourceType", sourceType);
+        valueMap.put("groupId", groupId);
+        //sql select * from table where tenant_key = '租户key' and delete_dype = 0 and id in (1,2,3)
+        valueMap.put("sql", Base64.encode(sql));
+
+        try {
+            return commonRestService.postForForm("/sapi/secondev/ds/executeSql", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+执行外部EXTERNAL sql(支持预编译方式)
+通过数据源的sapi接口执行sql 需要调用 datasource-api 包下的 /sapi/datasearch/external/data/executeSql方法
+
+执行sql示例:
+
+    /**
+     * 执行外部数据库sql: /sapi/datasearch/external/data/executeSql
+     * sourceType  : EXTERNAL: 外部数据源
+     * groupId  :   842668710322556928L 通过group接口获取数据加工内配置的连接id
+     * sql : Base64编译
+     * sqlParams : 添加参数顺序要与sql里占位符顺序一致
+     * @param
+     * @return
+     */
+    public Map<String, Object> executeExternalSql(SourceType sourceType, String groupId, String sql, List<SqlParamEntity> sqlParams) {
+        //执行sql  参数sourceType   groupId  sql
+        ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
+        executeSqlEntity.setSql(base64(sql));
+        executeSqlEntity.setGroupId(groupId);
+        executeSqlEntity.setSourceType(sourceType);
+
+        //若通过占位符方式查询外部数据库,需增加此参数
+        //占位符list 的顺序  要与 sql 的?占位符顺序一致
+        if (sqlParams != null && !sqlParams.isEmpty()) {
+            executeSqlEntity.setParams(sqlParams);
+        }
+
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("params", JSONUtil.toJsonStr(executeSqlEntity));
+
+        try {
+            return commonRestService.postForForm("/sapi/datasearch/external/data/executeSql", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+获取预编译sql占位符List<SqlParamEntity>
+预编译方式参数字段解析(SqlParamEntity)
+
+参数名	必选	类型	说明
+FieldId	是	String	条件字段的名称
+ParamType	是	Enum	条件字段的类型，SqlParamType枚举
+Value	是	String	条件字段的值，字符串，in 条件的需通过多个?进行占位，例：(?, ?, ?)
+构建params示例：
+
+
+    /**
+     * 构建占位符参数json字符
+     * 注意:list的参数顺序 必须要与 sql内的占位符参数顺序一致
+     * 此案例构建的json字符串 是提供给sql:select * from table where tenant_key = ? and delete_dype = ? and id in (?, ?, ?) 使用
+     * @return
+     */
+    public List<SqlParamEntity> getSqlParams() {
+        List<SqlParamEntity> sqlParams = new ArrayList<>();
+
+        SqlParamEntity sqlParam1 = new SqlParamEntity();
+        sqlParam1.setParamType(SqlParamType.VARCHAR);
+        sqlParam1.setValue("thsv5s4n2c");
+        sqlParams.add(sqlParam1);
+
+        SqlParamEntity sqlParam2 = new SqlParamEntity();
+        sqlParam2.setParamType(SqlParamType.INTEGER);
+        sqlParam2.setValue("0");
+        sqlParams.add(sqlParam2);
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(1054407582048280585L);
+        ids.add(1054407345976074241L);
+        ids.add(1054406667262189570L);
+        for (Long id : ids) {
+            SqlParamEntity sqlParam3 = new SqlParamEntity();
+            sqlParam3.setParamType(SqlParamType.LONG);
+            sqlParam3.setValue(String.valueOf(id));
+            sqlParams.add(sqlParam3);
+        }
+
+        return sqlParams;
+    }
+1201基线及以上支持的LOGIC与EXTERNAL统一接口，1101基线及以下不支持
+注:此接口支持预编译方式执行sql，且LOGIC执行支持事务处理
+
+    /**
+     * 1201 基线支持数据库执行接口调用案例代码
+     * 1.预编译方式LOGIC执行sql
+     * 2.非预编译方式LOGIC执行sql
+     * 3.预编译方式EXTERNAL执行sql
+     * 4.非预编译方式EXTERNAL执行sql
+     * 5.开启事务
+     * 6.提交事务
+     * 7.回滚事务
+     */
+    public WeaResult<Object> testTrans() {
+        Map<String, Object> res = new HashMap<>();
+
+        Map<String, Object> execute = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                "select * from wfc_testinfo_log where id = 973258354118836227 and delete_type=0 and tenant_key='thsv5s4n2c'",
+                null, "", false, false, false);
+        res.put("非预编译方式LOGIC执行sql", execute);
+
+
+        String sql = "select * from ecod_folder where tenant_key = ? and delete_type = ? and root_folder_id in(?, ?, ?) order by create_time desc", groupId = "842668710322556928";
+        List<SqlParamEntity> sqlParams = dataSetUtil.getSqlParams();
+        Map<String, Object> execute2 = dataSetUtil.executeSqlWithTrans(SourceType.EXTERNAL, groupId, sql, sqlParams, "", null, null, null);
+        res.put("预编译EXTERNAL执行sql", execute2);
+
+
+        String sql1 = "select * from ecod_folder where tenant_key = 'thsv5s4n2c' and delete_type = 0 " +
+                "and root_folder_id in(1054407582048280585,1054407345976074241,1054406667262189570) order by create_time desc";
+        Map<String, Object> execute3 = dataSetUtil.executeSqlWithTrans(SourceType.EXTERNAL, groupId, sql1, null, "", null, null, null);
+        res.put("非预编译方式EXTERNAL执行sql", execute3);
+
+        //设置transId 事务id
+        String transId = "973258354118836227";
+        try {
+            //开启事务
+            Map<String, Object> execute01 = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                    "update wfc_testinfo_log set update_time ='2024-11-22 20:00:00' where id = 973258354118836227 and tenant_key = 'thsv5s4n2c' and delete_type = 0",
+                    null, transId, true, false, false);
+            //带事务执行sql
+            Map<String, Object> execute02 = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                    "update wfc_testinfo_log set update_time ='2024-11-22 21:00:00' where id = 973258354118836227 and tenant_key = 'thsv5s4n2c' and delete_type = 0",
+                    null, transId, true, false, false);
+
+            //提交事务
+            Map<String, Object> execute03 = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                    "update wfc_testinfo_log set update_time = '2024-11-22 22:00:03' where id = 973258354118836227 and tenant_key = 'thsv5s4n2c' and delete_type = 0",
+                    null, transId, true, true, false);
+            log.info("");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            //回滚事务
+            Map<String, Object> execute03 = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                    "", null, transId, true, false, true);
+            log.info("");
+        }
+
+
+        //获取预编译参数数据
+        List<SqlParamEntity> logicSqlParams = new ArrayList<>();
+        SqlParamEntity sqlParam3 = new SqlParamEntity();
+        sqlParam3.setParamType(SqlParamType.LONG);
+        sqlParam3.setValue("973258354118836227");
+        logicSqlParams.add(sqlParam3);
+
+
+        SqlParamEntity sqlParam2 = new SqlParamEntity();
+        sqlParam2.setParamType(SqlParamType.INTEGER);
+        sqlParam2.setValue("0");
+        logicSqlParams.add(sqlParam2);
+
+        SqlParamEntity sqlParam1 = new SqlParamEntity();
+        sqlParam1.setParamType(SqlParamType.VARCHAR);
+        sqlParam1.setValue("thsv5s4n2c");
+        logicSqlParams.add(sqlParam1);
+
+        //预编译LOGIC执行Sql
+        Map<String, Object> execute04 = dataSetUtil.executeSqlWithTrans(SourceType.LOGIC, "weaver-workflow-list-service",
+                "select * from wfc_testinfo_log where id = ? and delete_type = ? and tenant_key = ?",
+                logicSqlParams, "", false, false, false);
+        res.put("预编译方式LOGIC执行sql", execute04);
+
+        return WeaResult.success(res);
+    }
+
+    /**
+     * 1201基线后支持的聚合执行接口
+     * LOGIC:支持普通sql与预编译sql执行,支持带事务执行
+     * EXTERNAL:支持普通sql与预编译sql执行,不支持带事务执行
+     * @param sourceType 连接类型
+     * @param groupId 连接id
+     * @param sql sql语句
+     * @param sqlParams 预编译sql参数
+     * @param transId 事务id
+     * @param startTrans 是否开启事务
+     * @param commit 是否提交事务
+     * @param rollback 是否回滚事务
+     */
+    public Map<String, Object> executeSqlWithTrans(SourceType sourceType, String groupId, String sql, List<SqlParamEntity> sqlParams, String transId, Boolean startTrans, Boolean commit, Boolean rollback) {
+        //执行sql  参数sourceType   groupId  sql
+        ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
+        executeSqlEntity.setSql(base64(sql));
+        executeSqlEntity.setGroupId(groupId);
+        executeSqlEntity.setSourceType(sourceType);
+
+        //若通过占位符方式查询外部数据库,需增加此参数
+        //占位符list 的顺序  要与 sql 的?占位符顺序一致
+        if (sqlParams != null && !sqlParams.isEmpty()) {
+            executeSqlEntity.setParams(sqlParams);
+        }
+        //设置事务id
+        if (transId != null && !transId.isEmpty()) {
+            executeSqlEntity.setTransactionId(transId);
+        }
+        //是否开启事务
+        if (startTrans != null && startTrans) {
+            executeSqlEntity.setStartTransaction(true);
+        }
+        //是否提交事务
+        if (commit != null && commit) {
+            executeSqlEntity.setCommitTransaction(true);
+        }
+        //是否回滚事务
+        if (rollback != null && rollback) {
+            executeSqlEntity.setRollbackTransaction(true);
+        }
+
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("entity", JSONUtil.toJsonStr(executeSqlEntity));
+
+        try {
+            return commonRestService.postForForm("/sapi/secondev/ds/executeSqlAll", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+执行sql完整案例代码：
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import com.weaver.datasource.utils.rest.CommonRestService;
+import com.weaver.ebuilder.datasource.api.entity.ExecuteSqlEntity;
+import com.weaver.ebuilder.datasource.api.entity.SqlParamEntity;
+import com.weaver.ebuilder.datasource.api.enums.SourceType;
+import com.weaver.ebuilder.datasource.api.enums.SqlParamType;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * Author: 李玉逸
+ * Describe:
+ * Date: 2024/11/7 13:47
+ */
+@Slf4j
+@Component
+public class DataSetUtil {
+
+    @Autowired
+    private CommonRestService commonRestService;
+
+    public static String base64(String sql) {
+        return Base64.encode(sql);
+    }
+
+    /**
+     * 根据数据库类型 找到对应数据库
+     *
+     * @param sourceType sourceType 枚举类
+     *                   ETEAMS  :数据仓库
+     *                   FORM: ebuilder表单
+     *                   LOGIC: 各模块提供业务数据(逻辑表)
+     *                   EXTERNAL： 外部数据源
+     * @return
+     */
+    public Map<String, Object> getDataGroups(String sourceType) {
+        try {
+            //拼接参数
+            MultiValueMap<String, Object> valueMap = new LinkedMultiValueMap<>();
+            valueMap.add("sourceType", sourceType);
+
+            return commonRestService.postForObject("/sapi/datasource/ds/group", MediaType.APPLICATION_FORM_URLENCODED, Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+
+        }
+    }
+
+    /**
+     * 执行服务内部sql:/sapi/secondev/ds/executeSql
+     * sourceType  :LOGIC
+     * groupId  :   weaver-ebuilder-app-service 可以通过group接口获取
+     * sql :      select * from ebda_app limit  10
+     * @param sourceType LOGIC: 各模块提供业务数据(逻辑表)
+     * @param groupId
+     * @param sql
+     * @return
+     */
+    public Map<String, Object> executeLogicSql(SourceType sourceType, String groupId, String sql) {
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("sourceType", sourceType);
+        valueMap.put("groupId", groupId);
+        //sql select * from table where tenant_key = '租户key' and delete_dype = 0 and id in (1,2,3)
+        valueMap.put("sql", base64(sql));
+
+        try {
+            return commonRestService.postForForm("/sapi/secondev/ds/executeSql", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 执行外部数据库sql: /sapi/datasearch/external/data/executeSql
+     * sourceType  : EXTERNAL: 外部数据源
+     * groupId  :   842668710322556928L 通过group接口获取数据加工内配置的连接id
+     * sql :      select * from ebda_app limit  10
+     *
+     * @param
+     * @return
+     */
+    public Map<String, Object> executeExternalSql(SourceType sourceType, String groupId, String sql, List<SqlParamEntity> sqlParams) {
+        //执行sql  参数sourceType   groupId  sql
+        ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
+        executeSqlEntity.setSql(base64(sql));
+        executeSqlEntity.setGroupId(groupId);
+        executeSqlEntity.setSourceType(sourceType);
+
+        //若通过占位符方式查询外部数据库,需增加此参数
+        //占位符list 的顺序  要与 sql 的?占位符顺序一致
+        if (sqlParams != null && !sqlParams.isEmpty()) {
+            executeSqlEntity.setParams(sqlParams);
+        }
+
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("params", JSONUtil.toJsonStr(executeSqlEntity));
+
+        try {
+            return commonRestService.postForForm("/sapi/datasearch/external/data/executeSql", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 构建占位符参数
+     * 注意:list的参数顺序 必须要与 sql内的占位符参数顺序一致
+     * 此案例构建的json字符串 是提供给sql:select * from table where tenant_key = ? and delete_dype = ? and id in (?, ?, ?) 使用
+     * @return
+     */
+    public List<SqlParamEntity> getSqlParams() {
+        List<SqlParamEntity> sqlParams = new ArrayList<>();
+
+        SqlParamEntity sqlParam1 = new SqlParamEntity();
+        sqlParam1.setParamType(SqlParamType.VARCHAR);
+        sqlParam1.setValue("thsv5s4n2c");
+        sqlParams.add(sqlParam1);
+
+        SqlParamEntity sqlParam2 = new SqlParamEntity();
+        sqlParam2.setParamType(SqlParamType.INTEGER);
+        sqlParam2.setValue("0");
+        sqlParams.add(sqlParam2);
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(1054407582048280585L);
+        ids.add(1054407345976074241L);
+        ids.add(1054406667262189570L);
+        for (Long id : ids) {
+            SqlParamEntity sqlParam3 = new SqlParamEntity();
+            sqlParam3.setParamType(SqlParamType.LONG);
+            sqlParam3.setValue(String.valueOf(id));
+            sqlParams.add(sqlParam3);
+        }
+
+        return sqlParams;
+    }
+
+    //1201基线后支持的接口---------------------------------------------------
+    /**
+     * 1201基线后支持的聚合执行接口
+     * LOGIC:支持普通sql与预编译sql执行,支持带事务执行
+     * EXTERNAL:支持普通sql与预编译sql执行,不支持带事务执行
+     * @param sourceType 连接类型
+     * @param groupId 连接id
+     * @param sql sql语句
+     * @param sqlParams 预编译sql参数
+     * @param transId 事务id
+     * @param startTrans 是否开启事务
+     * @param commit 是否提交事务
+     * @param rollback 是否回滚事务
+     */
+    public Map<String, Object> executeSqlWithTrans(SourceType sourceType, String groupId, String sql, List<SqlParamEntity> sqlParams, String transId, Boolean startTrans, Boolean commit, Boolean rollback) {
+        //执行sql  参数sourceType   groupId  sql
+        ExecuteSqlEntity executeSqlEntity = new ExecuteSqlEntity();
+        executeSqlEntity.setSql(base64(sql));
+        executeSqlEntity.setGroupId(groupId);
+        executeSqlEntity.setSourceType(sourceType);
+
+        //若通过占位符方式查询外部数据库,需增加此参数
+        //占位符list 的顺序  要与 sql 的?占位符顺序一致
+        if (sqlParams != null && !sqlParams.isEmpty()) {
+            executeSqlEntity.setParams(sqlParams);
+        }
+        //设置事务id
+        if (transId != null && !transId.isEmpty()) {
+            executeSqlEntity.setTransactionId(transId);
+        }
+        //是否开启事务
+        if (startTrans != null && startTrans) {
+            executeSqlEntity.setStartTransaction(true);
+        }
+        //是否提交事务
+        if (commit != null && commit) {
+            executeSqlEntity.setCommitTransaction(true);
+        }
+        //是否回滚事务
+        if (rollback != null && rollback) {
+            executeSqlEntity.setRollbackTransaction(true);
+        }
+
+        //拼接参数
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("entity", JSONUtil.toJsonStr(executeSqlEntity));
+
+        try {
+            return commonRestService.postForForm("/sapi/secondev/ds/executeSqlAll", Map.class, valueMap);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+}
+250501基线提供二开执行sql工具类
+可直接使用该工具类【com.weaver.secondev.api.util.SecondevDataSetUtil】，将数据源接口封装，执行sql只需要调用工具类即可
+
+调用示例：
+
+import com.weaver.common.distribution.genid.IdGenerator;
+import com.weaver.ebuilder.datasource.api.entity.SqlParamEntity;
+import com.weaver.ebuilder.datasource.api.enums.SourceType;
+import com.weaver.ebuilder.datasource.api.enums.SqlParamType;
+import com.weaver.secondev.api.util.SecondevDataSetUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class dataTest{
+    @Autowired
+    SecondevDataSetUtil secondevDataSetUtil;
+    
+    /**
+     * 获取groupMap数据
+     */
+    public void getGroupMap(){
+        secondevDataSetUtil.getDataGroups("LOGIC");
+        secondevDataSetUtil.getDataGroups("EXTERNAL");
+    }
+    
+    /**
+     * 执行sql
+     */
+    public void executeSql(){
+        //对应sourceType的groupId
+        String groupId = "group_id";
+        //预编译占位参数 ，占位参数顺序要与 sql中【?】顺序，个数一致
+        //不使用与便于占位  可以传null
+        List<SqlParamEntity> params = new ArrayList<>();
+        SqlParamEntity sqlParamEntity = new SqlParamEntity();
+        sqlParamEntity.setParamType(SqlParamType.BIGINT);
+        sqlParamEntity.setValue("1111111");
+        params.add(sqlParamEntity);
+        SqlParamEntity sqlParamEntity1 = new SqlParamEntity();
+        sqlParamEntity1.setParamType(SqlParamType.BIGINT);
+        sqlParamEntity1.setValue("2222222");
+        params.add(sqlParamEntity1);
+        //sourceType 数据源类型
+        //groupId 数据源Id
+        //sql 执行sql 可支持预编译
+        //params 预编译占位参数 不使用可传null
+        secondevDataSetUtil.executeSql(SourceType.LOGIC,groupId,"select * from table_name where id = 111 and field1 in (?,?) ",params);
+    }
+    
+    /**
+     * LOGIC 类型带事务执行sql,仅支持LOGIC类型
+     */
+    public void executeSqlWithTrans(){
+        //LOGIC 数据源 groupId
+        String logicGroupId = "logicGroupId";
+        String tenantKey = "租户key";
+        //设置transId 事务id
+        String transId = String.valueOf(IdGenerator.generate());
+        try {
+            //SourceType 数据源类型 仅支持LOGIC
+            //groupId LOGIC的groupId
+            //sql 执行sql
+            //sql Params   目前不支持占位  传null
+            //transId 事务id
+            //startTrans 是否开启事务
+            //commit 是否提交事务
+            //rollback 是否回滚事务
+            
+            //开启事务 并执行sql
+            Map<String, Object> execute01 = secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, logicGroupId,
+                    "update wfc_testinfo_log set update_time ='2024-11-22 20:00:00' where id = 1127944156823134212 and tenant_key = '" + tenantKey + "' and delete_type = 0",
+                    null, transId, true, false, false);
+
+            //在同一事务中执行sql2 并提交事务
+            Map<String, Object> execute03 = secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, logicGroupId,
+                    "update wfc_testinfo_log set update_time = '2024-11-22 22:00:03' where id = 1127944156823134212 and tenant_key = '" + tenantKey + "' and delete_type = 0",
+                    null, transId, true, true, false);
+        } catch (Exception e) {
+            //回滚事务
+            Map<String, Object> execute03 = secondevDataSetUtil.executeSqlWithTrans(SourceType.LOGIC, logicGroupId,
+                    "", null, transId, true, false, true);
+            throw e;
+        }
+    }
+}
+参考文档
+详细参数介绍可参考相关数据源接口文档：
+
+https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/8bcf1e40-a333-401d-a5c0-20b375d7bc84
+
+获取数据库类型
+// 示例 判断是否为达梦数据库
+boolean isDM = "DM".equalsIgnoreCase(com.weaver.common.mybatis.baseConfig.WeaDatabaseIdProvider.databaseId);
+3.2.2 发布http接口
+1、二开接口前缀规范
+
+/api/secondev 【用户需要登录才能访问，通过E10地址访问】
+
+/sapi/secondev 【服务间调用接口，无法通过E10地址直接访问，可通过开放平台规范调用】
+
+【二开严禁随意声明/papi接口！ 如需发布接口给外部系统调用，请统一声明为/sapi接口并通过开放平台认证调用！】
+
+接口示例
+
+import com.weaver.common.authority.annotation.WeaPermission;
+import com.weaver.common.base.entity.result.WeaResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/secondev/demo")
+@WeaPermission(publicPermission = true)
+public class HelloController {
+
+    @GetMapping("/hello")
+    public WeaResult<String> hello(@RequestParam("msg") String msg) {
+        return WeaResult.success("Hello, " + msg);
+    }
+
+}
+3.2.3 自定义action接口
+1、接口示例
+
+import com.alibaba.fastjson.JSON;
+import com.weaver.common.base.entity.result.WeaResult;
+import com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+@Slf4j
+@Service("esbDemoAction")
+public class DemoAction implements EsbServerlessRpcRemoteInterface {
+
+    @Override
+    public WeaResult<Map<String, Object>> execute(Map<String, Object> params) {
+      // 在动作流中配置的输入参数可从 params 中读取
+        log.info("params: {}", JSON.toJSONString(params));
+        params.put("extral", "123");
+        return WeaResult.success(params);
+    }
+    
+}
+2、配置xml
+
+注意：xml修改后需要重启服务才能生效！
+
+本地修改resources/applicationContext-secondev-secondev-dubbo.xml文件，添加如下内容
+
+<dubbo:service ref="esbDemoAction"
+               interface="com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface"
+               group="esbDemoActionGroup" />
+其中 ref 为 action 接口声明的 bean 名称，interface 固定，为 action 实现的接口，group 自定义，需要唯一
+
+xml 文件完整内容参考：
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:service ref="esbDemoAction"
+                   interface="com.weaver.esb.api.rpc.EsbServerlessRpcRemoteInterface"
+                    group="esbDemoActionGroup" />
+
+</beans>
+3、xml修改配置发布到线上
+
+请确保先部署代码再发布配置，如果只修改xml配置而未部署代码，会导致服务启动异常！
+
+主团队管理员访问/ecode/monitor/loom/deploy/jar，配置文件编辑页面，选择weaver-secondev-service，点击查询并编辑
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722597834-image.png
+
+编辑完成后Ctrl + S或者Command + S保存即可，然后。
+
+注意！如果xml配置了接口信息而代码未部署上去，一旦重启服务会导致服务启动失败！
+
+4、ESB 配置 action
+
+动作流添加【代码】-【serverless/action】
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729764374-image.png
+
+填入发布服务时对应的分组标识（group） 和 版本号（version）（ 和dubbo 提供者配置文件的 group 和 version 对应，如果没有版本号就不用填），再根据需要配置输入参数和输出参数
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1729764519-image.png
+
+3.2.4 分布式定时任务
+E10 分布式定时任务开发文档
+
+3.2.5 发布接口到开放平台
+1、发布sapi接口，示例如下
+
+import com.weaver.common.base.entity.result.WeaResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/sapi/secondev/workflow/demo")
+public class SapiController {
+
+    // /sapi/secondev为固定前缀
+
+    @GetMapping("/hello")
+    public WeaResult<String> hello(@RequestParam("key") String key, HttpServletRequest request, HttpServletResponse response) {
+        // todo
+
+        Map<String, Object> datas = new HashMap<>();
+        datas.put("msg", "sapi success");
+        return WeaResult.success(key);
+    }
+
+}
+2、开放平台调用，访问私有化开放平台地址，查阅开放平台文档
+
+E10地址 + /sp/opendoc
+注意：/sapi接口通过开放平台调用时，调用的接口路径需要改为/api，通过开放平台前缀，一般是/papi/openapi，比如上述示例接口最终通过开放平台的调用地址为：
+
+E10地址 + /papi/openapi/api/secondev/workflow/demo/hello
+/papi/openapi 为开放平台的接口调用前缀，具体前缀地址请访问私有开放平台文档确认。
+
+3.2.6 二开服务调用标准服务接口
+25.0301基线及之后的版本：
+
+1、调用标准dubbo接口
+
+package com.weaver.seconddev.action;
+
+import com.weaver.loom.admittance.entity.SecondRpcEntity;
+import com.weaver.loom.admittance.util.SecondRpcUtil;
+import com.weaver.teams.security.context.UserContext;
+import com.weaver.teams.security.user.User;
+import com.weaver.seconddev.entity.demoEntity;
+import java.util.HashMap;
+import java.util.Map;
+
+public class demoClass {
+    @Autowired
+    SecondRpcUtil secondRpcUtil;
+
+    public void test() {
+        User currentUser = UserContext.getCurrentUser();
+        //租户key
+        String tenantKey = currentUser.getTenantKey();
+
+        //构建rpc调用接口实体类
+        SecondRpcEntity secondRpcEntity = new SecondRpcEntity();
+        //dubbo接口group 配置没有的可不填
+        secondRpcEntity.setGroup("group");
+        //dubbo接口version 配置没有的可不填
+        secondRpcEntity.setVersion("version");
+        //接口方法名
+        secondRpcEntity.setMethodName("methodName");
+        //接口全路径
+        secondRpcEntity.setServiceName("com.weaver.xxx.xxx.xxx.xxxxxxxService");
+
+        //types 目前支持两种类型Class和String
+        Class<?>[] classTypes = getClassTypes();
+        String[] stringTypes = getStringTypes();
+
+        //参数
+        String param1 = "参数1";
+        int param2 = 2;
+        //实体要转成Map,实体要支持序列化
+        Map<String, Object> param3 = new HashMap<>();
+        //可以增加class字段标注实体的全类名
+        param3.put("class", "com.weaver.demo.entity.demoEntity");
+        param3.put("id", "11111111");
+        param3.put("name", "demoName"); 
+
+        //参数的顺序 要与调用的方法的参数顺序一致  types 目前支持两种类型Class和String
+        Object o = secondRpcUtil.doInvoke(secondRpcEntity, tenantKey, types, new Object[]{param1, param2, param3});
+    }
+
+    private Class<?>[] getClassTypes(){
+        //要调用的参数个数 此处举例3个参数
+        //参数类型
+        Class<?>[] types = new Class<?>[3];
+        //封装类型
+        types[0] = String.class;
+        //普通类型
+        types[1] = int.class;
+        //实体类型
+        types[2] = demoEntity.class;
+        return types;
+    }
+
+    private String[] getStringTypes(){
+        //要调用的参数个数 此处举例3个参数
+        //参数类型
+        String[] types = new String[3];
+        //封装类型
+        types[0] = "java.lang.String";
+        //普通类型
+        types[1] = "int";
+        //实体类型
+        types[2] = "com.weaver.demo.entity.demoEntity";
+        return types;
+    }
+}
+2、调用标准sapi接口
+
+package com.weaver.seconddev.action;
+
+import com.weaver.loom.admittance.util.SecondSapiUtil;
+import org.springframework.http.MediaType;
+import java.util.HashMap;
+import java.util.Map;
+
+public class demoClass {
+
+    @Autowired
+    SecondSapiUtil secondSapiUtil;
+
+    public void getTestMethod() {
+        //请求url
+        String getUrl = "/sapi/demo/geturl"
+        //参数
+        Map<String, Object> getParams = new HashMap<>();
+        getParams.put("param1", "1111");
+        getParams.put("param2", 22222L);
+        //根据自己需求传 请求类型
+        MediaType mediaType = MediaType.APPLICATION_JSON;
+        //返回类型
+        Class<?> responseType = Map.class
+        Map result = (Map) secondSapiUtil.getSapiForObj(getUrl, getParams, mediaType, responseType);
+    }
+
+    public void postTestMethod() {
+        String postUrl = "/sapi/demo/posturl";
+    
+        //参数
+        Map<String, Object> getParams = new HashMap<>();
+        getParams.put("param1", "1111");
+        getParams.put("param2", 22222L);
+        //根据自己需求传 请求类型
+        MediaType mediaType = MediaType.APPLICATION_JSON;
+
+        //返回类型
+        Class<?> responseType = Map.class;
+        //Obj类型
+        Map result = (Map) secondSapiUtil.postSapiForObj(postUrl , getParams, mediaType, responseType);
+        //表单form类型  固定请求类型为APPLICATION_FORM_URLENCODED
+        Map result1 = (Map) secondSapiUtil.postSapiForForm(postUrl , getParams, responseType);
+    }
+}
+25.0301基线之前的版本：
+
+1、sapi调用
+
+import com.weaver.framework.remote.client.rest.RestClient;
+
+@Autowired
+RestClient restClient;
+
+Map response = restClient.postForObject(headers, "/sapi/dw/connSetting/getConnById", request, Map.class);
+3.2.7 配置文件
+1、读取二开服务自定义配置，二开服务配置文件weaver-secondev-service.properties
+
+单体环境下配置文件路径：二开服务/webapps/ROOT/WEB-INF/classes/weaver/config/config-center/
+
+微服务组合环境下：nacos - 配置列表
+
+单体环境下修改配置后需要重启服务才生效
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
+
+
+/**
+ * @RefreshScope 若使用配置中心管理，则支持自动刷新同步
+ * 二开服务配置文件：weaver-secondev-service.properties
+ */
+@Data
+@Configuration
+@RefreshScope
+public class SecDevProperty {
+
+    @Value("${weaver.secondev.custom.url:abcd}")
+    private String moduleName;
+
+    @Value("${weaver.secondev.custom.data:123}")
+    private String customData;
+
+    @Value("${weaver.secondev.custom.key:abcd}")
+    private String customKey;
+
+}
+2、使用独立配置文件
+
+新增配置文件，文件名 weaver-secondev-service-txproduction.properties，在此配置文件中增加自定义配置 此配置文件中的配置读写方式同上。
+
+3、使用自定义配置文件
+
+新增配置文件，文件名自拟，要求不能与标准配置文件重名，二开服务自拟配置文件建议以【weaver-secondev-】作为前缀，以便区分
+
+注册自定义配置文件，在二开jar包中，固定的包路径【com.weaver.custom.configcenter】下，创建注册类（类名必须唯一），使用注解**@WeaverConfigCenter** 与**@WeaverConfigCenter.ConfigProperty**进行配置自定义配置文件属性，一个服务只需要引入一次，不需要多个二开jar包里面写多次
+
+dataId：自定义配置文件名
+group：分组
+refresh：是否实时刷新
+代码示例：
+
+//包路径必须固定是这个
+package com.weaver.custom.configcenter;
+
+//注解包别导错了
+import com.weaver.framework.client.annotation.WeaverConfigCenter;
+
+@WeaverConfigCenter(sources = {
+        @WeaverConfigCenter.ConfigProperty(
+                dataId = "weaver-loom-hookreg.properties",
+                group = "DEFAULT_GROUP",
+                refresh = "true")
+})
+//类名自拟，但是不要重复了
+public class SecondevCustomPropertiesConfigCenter {}
+
+注册后就可以在 二开代码中使用Spring的 @Value注解去获取配置项
+
+3.2.8 缓存
+步骤1：必须在模块内定义一个存放自己缓存key的常量文件，并实现ModuleCacheInterface接口
+
+import com.weaver.common.cache.base.BaseCache;
+import com.weaver.common.cache.base.ModuleCacheInterface;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
+@Component
+public class TestSecondevCacheKey implements ModuleCacheInterface {
+
+    @Autowired
+    private BaseCache baseCache;
+
+    // 要求变量名和变量值必须完全保持一致，注册时会执行检测，如果不一致，系统启动时会抛出异常
+    // 命名必须以 SECONDEV_ 为前缀
+    public final static String SECONDEV_TEST_MODULE = "SECONDEV_TEST_MODULE";
+
+    // 自定义缓存key，自定义key命名必须以 SECONDEV_ 为前缀
+    public final static String SECONDEV_CACHE_KEY_PREFIX = "SECONDEV_CACHE_KEY_PREFIX";
+
+    @PostConstruct
+    @Override
+    public void register() throws IllegalAccessException {
+        baseCache.register(SECONDEV_TEST_MODULE, this.getClass());
+    }
+}
+步骤2：使用缓存
+
+import com.weaver.common.cache.base.BaseCache;
+import com.weaver.seconddev.workflow.myconst.TestSecondevCacheKey;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/secondev/cache")
+public class TestController {
+
+    @Autowired
+    BaseCache baseCache;
+
+    @RequestMapping("/addCache")
+    public WeaResult<String> addCache() {
+        String customKey = "abc";
+        // 缓存时间可以选择性设置
+        boolean success = baseCache.set(TestSecondevCacheKey.SECONDEV_TEST_MODULE, TestSecondevCacheKey.SECONDEV_CACHE_KEY_PREFIX + customKey, "这里是缓存的内容", 60 * 60);
+        return WeaResult.success("success");
+    }
+
+    @RequestMapping("/delCache")
+    public WeaResult<String>  delCache(){
+        String customKey = "abc";
+        boolean success = baseCache.del(TestSecondevCacheKey.SECONDEV_TEST_MODULE, TestSecondevCacheKey.SECONDEV_CACHE_KEY_PREFIX + customKey);
+        return WeaResult.success("success");
+    }
+
+    @RequestMapping("/getCache")
+    public WeaResult<String>  getCache(){
+        String customKey = "abc";
+        Object obj =  baseCache.get(TestSecondevCacheKey.SECONDEV_TEST_MODULE, TestSecondevCacheKey.SECONDEV_CACHE_KEY_PREFIX + customKey);
+        return WeaResult.success("success");
+    }
+}
+其他接口具体可见BaseCache接口定义：
+
+public interface BaseCache {
+    /**
+     * 设置指定缓存的过期时间
+     * @param moduleKey
+     * @param key
+     * @param time
+     * @return
+     */
+    Boolean expire(String moduleKey, String key, int time);
+    Boolean expire(String moduleKey, String key, String index, int time);
+    /**
+     * 获取指定缓存的过期时间
+     * @param moduleKey
+     * @param key
+     * @return
+     */
+    long getExpire(String moduleKey, String key);
+    long getExpire(String moduleKey, String key, String index);
+    /**
+     * 指定的key是否存在
+     * @param moduleKey
+     * @param key
+     * @return
+     */
+    boolean containsKey(String moduleKey, String key);
+    boolean containsKey(String moduleKey, String key, String index);
+     /**
+     * 删除指定的键缓存
+     * @param moduleKey
+     * @param key
+     */
+    boolean del(String moduleKey, String key);
+    boolean del(String moduleKey, String key, String index);
+    /**
+     * 获取指定key的值
+     * @param moduleKey
+     * @param key
+     * @return
+     */
+    Object get(String moduleKey, String key);
+    Object get(String moduleKey, String key, String index);
+    /**
+     * 将值存入缓存
+     * @param moduleKey
+     * @param key
+     * @param value
+     * @return
+     */
+    boolean set(String moduleKey, String key, Object value);
+    boolean set(String moduleKey, String key, String index, Object value);
+    /**
+     * 将值存入缓存，并且设置有效时间
+     * @param moduleKey
+     * @param key
+     * @param time
+     * @return
+     */
+    boolean set(String moduleKey, String key, Object value, int time);
+    boolean set(String moduleKey, String key, String index, Object value, int time);
+    /**
+     * 各模块自动注册初始化缓存
+     * @param moduleKey
+     * @param clazz
+     */
+    void register(String moduleKey, Class<?> clazz) throws IllegalAccessException;
+}
+索引缓存
+
+ /**
+     * 比如此处缓存的是SECONDDEV_TEST_ID ，但是针对不同的SECONDDEV_TEST_ID 可能是多个都要缓存，
+   * 底层会将key和index的值以 ：拼接为一个新key, 
+   * 比如key=testId,index=2021, 缓存的key则为 testId:2021
+     * @return
+     */
+    @RequestMapping("/addCacheWithIndex")
+    public Object  addCacheWithIndex(){
+        for(int i=0;i<20;i++){
+            String testId= "testId"+i;
+            baseCache.set(WorkflowModuleKey.WORKFLOW_MODULE, WorkflowCacheKey.SECONDDEV_TEST_ID ,
+        testId,"testId="+i);
+        }
+        return  true;
+    }
+如需setnx、Hash、set等操作，可自行用redisTemplate。（BaseCache接口当前不提供以上操作）
+
+3.2.9 消息队列
+Queue
+消息生产者
+
+import com.weaver.common.async.bean.AsyncBean;
+import com.weaver.common.async.producer.client.AsyncClient;
+import com.weaver.common.base.entity.result.WeaResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/sapi/secondev/mq/demo")
+public class SapiController {
+
+    @Autowired
+    private AsyncClient asyncClient;
+
+    @RequestMapping("/send")
+    public WeaResult<String> sendMsg() {
+        String mqQueue = "mq_test";
+        for (int index = 0; index <= 10; index++) {
+            // 发送消息
+            AsyncBean asyncBean = new AsyncBean();
+            // 消息队列名
+            asyncBean.setQueue(mqQueue);
+            // message 可以是 能序列化的对象
+            asyncBean.setMessage("test_" + index); 
+            // 发送消息
+            this.asyncClient.send(asyncBean); 
+        }
+        return WeaResult.success("success");
+    }
+   
+}
+
+消费消息
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import com.weaver.common.async.bean.AsyncBean;
+import com.weaver.common.async.consumer.anno.method.AsyncListener;
+import com.weaver.common.async.consumer.bean.listener.AsyncListenerResultBean;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ListenerTest {
+
+    private static Logger log = LoggerFactory.getLogger(ListenerTest.class);
+
+    /**
+     * queues 是监听的队列名称
+     * @param message
+     * @return
+     */
+    @AsyncListener(queues = "mq_test")
+    public AsyncListenerResultBean receive(AsyncBean<String> message) {
+        AsyncListenerResultBean asyncListenerResultBean = new AsyncListenerResultBean();
+        log.info("consumer_" + Thread.currentThread().getId() + " ::: " + message.getMessage());
+        asyncListenerResultBean.setStatus(true);
+        return asyncListenerResultBean;
+    }
+    
+}
+
+队列配置，二开服务配置文件 weaver-secondev-service.properties
+
+weaver.async.queue=queue1,queue2,queue3
+Topic
+Topic 本质上还是队列，是广播的属性。
+
+消息生产者
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.weaver.common.async.producer.client.AsyncClient;
+import com.weaver.common.async.bean.AsyncBean;
+
+@RestController
+@RequestMapping("/api/seconddev/mqTopic")
+public class TopicController {
+    
+    @Autowired
+    private AsyncClient asyncClient;
+
+    @RequestMapping("/sendTopic")
+    public WeaResult<String> sendTopic() {
+        // 程序里面发了三次消息，广播到三个队列中，就会有9条数据
+        for (int i = 1; i <= 3; i++) {
+            String topic = "mq_test_topic" + i;
+            //发送消息
+            AsyncBean asyncBean = new AsyncBean();
+            asyncBean.setTopic(topic);
+            asyncBean.setMessage("topic模式消息发送：test_topic_" + i);
+            this.asyncClient.broadCast(asyncBean);
+        }
+        return WeaResult.success("success");
+    }
+}
+消息消费者，二开服务配置文件 weaver-secondev-service.properties
+
+weaver.async.topic=zksh_test_topic1,zksh_test_topic2,zksh_test_topic3
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import com.weaver.common.async.bean.AsyncBean;
+import com.weaver.common.async.consumer.anno.method.AsyncListener;
+import com.weaver.common.async.consumer.bean.listener.AsyncListenerResultBean;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ListenerTopic1 {
+    
+    private static Logger log = LoggerFactory.getLogger(ListenerTest.class);
+
+    @AsyncListener(topic = "mq_test_topic1")
+    public AsyncListenerResultBean receive(AsyncBean<String> message) {
+        AsyncListenerResultBean asyncListenerResultBean = new AsyncListenerResultBean();
+        log.info("consumer_" + Thread.currentThread().getId() + " ::: " + message.getMessage());
+        asyncListenerResultBean.setStatus(true);
+        return asyncListenerResultBean;
+    }
+
+}
+3.2.10 webservice 二开方案
+基线版本 10.2024.1001 及以上支持
+
+E10 webservice二开方案（axis2）
+
+3.2.11 国际化
+在后端管理中心 -> 区域和语言中 选择自定义标签
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1730383379-image.png
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1730383391-image.png
+
+代码中读取标签
+
+package com.weaver.seconddev.service;
+
+import com.google.common.collect.Maps;
+import com.weaver.common.base.entity.result.WeaResult;
+import com.weaver.common.i18n.label.SystemEnv;
+import com.weaver.common.i18n.tool.util.I18nLanguageUtil;
+import com.weaver.framework.rpc.context.impl.TenantRpcContext;
+
+import java.util.Map;
+
+public class I18Service {
+
+    public WeaResult<Object> index() {
+
+        Map<String, Object> res = Maps.newHashMap();
+
+        String tenant_key = TenantRpcContext.getTenantKey();
+        Long employeeId = TenantRpcContext.getEmployeeIdLong();
+        int languageId = I18nLanguageUtil.getLangId(employeeId);
+        long labelId = -793306177989820417L;
+        String labelVal = SystemEnv.getHtmlLabelName(labelId, languageId, tenant_key,"新建标签");
+        res.put("label", );
+
+        return WeaResult.success(res);
+
+    }
+
+}
+SystemEnv.getHtmlLabelName支持占位符自动替换，固定替换规则如下:
+
+{数值} 为固定占位符标准格式
+
+{0} 的0代表数组下标
+
+data数组中按照对应下标，用数组数据替换占位符
+
+前端中使用
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1730383592-image.png
+
+3.2.12 其他
+获取用户租户信息
+/api接口内获取当前用户、租户信息，注意，如果是/papi接口，无法通过此方式获取，因为/papi接口不需要登录就能访问，接口请求上下文中没有用户、租户信息。
+
+@GetMapping("/hello")
+//@PostMapping("/post")
+public WeaResult<String> hello(@RequestParam("key") String key) {
+  // 获取当前用户
+  final User currentUser = UserContext.getCurrentUser();
+  // 用户employeeId
+  final Long employeeId = currentUser.getEmployeeId();
+  // 租户key
+  final String tenantKey = currentUser.getTenantKey();//租户
+  return WeaResult.success(key);
+}
+自定义 action 接口内部获取当前用户、租户信息：
+
+@Override
+public WeaResult<Map<String, Object>> execute(Map<String, Object> params) {
+  log.info("prams size is {}", params.size());
+  try {
+    // 能获取到的前提是当前请求上下文中存在用户、租户信息，如果是定时任务、未登录等情况下触发的动作流执行的 action 接口，上下文中是没有用户租户信息的，此时是获取不到的
+    final String currentEmployeeId = TenantRpcContext.getCurrentEmployeeId();
+    final String tenantKey = TenantRpcContext.getTenantKey();
+
+    // todo
+
+  } catch (Exception e) {
+    log.error("error ", e);
+  }
+  return WeaResult.success();
+}
+分布式UUID
+基于雪花算法的实现 长度：18位 类型：纯数字（long型） 是否趋势增长：是
+
+调用方法：
+
+import com.weaver.common.distribution.genid.IdGenerator;
+
+// 获取一个ID
+long id = IdGenerator.generate()；
+
+// 获取一批ID，size是要获取的ID个数，顺序递增
+long[] ids = IdGenerator.generateRangeId(int size)
+分布式锁
+通过统一DistributionLockInterface接口方法调用，隐藏实际的分布式锁中间件细节。支持redis单机版、redis集群版、数据库版等自由配置切换。
+
+核心接口：DistributionLockInterface
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722594658-image.png
+
+@RestController
+@RequestMapping("/lock")
+public class ControllerTestDemo {
+    private static Logger log = LoggerFactory.getLogger(ControllerTestDemo.class);
+    
+    @Autowired
+    private DistributionLockInterface distributionLock;
+    
+    /**
+     * 直接调用方法的使用方式
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/login1")
+    public String test1(String key) throws Exception {
+        // **********这里一定要注意，distributionLock.tryLock()方法一定要在try{ }代码块外面**********
+        /**
+         * 锁的生命周期使用默认值的API方式
+         */
+//        distributionLock.tryLock(key);
+        /**
+         * 可以设置锁的生命周期的API方式
+         */
+        try {
+          distributionLock.tryLock(lockKey, expireTime);
+          // todo
+          } catch (Exception e) {
+              log.error("error ", e);
+          } finally {
+              distributionLock.unLock(lockKey);
+          }
+        ...
+    }
+}
+线程池组件
+主要核心类：com.weaver.common.threadPool.ThreadPoolUtil
+
+1、 api
+
+package com.weaver.common.threadPool;
+
+import com.weaver.common.threadPool.constant.ModulePoolEnum;
+import com.weaver.common.threadPool.entity.LocalRunnable;
+import com.weaver.common.threadPool.factory.ThreadPoolFactory;
+import org.apache.commons.lang.StringUtils;
+
+/*
+ * 
+ * 此线程池类只适用于Runnalbe接口，不适用与Callable接口
+ * 如有callable业务需要，请自行使用线程池创建，并确定要关闭
+ */
+public class ThreadPoolUtil {
+
+     /**
+      *  使用指定名称的线程池执行异步任务(线程池名称为module+function拼接生成)<br>
+      *  线程池最大并发线程数默认为10,核心线程数为0<br>
+      *  并发量、延时要求较低的功能,建议优先选用此方法,避免线程资源浪费<br>
+      * @param module    模块名称<br>
+      * @param function    功能描述<br>
+      * @param LocalRunnable    异步任务<br>
+      */
+     public static void execute(LocalRunnable LocalRunnable){
+         execute(ModulePoolEnum.erkai, "default", ModulePoolEnum.OTHER.getMaxThread(),LocalRunnable);
+     }
+     
+     /**
+      *  使用指定名称的线程池执行异步任务(线程池名称为module+function拼接生成)<br>
+      *  FixedThreadPool 线程池最大并发线程数为maximunPoolSize,核心线程数与maximunPoolSize相同<br>
+      *  并发量、延时要求高的功能,选用此方法,会保持一定的线程资源占用<br>
+      *  也可以使用重载方法，指定corePoolSize<maximunPoolSize<br>
+      * @param module    模块名称<br>
+      * @param function    功能描述<br>
+      * @param LocalRunnable    异步任务<br>
+      */
+     public static void fixedPoolExecute(ModulePoolEnum module,String function,LocalRunnable LocalRunnable){
+         execute(module, function,module.getMaxThread(),LocalRunnable);
+     }
+     
+     /**
+      *  使用指定名称的线程池执行异步任务(线程池名称为module+function拼接生成)<br>
+      *  线程池最大并发线程数为maximunPoolSize<br>
+      * @param module    模块名称<br>
+      * @param function    功能描述<br>
+      * @param maximunPoolSize    最大线程数<br>
+      * @param LocalRunnable    异步任务<br>
+      */
+     private static void execute(ModulePoolEnum module,String function,int maximunPoolSize,LocalRunnable LocalRunnable){
+         execute(module, function,maximunPoolSize, maximunPoolSize,LocalRunnable);
+     }
+     
+     /**
+      *  使用指定名称的线程池执行异步任务(线程池名称为module+function拼接生成)<br>
+      *  线程池最大并发线程数为maximunPoolSize<br>
+      * @param module    模块名称<br>
+      * @param function    功能描述<br>
+      * @param corePoolSize 核心线程数(即线程池空闲时,仍保留的线程数)<br>
+      * @param maximunPoolSize    最大线程数<br>
+      * @param LocalRunnable    异步任务<br>
+      */
+     private static void execute(ModulePoolEnum module,String function,int corePoolSize,int maximunPoolSize,LocalRunnable LocalRunnable){
+         if(StringUtils.isEmpty(function)){
+             function = "default";
+         }
+         LocalRunnable.setFunctiondesc(function);
+         LocalRunnable.setModule(module.name());
+         ThreadPoolFactory.getExecutor(module,corePoolSize, maximunPoolSize).execute(LocalRunnable);
+     }
+     
+     /**
+      * 关闭指定的连接池,一般情况下不会使用，请勿随意调用<br>
+      * @param module    模块名称<br>
+      * @param function    功能名称<br>
+      */
+     private void shutdown(ModulePoolEnum module){
+         ThreadPoolFactory.shutdownExecutor(module);
+     }
+     
+}
+2、二开module标识
+
+com.weaver.common.threadPool.constant.ModulePoolEnum
+
+ModulePoolEnum.erkai
+日志输出
+E10服务默认输出级别为ERROR，二开代码输出日志文件logs/sys-secondev.log，错误日志logs/sys-err.log，可通过运维平台下载；修改日志级别参考文档
+
+import com.weaver.common.authority.annotation.WeaPermission;
+import com.weaver.common.base.entity.result.WeaResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/secondev/demo")
+@WeaPermission(publicPermission = true)
+public class HelloController {
+
+    private static final Logger log = LoggerFactory.getLogger(HelloController.class);
+
+    @GetMapping("/hello")
+    public WeaResult<String> hello(@RequestParam("msg") String msg) {
+        log.info("request params is {}", msg);
+        try {
+            int number = Integer.parseInt(msg);
+        } catch (NumberFormatException e) {
+            log.error("request parse error {}", e);
+        }
+        return WeaResult.success("Hello, " + msg);
+    }
+
+}
+3.3 后端二开规范
+后端二次开发规范
+
+3.4 如何调试
+3.4.1 本地代码调试
+E10 本地二开服务 debug 手册
+
+3.4.2 线上环境报错如何排查
+1、二开代码报错优先通过天梭平台排查：/monitor/tissot/basic，根据操作人筛选
+
+2、二开服务日志 secondev服务目录/logs/：sys-secondev.log、sys-err.log，可通过运维平台下载secondev服务日志获取。
+
+3.5 后端二开监控管理平台
+3.5.1 配置管理
+主团队管理员访问/ecode/monitor/config/manage，配置项补充说明
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722600613-image.png
+
+3.5.2 jar包版本管理
+主团队管理员访问/ecode/monitor/loom/jar/versionList
+
+https://www.e-cology.com.cn/ecodestatic/test/resources/905995451026358273/1722600381-image.png
+
+四、常见开发场景及案例
+以下案例链接中如果出现访问不了或者访问跳转登录页面的情况。请联系对应的客服或者项目人员获取详细内容。
+
+4.1 门户开发
+Ecode门户元素、门户主题前端开发说明文档
+
+特色主题开发
+特色主题开发
+
+登录页改造
+登录页改造
+
+门户元素二开
+门户元素二开
+
+4.2 流程
+流程常见二开场景
+
+4.3 e-builder
+4.3.1 e-builder表单
+e-builder表单二开
+
+4.3.2 e-builder页面
+e-builder页面二开
+
+4.4 知识
+4.4.1 自定义存储
+自定义存储
+
+4.4.2 对接新插件预览
+对接新插件预览
+
+4.5 ESB动作流
+4.5.1 自定义Action开发
+自定义Action开发
+
+4.6 集成
+4.6.1 统一认证
+统一认证
+
+4.6.2 集成登录
+集成登录
+
+4.6.3 统一待办
+统一待办
+
+4.7 其他
+4.7.1 自定义浏览按钮
+E10 自定义浏览按钮配置指南
+
+E10 浏览按钮 & 自定义浏览框 & 浏览按钮数据范围
+
+自定义浏览按钮组件参数说明：
+
+module：自定义浏览框统一为 bcw
+
+type：固定前缀 customBrowser_ 后拼接自定义浏览框的标识，后台通用设置 - 自定义浏览框配置 - 浏览框基本信息 - 标识
+
+五、其他
+5.1 e-code权限配置
+开发平台权限配置
+
+5.2 e-code常见问题及解决方案
+e-code 常见问题及解决方案
+
+5.3 e-code 二开代码屏蔽调试说明
+e-code 二开代码屏蔽调试说明文档
+
+六、附录：各模块API
+6.1 公共开发文档
+文档	链接
+前端 UI 组件库文档	https://www.e-cology.com.cn/ui/freepass
+前端 utils 工具库文档	https://www.e-cology.com.cn/utils/freepass
+前端业务组件库文档	https://www.e-cology.com.cn/sp/demo/case/freepass
+云案例库	https://weapp.e-cloudstore.com/sp/cloudstore/freepass/case/ecodeApp/normal
+开放平台（私有化环境开放平台地址：E10 + /sp/opendoc）	https://weapp.eteams.cn/sp/opendoc
+6.2 各模块API文档
+更新日志
+
+模块	内部API/SDK
+前端组件	前端组件库
+前端utils库
+前端业务组件
+组件文档
+组织人事	组织人事接口说明
+整体基础	整体基础与登录注册JS API
+基础服务接口
+E10密码修改MQ广播推送对接文档
+公共业务组件	公共业务组件接口文档
+流程引擎	流程模块二开口子接口汇总
+流程干预支持加、减分支
+流程意见加载子流程意见
+流程功能开关说明
+意见征询回复指定记录
+流程退回支持退回给发送人
+流程关联表单-二开口子
+Ebuilder	e-builder页面JS API
+EbuilderRpc接口
+e-builder组件文档
+搜索框组件开放组件api说明
+表单	表单JS API
+E10表单引擎API文档
+知识	接口文档
+文件服务后端埋点二开钩子
+文档详情扩展-不添加阅读日志
+消息	消息接口
+会议	会议模块相关接口
+会议二开接口文档
+任务	项目任务二开口子文档
+合同	EB合同管理接口文档
+ESB	ESB中心对接文档
+日程	日程开发文档
+项目	项目任务二开口子文档
+统一待办	统一审批推送开发手册
+E10统一待办中心核心接口开发文档
+出勤	出勤二开钩子
+出勤表结构
+印控电子签	人员签名同步接口
+电子用印二开口子说明文档
+政务应用	政务应用接口
+档案管理	档案管理接口文档
+公文管理	E10公文二开入口汇总
+统一认证中心	CAS认证

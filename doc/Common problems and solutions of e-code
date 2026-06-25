@@ -1,0 +1,1127 @@
+
+e-code常见问题及解决方案
+一、e-code代码不生效问题排查排查方案
+1.1 e-code应用代码不生效
+1.1.1 global接口异常
+1.1.2 e-code静态文件请求404
+1.1.3 e-code静态文件修改不生效
+1.1.4 免登页面、外部分发页面代码不生效
+1.1.5 只在PC端不生效或者只在移动端不生效
+1.1.6 e-code应用代码报错导致不生效
+1.1.7 e-code应用代码console不输出
+1.1.8 页面自动刷新配置导致
+1.1.9 页面刷新缓存有效期导致
+1.1.10 e-code应用代码写的有问题
+1.1.11 e-code应用代码部分人员账号生效部分不生效
+1.2 代码块不生效
+1.2.1 设计器页面代码发布后，外部分发/免登地址代码不加载
+1.2.2 代码块不生效
+二、ecodestatic资源请求404
+三、serverless无法使用
+四、serverless函数调用失败
+4.1 函数调用提示“token为空或失效”
+4.2 函数调用提示"Func with funcId 函数id does not exist"
+五、serverless其他常见问题
+5.1 修改函数超时时间时，保存后提示“timeout must be between 3.000000 s and 10.000000 minutes”
+5.2 函数页面没有编译按钮
+六、监控平台常见问题
+6.1 ecode监控平台（/ecode/monitor）访问提示无权限
+6.2 jar包上传/部署问题
+6.2.1 上传提示“操作出现异常”
+6.2.2 上传提示“ConnectException:拒绝连接(Connection refused)”
+6.2.3 上传提示“请检查MF文件中是否存在weaver-ecode-seconddev-id!”
+6.2.4 上传提示“'sun.net. www. protocol.file . FileURLConnection' of URL......”
+6.2.5 上传jar包提示“jar文件禁止上传” 或者点击上传后，选不到jar文件
+6.2.6 ecode监控平台上传jar包提示“Init Server List is Empty...”
+6.2.7 ecode监控平台上传jar包提示“上传异常”
+6.2.8 ecode监控平台上传jar包提示“instance does not exist”
+6.2.9 ecode监控平台上传jar包提示“AbstractlnnerDubboClient DubbolnnerService is null”
+6.2.10 jar包上传提示"ecode jar deploy mode: SHARE err：/nfs/data/ecodedev/weaver-secondev-service/WEB-INF/lib/"
+6.2.11 jar包上传提示"当前存在正在校验的jar包[xxxx-xxx.jar],请稍后上传"
+6.2.12 jar包上传提示"err code: 1007, err msg: 文件上传失败"
+6.3 jar包上传服务只能选择二开服务
+6.4 点击“二开依赖包下载”、“jar包版本管理”页面点击下载，或者“部署日志”页面点击下载，跳转页面提示无权限
+6.5 jar包上传或回滚提示“二开jar包中缺少java资源文件，请检查后上传”
+非插件方式解决方案
+6.6 jar包回滚提示“该jar包名称不规范”
+6.7 通过e-code监控管理平台上传的jar包,二开服务重启之后jar包在服务器找不到了
+6.8 jar包部署选择服务节点时，无法选择服务节点，只能选择服务
+6.9 二开jar包部署，获取不到服务列表
+6.10 三方jar包上传提示"jar 文件禁止上传"
+6.11 jar包上传源码检测校验中的问题已经处理，再次上传jar包，校验结果还是有问题
+6.12 jar包审核提示"操作出现异常"
+6.13 jar包上传提示无权限
+6.14 jar包审核报错提示"Rest rpc Consumer"
+七、二次开发常见问题
+7.1 api接口请求提示无权限
+7.2 二开服务配置错误导致服务启动不起来，又选不到启动失败的服务，要怎么修改这个配置【二开jar包上传启动报错处理方案】
+7.3 请求二开测试接口，提示登录超时或token为空
+7.4 papi接口要获取到数据库应该怎么获取呢？
+7.5 e10 用ecode新建的页面，怎么设置才可以在登录前访问
+7.6二开如何获取当前用户信息
+7.7前置加载文件里如何引入非前置文件
+7.8 @weapp/ui引用报错
+7.9 动作流调用ServerlessAction有默认超时时间吗？默认超时时间是多少？
+7.10 接口未准予二开服务访问,接口详情:serviceName
+7.11 本地debug启动了tomcat，但是访问跳转不到E10的界面
+7.12 e-code监控平台部署jar包后，jar包功能未生效
+7.13 如何设置二开服务日志保留时间
+八、其他常见问题
+8.1 二开输出的日志在哪里看
+日志输出方式
+日志文件
+非单体环境配置
+单体环境
+8.2 在上传二开jar包的时候，如果引用了额外的依赖，这个依赖怎么上传的
+8.3 ecode resource中资源上传的类型不支持
+8.4 ecode里面的云商店按钮不显示
+8.5 从云商店导入ecode应用失败
+8.6 函数-datasource-选择数据源-多数据源的数据在哪里创建？
+8.7 前端源码无法查看怎么办？
+8.8 单体环境下在二开服务发布的开放平台接口访问不到
+8.9 ecode新建类型为什么只有react了
+8.10 resources文件夹上传js文件没反应（或者上传其他类型的附件没反应）
+8.11 e-code文件中，如何查找当前代码所属应用
+8.12 ecode在线ide提示“初始化项目空间异常”
+8.13 e-code开发平台没有“平台配置项管理”图标
+8.14 e-code应用如何发布到全部端/如何让代码同时在PC端和移动端都生效
+8.15 如何隐藏/关闭监控助手
+8.16 e-code代码保存不上，保存失败
+8.17 系统每次登录都会刷新多次
+8.18 e-code开发平台，组件库文档中"e-builder组件文档" 、"业务组件文档"链接打开404
+8.19 e-code应用导出或者导入失败，提示文件不存在，资源文件未找到
+8.20 e-code开发平台首页一直自动刷新
+8.21 代码块首次保存不生效，再次编辑保存后正常
+8.22 eb应用迁出失败，提示：资源文件xxx未找到
+8.23 代码块保存提示"保存失败! Css代码格式不正确，请重新修改后保存"
+8.24 eb自定义组件点击前端代码开发，提示"项目信息加载失败:操作无权限"
+8.25 二开jar包审核提示"存在未审核数据,不允许提交审核!"
+8.26 EB应用安装报错"AccessDeniedException: "
+e-code常见问题及解决方案
+一、e-code代码不生效问题排查排查方案
+e-code代码不生效的问题有很多种情况，例如本身写的二开代码有问题、e-ecode静态文件加载不到、其他e-code应用报错影响等等。
+
+下面是例举的一些常见的代码不生效的情况及排查解决方案
+
+1.1 e-code应用代码不生效
+此类应用是指直接在e-code开发平台手动创建或者手动导入的e-code应用。遇到此类应用代码不生效的问题，大家可以按照以下情况一一排查。【注意：以下排查步骤中，需要刷新页面的操作，都是指在e10系统非e-code开发平台页面操作刷新】
+
+如何快速定位代码不生效大概是什么原因导致的？
+
+（1）首先，多刷新几遍页面，然后全局搜索下不生效的代码或者应用的appid，看看是否可以搜索到。
+
+（2）如果是根据代码进行搜索的，搜索到了，则证明代码是正常加载的了。如果是根据appid搜索的，则需要点击到appid所在的文件中，检查文件中是否包含不生效的代码，如果包含，则也说明代码是正常加载到了的。这种情况下，不生效的原因可能是以下几种情况：
+
+e-code应用代码报错导致不生效
+
+e-code应用代码console不输出
+
+e-code应用代码写的有问题
+
+（3）如果全局搜索没有搜索到代码，说明代码没有正常加载到，则需要按照以下步骤一一排查下原因
+
+1.1.1 global接口异常
+检查步骤：
+
+控制台打开Network ,搜索框中输入关键字“global”，然后刷新页面，检查该接口的返回值是否正常
+正常示例：
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729663976-image.png
+
+异常示例1：
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725603950-image.png
+
+异常示例2：
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725862066-image.png
+
+处理方案：
+
+异常示例1：global接口返回值异常，请直接联系e-code模块同事处理。
+
+异常示例2：接口被限流，可以配置下缓存，会减少接口请求次数。参考文档：配置文档
+
+1.1.2 e-code静态文件请求404
+检查步骤：
+
+控制台打开Network ,搜索框中输入关键字“ecodestatic”，然后刷新页面，检查请求的静态资源请求是否正常
+正常示例：
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664066-image.png
+
+异常示例：
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725604687-image.png
+
+处理方案：
+
+静态文件请求404，请检查nfs挂载是否正常。一般挂载存在问题，运维平台中也会有如下图相关告警提示
+
+排查步骤请参考：e-code静态资源请求404排查步骤
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725604912-image.png
+
+1.1.3 e-code静态文件修改不生效
+该类问题的情况：静态文件可能会出现部分访问404，部分访问正常。
+
+检查步骤：
+
+打开控制台，刷新页面，然后全局搜索下不生效e-code应用的appid【appid可通过e-code应用右键点击“复制AppId”菜单获取】。
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725605543-image.png
+
+如果搜索不到，则说明代码没有更新到静态文件中。
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725605589-image.png
+
+如果搜索到了，点击文件查看编辑新增的代码是否存在，如果不存在，则说明代码没有更新到静态文件中
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664150-image.png
+
+处理方案：
+
+客户如果自行调整过存储且nginx是docker部署的，可先重启一下nginx看看
+
+1.1.4 免登页面、外部分发页面代码不生效
+检查步骤：
+
+检查当前应用会是租户应用还是公共应用。如果是租户应用，则需要将应用发布为公共应用。
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725606118-image.png
+
+处理方案：
+
+应用右键“取消发布”后，再次右键点击“发布为公共应用”。如果右键没有“发布为公共应用”的菜单，则说明当前租户没有发布为公共应用的权限。
+
+公共应用权限配置请参考：发布公共应用权限配置
+
+1.1.5 只在PC端不生效或者只在移动端不生效
+检查步骤：
+
+检查下e-code应用是发布到什么端了
+
+P：代码发布到PC端，在PC端生效，在移动端不生效
+M：代码发布到移动端，在移动端生效，在PC端不生效
+ALL:代码发布到全部，在PC和移动端均生效
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725606365-image.png
+
+处理方案：
+
+如果需要再PC端和移动端都生效的话，需要将应用发布到全部端。租户应用直接点击“发布为租户应用”菜单，公共应用直接点击“发布为公共应用”菜单即可发布到全部端
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725606539-image.png
+
+1.1.6 e-code应用代码报错导致不生效
+检查步骤：
+
+打开控制台Console，然后刷新页面，检查下当前e-code应用代码是否存在相关报错信息。
+
+1.1.7 e-code应用代码console不输出
+处理方案：
+
+可以将console替换成alert 来确认下是不是console被屏蔽了
+
+查看控制台是否存在“The console output has been globally disabled by the system. To view the console logs, please add 'wea_link_show_console' to the address bar for viewing”提示信息。如果存在该提示信息，则说明控制台输出已被系统全局禁用。要查看控制台日志，需要在地址栏中添加“wea_link_show_console”进行调试
+
+查看控制台是否存在“The console output has been globally disabled by the system. To view the console logs, please add 'wea_link_keep_show_console' to the address bar for viewing”提示信息。如果存在该提示信息，则说明控制台输出已被系统全局禁用。要查看控制台日志，需要在地址栏中添加“wea_link_keep_show_console”进行调试
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725874868-image.png
+
+地址栏后面直接拼接调试参数
+
+  示例1：https://aaa.aa.aa:8080/workflow/list/center?cusMenuId=11111&wea_link_keep_show_console
+  示例2：https://aaa.aa.aa:8080/workflow/list/center?wea_link_keep_show_console
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1756459351-image.png
+
+如果增加了 'wea_link_show_console' 或者 'wea_link_keep_show_console' 调试参数控制台还是不输出【具体调试参数请以控制台提示为准】，则检查下设置中是不是开启了调试代码过滤。如果开启了调试代码过滤，则需要在应用右键属性中，开启调试模式【开关状态变更，需要取消发布后再次发布应用才会生效】
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1731316044-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1731316166-image.png
+
+1.1.8 页面自动刷新配置导致
+该情况导致的问题现象是，e-code代码修改保存后，刷新一次页面没有效果，要多刷新几次才会生效。
+
+检查步骤： 查看“/api/app/ecode/cache/global”接口返回值中的“refresh”字段值
+
+true : e-code应用代码更新后，页面手动刷新一次即可生效
+
+false : e-code应用代码更新后，页面要手动刷新两次才会生效
+
+更改此配置请参考：页面是否自动刷新配置文档
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725931106-image.png
+
+1.1.9 页面刷新缓存有效期导致
+该情况导致的问题现象是，e-code代码修改保存后，可能要过一段时间，刷新页面才会生效。
+
+检查步骤： 查看“/api/app/ecode/cache/globalData”接口返回值中的“cacheTimeout”字段值
+
+-1：每刷新一次页面，都会请求一次“/api/app/ecode/cache/global”接口
+
+非-1数值：单位是毫秒，指定了间隔时间，刷新页面才会请求“/api/app/ecode/cache/global”接口
+
+cacheTimeout配置修改请参考：配置文档
+
+“/api/app/ecode/cache/global”接口不请求会影响e-code应用代码的更新
+1.1.10 e-code应用代码写的有问题
+如果以上情况都不存在，全局搜索也可以搜索到写的e-code代码，控制台也无报错。则可能是二开代码写的有问题，需要开发人员自行检查下相关代码
+
+1.1.11 e-code应用代码部分人员账号生效部分不生效
+解决方案：e-code应用右键，点击“生效范围”，检查下应用是不是设置了生效范围
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1726812869-image.png
+
+1.2 代码块不生效
+功能范围： 页面设计器、表单设计器代码块
+
+注意：事件配置中的JavaScript，不属于e-code功能范围，如果存在问题，请直接联系对应业务模块进行处理。
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725874473-image.png
+
+1.2.1 设计器页面代码发布后，外部分发/免登地址代码不加载
+解决方案：
+
+（1）检查当前环境的基线版本 10.0.2312.02 版本之前，不支持【解决方式：只能手动发布为公共应用】
+
+（2）10.0.2312.02 之后的版本，查看index.js的请求地址，如果还是旧地址，需要手动编辑保存下，生成新的地址【新地址中带有simple，旧地址没有】
+
+1.2.2 代码块不生效
+解决方案：参考 1、e-code应用代码不生效中步骤一一排查
+
+二、ecodestatic资源请求404
+问题原因一： 迁移环境，只迁移了应用服务器和数据库没有迁移附件导致。请参考E10 e-code迁移操作补充文档进行附件迁移
+
+问题原因二： 静态文件上传或读取异常。可以在e-code开发平台顶部点击下自检，看下检测结果中的"静态文件上传"项是否异常。如果异常，则参考以下步骤检查挂载相关设置
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1747986716-image.png
+
+非单体环境：
+
+排查步骤：
+
+确认客户环境的文件存储用的是什么
+
+如果不确定用的什么存储，登录一下nginx服务器，找到front下的front.conf配置文件，搜索 /ecodestatic，如果代理的目录是一个本地目录，说明用的是本地存储；如果是链接，那就是使用的其他存储，比如oss
+
+如果非本地存储，文件访问404，就拉文件服务的同事一起确认
+
+如果是本地存储，在nginx服务器上执行df -h命令，查看nfs是否挂载。没有nfs挂载，则说明挂载缺失，需要让部署人员根据e10部署文档NFS配置手册补充操作一下【配置手册需要登录自用系统才可访问。nfs配置相关问题，请咨询系统部署同事】。
+
+备注：如果结果中没有共享地址或者nfs相关字样，则说明没有挂载（如下图所示，就是未挂载的） https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1701310070-image.png
+
+如果nfs已挂载，需要检查下/ecodestatic 代理的路径是否与挂载的路径一致，如果不一致，需要将/ecodestatic 代理的目录改成挂载的目录；
+
+备注：挂载了，路径却不一致的示例如下图所示
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664262-image.png
+
+命令补充：
+查找nginx目录：ps -ef|grep nginx
+
+找到front.conf配置文件：cd /opt/weaver/front/nginx/conf.d/ 或者 cd /opt/weaver/e10-front/nginx/conf.d/
+
+查找文件内容：cat front.conf
+
+单体环境：
+
+nginx服务器和应用服务器是同一台情况请根据下面步骤检查下。如果不是同一台服务器，则还是需要按照上面非单体环境检查步骤检查nfs是否挂载【nginx服务器和应用服务器是否是同一台可在运维平台-服务启停中查看】
+
+1、检查下front.conf配置文件中 /ecodestatic 代理的路径是否存在
+
+2、如果不存在，请修改配置或者联系运维人员检查目录缺少原因并处理（如果无具体运维人员可联系系统部署同事），保证/ecodestatic代理的目录存在
+
+3、如果目录存在，检查目录下是否存在静态文件，如果不存在，则需要联系文件服务模块同事排查。
+
+备注：如果只是修改 front.conf 配置文件，无需重启服务，只需要重载下nginx即可【nginx重载方法：在nginx服务器中执行 nginx -s reload】
+
+三、serverless无法使用
+常见问题现象：
+
+1、eocde 定时任务，编译后执行日志一直转圈，但是显示编译成功
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1699599073-image.png
+
+排查步骤：
+
+1、检查serverless是否已经正常安装【容器化环境可联系部署人员确认是否安装】
+
+运维平台-系统维护-业务服务中，查看是否存在serverless服务数据（关键字搜索：serverless）
+没有搜索到服务：联系运维人员安装serverless服务
+E10-serverless补充安装手册【安装手册需要登录自用系统才可访问】
+如果未安装，则不建议安装serverless，建议走本地二开的模式【后续未安装serverless服务，会屏蔽新建函数类型】
+
+本地二开参考文档：
+
+ecode后端常见开发场景说明
+
+E10 secondev常见开发场景示例代码
+
+若已经安装过serverless服务，则继续检查2中配置
+
+2、检查配置 “weaver-ecode-service.properties”配置文件下的配置项是否更改为serverless的服务地址
+
+例如：weaver.ecode.serverless.scheduler-base-url=127.0.0.1:8084 【127.0.0.1这种就是未修改过的，需要修改为客户实际的ip地址】
+
+非单体环境：weaver-ecode-service.properties 配置文件可直接在nacos中搜索查看
+
+单体环境 ：如何查找 weaver-ecode-service.properties 文件请参考下图
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1702880055-image.png
+
+3、配置完成之后：在ecode服务器上执行健康检查接口（如果存在多台服务器，则每一台都需要检查下）
+
+“curl http://serverlessip端口/健康检查接口”
+
+例如：curl http://23.47.4.23:32185/api/ecode/serverless/schedule/health
+
+（1）检查接口通过会返回“health”
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1698737673-image.png
+
+（2）检查接口不通过：Connec t1on refused（说明serverless服务有问题）【请联系安装部署人员检查下】
+
+4、如果检查接口通过：会返回 health（则需要继续检查在serverless服务器上执行下面命令，检查serverless环境变量中的 E10地址是否正确）
+
+命令1：docker ps # 找到scheduler的容器id
+
+命令2：docker inspect 容器id ｜grep ECODE #查看serverless环境变量中E10地址是否正确 ，检查地址是否为系统访问地址，如果系统是二级路径也需要加上二级路径（找运维人员配置）
+
+5、新建一个默认函数，点击编译、执行，看看是否可以正常执行
+
+（1）新建的默认函数如果可以正常执行，则需要自行检查函数写的是否有问题
+
+四、serverless函数调用失败
+4.1 函数调用提示“token为空或失效”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1701936703-image.png
+
+解决方案：
+
+调用方式一：/api/ecode/serverless/func/exec【注：该调用方式需要登录会话、token】
+
+调用方式二：/papi/ecode/serverless/core/func/exec【注：该调用方式无需登录会话，也无法获取用户信息】
+
+4.2 函数调用提示"Func with funcId 函数id does not exist"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1701936873-image.png
+
+解决方案：检查下 funcId 参数的值是不是获取错误【备注：funcId的值是下图中的函数id,并不是token管理中的id】
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1701936946-image.png
+
+五、serverless其他常见问题
+5.1 修改函数超时时间时，保存后提示“timeout must be between 3.000000 s and 10.000000 minutes”
+解决方案：函数超时时间设置超出了限定范围，进入nacos中，weaver-ecode-service.properties配置文件中指定 weaver.ecode.serverless.runFunc-max-timeout= weaver.ecode.serverless.runFunc-min-timeout= 单位ms
+
+备注：nacos中配置文件修改后，无需重启服务。
+
+5.2 函数页面没有编译按钮
+解决方案：调整一下页面缩放比例【缩小页面】
+
+六、监控平台常见问题
+6.1 ecode监控平台（/ecode/monitor）访问提示无权限
+解决方案：请参考监控平台权限配置文档进行配置 监控平台权限配置文档进行配置
+
+6.2 jar包上传/部署问题
+6.2.1 上传提示“操作出现异常”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664776-image.png
+
+排查步骤：
+
+1、检查目标服务状态是否正常
+
+2、检查jar包文件是否正确（idea+加上开发插件打包出来的jar包）
+
+3、检查jar包名称是否存在中文或特殊字符【jar包名称不允许存在中文或特殊字符】
+
+4、检查“weaver-ecode-service.properties”配置文件中“weaver.ecode.service.url”配置项，该配置项的地址 配置的需要是当前ecode服务地址。
+
+6.2.2 上传提示“ConnectException:拒绝连接(Connection refused)”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664823-image.png
+
+排查步骤：
+
+1、检查“weaver-ecode-service.properties”配置文件中“weaver.ecode.service.url”配置项，该配置项的地址 配置的需要是当前ecode服务地址。
+
+2、如果“weaver.ecode.service.url”配置项配置的地址没问题，则需要检查ecode服务所在服务器与配置的地址是否是通的。 可以通过命令访问 【curl 配置的地址/papi/cache/global】 校验是否是通的。如果不通，请联负责部署系统的同事看下
+
+6.2.3 上传提示“请检查MF文件中是否存在weaver-ecode-seconddev-id!”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664865-image.png
+
+问题原因：jar包上传的不对，只能上传通过二开插件编译好的二开jar。【自己用maven搭建引入的依赖打包不可以】
+
+6.2.4 上传提示“'sun.net. www. protocol.file . FileURLConnection' of URL......”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664896-image.png
+
+解决方案：修改配置文件 ${单体服务路径}/webapps/ROOT/WEB-INF/classes/weaver/config/config-center/weaver-ecode-service.properties weaver.ecode.service.url=http://192.168.51.19:20600（ecode所在服务地址）
+
+6.2.5 上传jar包提示“jar文件禁止上传” 或者点击上传后，选不到jar文件
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664923-image.png
+
+解决方案：
+
+方案一：
+
+支持基线：10.0.2409.01 【基线条件满足情况下，请优先使用方案一解决问题】
+
+使用最新的本地项目模版，打包输出目录下会有build.zip，选择这个文件上传
+
+本地模版参考文档：本地项目模版
+
+下载最新的本地项目模板，将secDevlib依赖拷贝到新项目，按文档创建与历史项目同名的子项目，并将二开代码搬到新创建的子项目中，使用新项目进行打包【将原始项目模版中的依赖和代码拷贝到新的项目模版中】
+
+方案二：
+
+系统后台管理中心-文件设置-附件设置中检查黑白名单的配置
+
+检查下jar类型是否在黑名单中，如果在黑名单中需要删除掉
+
+检查下白名单配置是都包含jar文件类型，如果没有，需要添加上
+
+文件设置修改保存成功后，e-code监控平台部署jar包页面需要刷新下才可再次上传jar包
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1702351130-image.png
+
+6.2.6 ecode监控平台上传jar包提示“Init Server List is Empty...”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729664952-image.png
+
+解决方案：请联系运维平台同事处理
+
+6.2.7 ecode监控平台上传jar包提示“上传异常”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1728635920-image.png
+
+解决方案一：
+
+打开控制台-网络，检查“/api/ecode/monitor/deploy/deployJar”接口请求的响应状态。
+
+如果状态为下面几种情况，应该是网络被拦截了，请联系当前环境的网络管理员检查下相关网络设置
+
+状态为：空
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1728637030-image.png
+
+状态为：(failed)net::ERR_CONNECTION_ABORTED
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1728636939-image.png
+
+状态为：(failed)net::ERR_CONNECTION_RESET
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1728636934-image.png
+
+解决方案二：
+
+（1）打开控制台-网络，检查“api/ecode/monitor/deploy/jarDeployCheck”接口请求的响应状态。
+
+	如果响应状态为502，请按照规范上传zip类型的包，如果zip类型包上传正常，则说明jar类型文件上传被安全拦截了，jar包部署使用zip格式文件上传即可
+（2）“api/ecode/monitor/deploy/jarDeployCheck”接口请求的响应状态如果提示 Waf Forbid，则说明jar类型文件上传被安全拦截了，jar包部署使用zip格式文件上传即可
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1736733291-image.png
+
+备注：如果zip类型上传接口还是无响应状态。请联系当前环境的网络管理员检查相关网络设置
+
+6.2.8 ecode监控平台上传jar包提示“instance does not exist”
+微服务组合情况下：
+
+nacos中搜索 weaver-metadata-dubbo-provider-full.properties 和 weaver-metadata-dubbo-provider-simple.properties 文件，将文件中二开服务开头的配置删除即可。 如
+weaver-secondev-service=[{"parameters":{"payload":"16777216","timeout":"10000"},"md5":"weaver-my-base-service"},{"md5":"b546d6426d79975134eae7743c18a6c8"},{"md5":"09af12e1227c859d37031e6a9fc84982"},{"md5":"c6e6fecd343f9f4330807b8fabb10d7f"}]
+单体部署情况下：
+
+请联系运维负责人检查服务启动参数
+
+E10 服务启动参数需要配置二开服务的地址
+
+二开服务的启动参数需要配置E10地址
+
+6.2.9 ecode监控平台上传jar包提示“AbstractlnnerDubboClient DubbolnnerService is null”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1733983829-image.png 解决方案：配置文件里面配了不存在的bean。新增配置，要先上传jar再去改配置
+
+6.2.10 jar包上传提示"ecode jar deploy mode: SHARE err：/nfs/data/ecodedev/weaver-secondev-service/WEB-INF/lib/"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1741592882-image.png
+
+非容器化环境解决方案：【问题原因：启动服务（weaver-ecode）账号无权限在根目录创建文件，所以上传时报错】
+
+1、使用root账号启动服务（weaver-ecode服务）
+
+2、使用root账号在/目录创建 /nfs/data/ecodedev目录，并给到 启动服务（weaver-ecode服务）账号权限
+
+注意事项： 如果环境为容器化环境，请直接联系e-code相关技术人员处理
+
+6.2.11 jar包上传提示"当前存在正在校验的jar包[xxxx-xxx.jar],请稍后上传"
+解决方案：
+
+1、当前环境中有其他人正在上传jar包。同一个环境中，不允许多个jar包同时上传，要等其他人上传成功后再上传。
+
+2、上传jar包过程中如果e10服务（weaver-ecode所在的服务）被重启过，则在e10服务重启后，需要等待1小时再进行jar包上传。
+
+6.2.12 jar包上传提示"err code: 1007, err msg: 文件上传失败"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1759994083-image.png
+
+解决方案：
+
+/ecode页面点击自检，查看自检报错提示。
+
+"标准文件上传"检测项如果提示"文件服务上传失败"：需要在文档模块中，进行上传附件测试，如果标准附件无法正常上传，则需要联系文件服务模块同事处理
+
+"标准文件上传"检测项如果提示"文件服务读取异常"或者其他报错：需要在运维平台获取weaver-ecode日志后，联系文件服务模块同事处理
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1759994311-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1759994707-image.png
+
+6.3 jar包上传服务只能选择二开服务
+解决方案：二开jar只允许部署到二开服务 secondev，不允许部署到其他标准服务内，比如基础服务、流程服务等等，这种都是不允许的，如果需求场景不满足，请提需求评估到总部评估开口子
+
+6.4 点击“二开依赖包下载”、“jar包版本管理”页面点击下载，或者“部署日志”页面点击下载，跳转页面提示无权限
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716187008-image.png https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716187039-image.png
+
+解决方案：jar包的下载需要开发人员权限
+
+权限配置请参考文档：开发人员账号配置
+
+6.5 jar包上传或回滚提示“二开jar包中缺少java资源文件，请检查后上传”
+解决方案：10.0.2409.01 基线，jar包上传新增了是否包含源码校验。如果出现该提示信息，说明上传的jar包中未包含源码。请参考以下方案解决：
+
+非插件方式解决方案
+本地模版参考文档：本地项目模版
+
+下载最新的本地项目模板，将secDevlib依赖拷贝到新项目，按文档创建与历史项目同名的子项目，并将二开代码搬到新创建的子项目中，使用新项目进行打包
+
+备注：
+
+若使用了新模板，打包后上传还是报同样的错误，说明存在内部类的形式的代码，二开代码中打包编译后的class文件是需要和java文件一一对应的，内部类打包会多打出来一个class文件，所以检测失败，内部类需要做拆分成不同的java文件。
+
+针对多种内部类的情况做出以下说明：
+
+（1）对于这种和public class 同级的类 需要拆分一下
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1742550211-image.png
+
+（2）针对以下几种内部类可以不用拆
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1742550124-image.png
+
+6.6 jar包回滚提示“该jar包名称不规范”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725851440-image.png
+
+解决方案：10.0.2409.01 基线版本jar包部署新增了名称规范和包含源码校验，因此jar包回滚也增加了该校验，历史不符合规范jar包无法回滚。
+
+jar包名称规范校验：仅允许以secondev开头且长度不超过100的数字、字母以及[.]、[_]、[-]组成的字符作为二开jar包文件名
+历史不符合规范jar包回滚操作步骤：
+
+1、去服务器上将该jar包名称改成规范的jar包名称
+2、再将要回滚的版本用最新插件打包（包含源码）【如果不清楚该版本的改动，可将当前版本下载下来，然后反编译】
+3、e-code监控管理平台部署jar
+6.7 通过e-code监控管理平台上传的jar包,二开服务重启之后jar包在服务器找不到了
+容器化部署解决方案：
+
+e-code监控平台-配置管理页面，检查jar包上传方式配置项“weaver.ecode.secdevjar.deploy”的值是否为share。
+
+如果不是share的方式，请将配置值修改为share。保存后需要点击顶部的“内存重加载”按钮才可生效。
+
+注意：如果点击保存时提示无权限，是因为当前人员不是监控平台管理员【weaver.ecode.super.managers=人员id】，请参考文档配置监控平台管理员权限：监控平台管理配置文档
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729665035-image.png
+
+6.8 jar包部署选择服务节点时，无法选择服务节点，只能选择服务
+解决方案：10.0.2411.01基线，jar包部署无需选择指定服务节点，直接选择指定服务上传即可。上传后，如存在多个节点，则每个节点都需要重启
+
+6.9 二开jar包部署，获取不到服务列表
+情况1： 单体环境，且二开服务组合在E10服务的情况下，二开jar包部署，获取不到服务列表
+
+解决方案：
+
+方案一【优先建议】：
+
+将secondev二开服务拆分部署
+
+方案二：
+
+1、找到E10服务weaver.properties配置文件 查找配置文件路径说明文档
+
+2、在文件中追加以下配置
+
+weaver.services[weaver-secondev-service]=E10
+weaver.services[weaver-data-search-service]=E10
+3、重启E10服务后生效
+
+注：两个配置都是指括号内的服务组合在单体E10服务，data-search是数据源的服务，在配置了二开服务后最好也加上数据源的服务的配置，否则可能会有问题（有客户产生过，这边就直接给加上，避免产生类似问题）
+
+6.10 三方jar包上传提示"jar 文件禁止上传"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1753080060-image.png
+
+解决方案：
+
+系统后台管理中心-文件设置-附件设置中检查黑白名单的配置
+
+检查下jar类型是否在黑名单中，如果在黑名单中需要删除掉
+
+检查下白名单配置是都包含jar文件类型，如果没有，需要添加上
+
+文件设置修改保存成功后，e-code监控平台部署jar包页面需要刷新下才可再次上传jar包
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1702351130-image.png
+
+6.11 jar包上传源码检测校验中的问题已经处理，再次上传jar包，校验结果还是有问题
+解决方案：
+
+（1）如果校验结果中的问题已经全部处理，可登录到主管理团队，访问 /info/dispatch/escheduler/report，查询 ecode.EcodeJarCheckInitJob 定时任务，手动执行一次。执行成功后等20分钟再次上传jar包
+
+（2）如果第一步执行完成后未解决，请参考文档处理：运维平台重新推送二开依赖说明文档
+
+6.12 jar包审核提示"操作出现异常"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1761640026-image.png
+
+解决方案：检查jar包是否存在以下两种情况，如果存在，请使用标准项目模版进行打包：模版下载地址
+
+1、检查jar包中的res.list文件内容，是否包含自身。或者其他异常数据【正常数据为resources下配置文件列表】
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1761640079-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1761640537-image.png
+
+2、直接用解压文件打开jar包（直接打开查看，切勿解压后查看），检查配置文件是否重复
+
+3、检查jar包内文件后缀名是否超出【合法后缀限定长度20以内】
+
+6.13 jar包上传提示无权限
+解决方案：
+
+1、检查e-code是否开启了数据权限。
+
+2、e-code数据权限开启后，jar包新增部署需要二开服务维护权限。jar包更新部署需要二开服务维护权限和jar包维护权限
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349576-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349601-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349625-image.png
+
+6.14 jar包审核报错提示"Rest rpc Consumer"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1773222630-image.png
+
+解决方案：如果是新部署的单体环境，则需要重启下e10服务
+
+七、二次开发常见问题
+7.1 api接口请求提示无权限
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1729665060-image.png
+
+解决方案：接口加上注解 @WeaPermission(publicPermission = true)
+
+7.2 二开服务配置错误导致服务启动不起来，又选不到启动失败的服务，要怎么修改这个配置【二开jar包上传启动报错处理方案】
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716458865-image.png
+
+解决方案：二开jar包上传启动报错处理方案
+
+容器化部署
+
+共享目录(一般挂载名为/nfs/data)
+
+服务名(组合部署为组合服务名)
+
+Jar包位置:/共享目录/ecodedev/服务名/WEB-INF/lib/_xxx.jar
+
+配置文件位置:/共享目录/ecodedev/服务名/WEB-INF/classes/applicationContext-secondev-secondev-dubbo.xml
+
+非容器化部署
+
+非容器化部署的jar包是上传到目标服务目录的如要处理需要进到该服务的部署目录, jar包所在目录:/服务部署目录/webapps/ROOT/WEB-INF/lib/_xxx.jar
+
+配置文件所在目录:/服务部署目录/webapps/ROOT/WEB-INF/classes/applicationContext-secondev-secondev-dubbo.xml
+
+处理方案
+
+启动失败一般是由jar包内的内容与配置文件两种问题导致的
+
+1.如果是jar包内容，在处理jar包的同时，需要注意该jar包中，有没有其他的类，在dubbo配置文件中增加了配置，若有增加配置，则需要在配置文件中修改
+
+2.如果仅仅是配置文件导致的问题，则修改对应配置文件的配置项即可
+
+3.报错案例：
+
+3.1jar包报错
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716459141-image.png
+
+3.2配置文件报错
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716459167-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1716459180-image.png
+
+7.3 请求二开测试接口，提示登录超时或token为空
+接口请求响应为以下内容：
+
+{
+    "code": -1,
+    "fail": true,
+    "msg": "token为空或失效",
+    "status": false
+}
+{
+    "msg": "token empty or invalid",
+    "fail": true,
+    "code": -1,
+    "actionMsg": {
+    	"code": -1,
+    	"message": "登录超时，当前会话已失效，请重新登录"
+    }
+    "status": false
+}
+解决方案：api接口请求需要用户登录信息。登录对应的测试环境，f12刷新，随便抓一个请求，从请求头里面拿cookie，调接口的时候header里面带上
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1718869875-image.png
+
+7.4 papi接口要获取到数据库应该怎么获取呢？
+解决方案：没有用户及租户信息，执行不了自定义sql，可以考虑走开放平台认证
+
+7.5 e10 用ecode新建的页面，怎么设置才可以在登录前访问
+解决方案： ecode应用发布为公共应用，页面地址拼接/freepass可免登录访问，需要注意免登页面不要/api接口
+
+示例： /sp/custom/993276642511216646/BindingPage/freepass
+
+7.6二开如何获取当前用户信息
+解决方案：
+
+前端读取全局对象获取当前用户信息：TEAMS.currentUser
+后端api接口内通过 UserContext.getCurrentUser() ，papi接口请求上下文无用户信息，无法通过UserContext获取
+节点附加操作action里可以通过 com.weaver.workflow.common.util.OrgUtil...#getUser(long) 获取用户信息
+7.7前置加载文件里如何引入非前置文件
+解决方案：请参考文档新页面开发
+
+7.8 @weapp/ui引用报错
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725590890-image.png
+
+解决方案：前置加载文件里不能写组件代码，没法直接使用import weapp/ui。
+
+需要写组件都通过异步加载组件的方式，详见组件文档：新页面开发
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725591042-image.png
+
+7.9 动作流调用ServerlessAction有默认超时时间吗？默认超时时间是多少？
+解决方案：30s
+
+7.10 接口未准予二开服务访问,接口详情:serviceName
+解决方案：报这个错是说明要调用的标准接口未开放给二开调用，如果二开要用，需要找对应模块去开放【调用的标准接口是哪个模块的，就联系哪个模块的同事去开放】
+
+7.11 本地debug启动了tomcat，但是访问跳转不到E10的界面
+解决方案：2025.0301 基线及后续的版本，不再支持本地登录，请使用 Postman 等工具请求本地接口进行调试。请求 /api 接口时需要登录信息，可以浏览器登录当前 E10 环境，抓取登录 Cookie，请求接口时在 header 里带上。
+
+7.12 e-code监控平台部署jar包后，jar包功能未生效
+排查方案：
+
+一、jar包未同步到二开服务器中
+
+确认二开服务是不是通过运维平台重启的。jar包同步需要在运维平台重启二开服务，通过脚本手动重启的方式jar包不会同步
+
+检查运维平台-首页-系统当前基线版本信息是否可以正常显示。【如果基线版本信息不显示，也会影响jar包同步功能。请先联系运维平台同事处理好后。再进行二开服务重启操作】
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1747978509-image.png
+
+二、jar包正常同步到二开服务中，功能未生效：需要jar包二开人员自行排查
+
+7.13 如何设置二开服务日志保留时间
+解决方案：
+
+日志默认保留7天，需要修改保留时间，如保留30天，增加JVM参数：-Dlog.delete.age=30d
+
+若不清楚如何添加JVM参数，可咨询部署组同事
+
+八、其他常见问题
+8.1 二开输出的日志在哪里看
+二开代码包路径统一前缀：com.weaver.seconddev
+
+日志输出方式
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class DemoAction {
+
+    private static final Logger logger = LoggerFactory.getLogger(DemoAction.class);
+    
+    // todo
+    
+}
+日志文件
+二开日志输出（指com.weaver.seconddev包路径下的二开类打印的日志）
+
+(1).250301基线前 ：info日志输出在 sys-seconddev.log，error日志输出在sys-err.log
+
+(2).250301基线后(包括250301) ：info日志输出在sys-seconddev.log ，error日志输出在sys-seconddev-err.log
+
+(3).运维平台收集 weaver-secondev 服务的日志下载，如下载的日志文件缺失，请通过 ftp 工具连接 secondev 服务器，在二开服务/logs目录下下载。
+非单体环境配置
+1、修改 weaver-secondev-service.properties 配置文件中的logging.level.com.weaver.seconddev=info
+
+weaver-secondev-service.properties 配置文件需要在nacos中修改（直接修改配置文件可能会不生效）
+
+注意一点，这个配置会在服务重启后还原，因为标准限制了日志级别是error，所以只能临时调整成info 或者 debug
+
+2、加上配置后需要重新执行代码，可以通过运维平台可以收集对应服务的日志 sys-secondev.log
+
+单体环境
+1.单体环境（无配置中心）：
+
+1> 执行方法：
+
+a.浏览器执行：http://ip+port/sapi/framework/setLoggingLevel?packagePath=xxx&loggingLevel=INFO
+
+例子：http://ip+port/sapi/framework/setLoggingLevel?packagePath=com.weaver.seconddev&loggingLevel=INFO
+
+b.服务器执行：curl http://ip+port/sapi/framework/setLoggingLevel?packagePath=xxx\&loggingLevel=INFO
+
+例子：curl http://ip+port/sapi/framework/setLoggingLevel?packagePath=com.weaver.seconddev\&loggingLevel=INFO
+2>ip和port必须是服务部署的地址和端口,可以通过运维平台查看（备注：不是OA系统访问的地址和端口，ip和端口用secondev服务或者所在的组合服务的ip和端口）
+
+3>查看日志级别：
+
+a.浏览器执行：http://ip+port/sapi/framework/getLoggers
+
+b.服务器执行：curl http://ip+port/sapi/framework/getLoggers
+4>客户现场很多时候没有权限在浏览器执行；因此必须在服务器执行，注意格式;
+
+可以直接通过运维平台下载日志，服务器路径在：应用部署路径/logs
+
+8.2 在上传二开jar包的时候，如果引用了额外的依赖，这个依赖怎么上传的
+基线版本：小于10.0.2411.01
+
+需要将额外依赖的包手动上传到二开服务器上
+
+1、在应用服务器下执行 ps -ef|grep java 找到对应服务器目录，一般是secondev 或者是other
+
+2、找到二开服务路径后，找到对应的 jar包目录 /webapps/ROOT/WEB-INF/lib
+
+例子：/opt/e10/e10-server0/e10-hr-fna/webapps/ROOT/WEB-INF/lib
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1705581965-image.png
+
+3、通过FTP工具将额外依赖的jar包上传到该目录中
+
+基线版本：大于等于10.0.2411.01
+
+可通过e-code监控平台-后端监控-三方依赖管理 进行三方jar包上传【注意：三方jar包上传后，需要在运维平台重启二开服务才会生效】
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1750402599-image.png
+
+8.3 ecode resource中资源上传的类型不支持
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1710236858-image.png
+
+解决方案：
+
+（1）参考文档配置允许上传的资源后缀： 允许上传的资源后缀配置文档
+
+（2）系统后台管理中心-文件设置-附件设置中检查黑白名单的配置
+
+检查下所需上传的类型是否在黑名单中，如果在黑名单中需要删除掉
+
+检查下白名单配置是都包含所需上传的文件类型，如果没有，需要添加上
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1702351130-image.png
+
+8.4 ecode里面的云商店按钮不显示
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1710487028-image.png
+
+解决方案：检查下后台管理中心-应用管理中云商店这个应用是否被关闭了【需要开启后，ecode中会显示云商店按钮】
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1710487122-image.png
+
+8.5 从云商店导入ecode应用失败
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1710487337-image.png
+
+解决方案：
+
+（1）该问题已经在基线 10.0.2403.01中修复，需要升级基线 10.0.2403.01解决
+
+（2）临时处理方式：可以在案例库中将ecode包下载到本地，通过ecode导入功能将离线包导入。云案例库地址：E10云案例库地址
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1715843192-image.png
+
+8.6 函数-datasource-选择数据源-多数据源的数据在哪里创建？
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1711097871-image.png
+
+解决方案：在后台管理中心-平台引擎-数据加工-数据连接中创建【ecode多数据源页面，只显示数据库类型为mysql和dm的数据，其他类型暂不支持】
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1711097955-image.png
+
+8.7 前端源码无法查看怎么办？
+解决方案：e10不提供map源码查看了
+
+8.8 单体环境下在二开服务发布的开放平台接口访问不到
+单体环境下，二开服务如果是单独部署的，10.0.2405.01基线之前的版本 不支持在二开服务发布开放平台接口，需要发布到E10服务中，或者升级基线到10.0.2405.01版本
+
+8.9 ecode新建类型为什么只有react了
+10.0.2404.02 基线版本，新基线不在支持此功能。
+
+后端开发需要走本地二开的模式 。本地二开参考文档：
+
+ecode后端常见开发场景说明
+
+E10 secondev常见开发场景示例代码
+
+8.10 resources文件夹上传js文件没反应（或者上传其他类型的附件没反应）
+解决方案：检查下后台管理中心-文件设置-附件设置中的上传格式控制方式，是不是设置了不允许上传js格式的附件（或者其他类型的附件）
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1717378575-image.png
+
+8.11 e-code文件中，如何查找当前代码所属应用
+每段代码的下方，会有当前代码的所属应用路径【/项目名称/应用名称/文件名称】
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1717405174-image.png
+
+复制appid,在e-code 开发平台（/ecode）的发布清单中搜索。可搜索到指定应用，点击应用名称可进入应用详情页面查看相关代码
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1717405370-image.png
+
+8.12 ecode在线ide提示“初始化项目空间异常”
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1719450855-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1719450867-image.png
+
+解决方案：该功能已不支持，10.0.2404.02基线版本已经屏蔽该新建类型。后端二次开发需要走本地二开的模式
+
+本地二开参考文档：
+
+ecode后端常见开发场景说明
+
+E10 secondev常见开发场景示例代码
+
+8.13 e-code开发平台没有“平台配置项管理”图标
+解决方案：
+
+1、检查当前环境基线是否 >=10.0.2405.01, “平台配置项管理”功能是10.0.2405.01 基线新增的功能，之前的基线没有该功能
+
+2、检查当前登录的团队是否为主管理团队【“平台配置项管理”只有主管理团队才有该入口】
+
+(1)当前环境打开控制台 Consle
+(2)控制台中输入 TEAMS.currentTenant.tenantManager  后回车，如果结果为true，则当前团队是主管理团队，如果为false，则当前团队是非主管理团队
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1722412156-image.png
+
+主管理租户如何查看请参考文档：租户平台常见问题排查
+
+8.14 e-code应用如何发布到全部端/如何让代码同时在PC端和移动端都生效
+租户应用：点击“发布为租户应用”即可发布全部端，pc端和移动端同时生效
+
+公共应用：点击“发布为公共应用”即可发布全部端，pc端和移动端同时生效
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725518094-image.png
+
+8.15 如何隐藏/关闭监控助手
+需要在ecode监控平台中将监控助手的应用取消发布：
+
+进入ecode监控平台【/ecode/monitor】，找到monitorTool应用取消发布即可
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725518147-image.png
+
+注意：如果取消发布时，提示无权限，是因为没有配置监控平台管理员权限【权限项：weaver.ecode.super.managers】，请仔细阅读“e-code监控平台权限配置”文档并配置好监控平台管理员权限
+
+监控平台权限及监控平台管理员权限配置请参考文档：e-code监控平台权限配置
+
+8.16 e-code代码保存不上，保存失败
+排查方案：请打开控制台Network，检查保存接口的请求是不是没有响应状态，如下图。如果是没有响应状态，应该是网络被拦截了，请联系当前环境的网络管理员检查下相关网络设置
+
+PS:
+
+代码保存的时候，可能会存在保存一些简单的代码可以正常保存，部分代码保存接口就会无响应。这种情况可能是拦截了代码编译后的某些关键字。
+
+拦截逻辑、拦截规则一般是客户那边网络、网关、服务器等做的拦截，需要负责当前环境的网络管理员或者安全管理的人员进行定位
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725602406-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1725602421-image.png
+
+8.17 系统每次登录都会刷新多次
+解决方案：
+
+通过浏览器f12-设置-搜索是否有以下两个代码【搜索关键字：自用问题上报单页、登录状态更新缓存清除】，如果需要在e-code监控管理平台中根据搜索到的应用AppID搜索并取消发布。
+
+示例：每个环境应用的appid不一致，监控平台搜索时，请根据搜索到的代码中具体appid搜索
+
+/* 
+路径: /升级项目/自用问题上报单页/entry.js(main)
+ID: 1047380912595362037
+AppID: 1047380912595362036
+*/
+
+/* 
+路径: /升级项目/登录状态更新缓存清除/entry.js(main)
+ID: 1047380925362823376
+AppID: 1047380925362823375
+*/
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1733476057-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1733476224-image.png
+
+备注：标准目前ecode刷新情况
+
+目前标准是只要没有修改ecode，第一次登录系统后不会就不会刷新，但第一次没有缓存登录的时候还是会刷新一次，如果要解决这个问题，需要把所有ecode应用全部发布为公共应用
+
+8.18 e-code开发平台，组件库文档中"e-builder组件文档" 、"业务组件文档"链接打开404
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1747290530-image.png
+
+解决方案：运维平台中检查是否已经部署了"weapp-demo"、"weapp-ebddoc"这两个服务。
+
+如果未部署，则需要走流程申请这两个服务的补充安装
+8.19 e-code应用导出或者导入失败，提示文件不存在，资源文件未找到
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1749432018-image.png
+
+解决方案：e-code应用中resources文件夹下提示的资源文件找不到(标准文件被删除)。需要将不存在的文件删除掉或者重新上传后再次导出或者导入【注意：导入时如果存在该提示信息，需要检查系统中被覆盖的应用，而不是导入的离线应用】
+
+8.20 e-code开发平台首页一直自动刷新
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1751944730-image.png
+
+解决方案：数据库中执行以下sql，正确的结果是 y 和 1。如果是其他结果，例如是 y 和 4，且数据库是dm数据库的情况下,则需要联系达梦工程师处理
+
+PS:常见于dm数据库 迁移（不排除备份、还原等操作）之后出现
+
+SELECT init, char_length(INIT)
+        FROM ecod_init
+        WHERE tenant_key = '租户key'
+        ORDER BY id DESC
+        LIMIT 1
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1751944907-image.png
+
+8.21 代码块首次保存不生效，再次编辑保存后正常
+出现问题基线： 10.0.2508.01
+
+解决方案： 升级 weaver-ebuilder-designer-service-1.29.0-hotfix6
+
+8.22 eb应用迁出失败，提示：资源文件xxx未找到
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1763604778-image.png
+
+解决方案：
+
+选择部分迁出，然后可以看到关联的ecode应用列表，挨个检查
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1763605220-image.png
+
+这里能看到 ecodeId 页面地址访问 /ecode/main/item/{ecodeId}
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1763605234-image.png
+
+找到关联ecode后，检查ecode应用resources下的文件是否异常【红色为异常】。异常文件需要重新上传或者删除后才可以重新迁出
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1766986155-image.png
+
+8.23 代码块保存提示"保存失败! Css代码格式不正确，请重新修改后保存"
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1765867980-image.png
+
+解决方案：检查css代码是否存在语法错误。
+
+可参考这个在线检查确认具体的报错信息：https://jigsaw.w3.org/css-validator/#validate_by_input
+
+8.24 eb自定义组件点击前端代码开发，提示"项目信息加载失败:操作无权限"
+解决方案：
+
+1、检查e-ecode是否开启了数据权限或者分权管理功能
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349803-image.png
+
+2、e-code数据权限开启后，应用访问需要相关权限
+
+给当前操作的人员，添加"编辑器自定义组件项目"维护权限。
+对于已经存在的自定义组件，还要给当前操作人员添加自定义组件ecode应用权限。
+后续新建自定义组件，应用权限会默认继承"编辑器自定义组件项目"维护权限。
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349836-image.png
+
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770349843-image.png
+
+8.25 二开jar包审核提示"存在未审核数据,不允许提交审核!"
+解决方案：切换到"待审文件"，展开文件目录，将目录下的文件一一审核通过后，再点击顶部的jar包"通过"按钮 https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1770619751-image.png
+
+8.26 EB应用安装报错"AccessDeniedException: "
+https://weapp.eteams.cn/ecodestatic/txproduction/resources/974682604024152064/1772703926-image.png
+
+解决方案：
+
+1、报错信息中提到的目录，检查服务启动账号是否有读写权限
+
+2、如果没有权限，需要赋权【注意：windows环境如果完成文件夹赋权后，一定要关闭文件夹后在进行迁入验证】

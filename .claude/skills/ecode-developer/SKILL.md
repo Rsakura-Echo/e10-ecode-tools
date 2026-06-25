@@ -12,9 +12,19 @@ type: project
 
 ## 知识库
 
-### 真实案例库（优先参考）
+### 自有案例库（第一优先级）
 
-**`knowledge-base/frontend/cases/`** 收录了 262 个从 E10 ecode 平台真实项目导出的完整代码，**按场景分 16 个分类**。这些是经过生产验证的可用代码，**优先参考**。
+**`knowledge-base/frontend/mycase/`** 存放个人在生产环境验证过的真实可用代码，**优先级最高**。泛微官方案例（`cases/`）仅作参考。
+
+```bash
+# 先查自有案例
+grep -ni "关键词" knowledge-base/frontend/mycase/INDEX.md
+grep -rni "关键词" knowledge-base/frontend/mycase/ --include="*.js"
+```
+
+### 官方案例库（参考）
+
+**`knowledge-base/frontend/cases/`** 收录了 262 个从 E10 ecode 平台真实项目导出的完整代码，**按场景分 16 个分类**。仅作参考，优先级低于 `mycase/`。
 
 **三步检索法**（0.003 秒定位）：
 
@@ -58,8 +68,10 @@ grep -rni "关键词" knowledge-base/other/ --include="*.md"
 | `knowledge-base/frontend/06-utils-library.md` | @weapp/utils 工具库 API |
 | `knowledge-base/frontend/07-ui-components.md` | UI 组件库参考（PC/Mobile） |
 | `knowledge-base/frontend/08-esb-serverless.md` | ESB 动作流、Serverless Action |
-| `knowledge-base/frontend/cases/INDEX.md` | **真实案例库索引** — E10 平台导出项目 + 实战验证代码模式，优先参考 |
-| `knowledge-base/frontend/cases/` | **真实案例目录** — 每个子目录为一个完整案例（代码 + 说明 + 截图） |
+| `knowledge-base/frontend/mycase/INDEX.md` | **自有案例库索引** — 生产验证，优先级最高 |
+| `knowledge-base/frontend/mycase/` | **自有案例目录** — 个人真实可用代码（代码 + 说明） |
+| `knowledge-base/frontend/cases/INDEX.md` | **官方案例库索引** — E10 平台导出项目，仅作参考 |
+| `knowledge-base/frontend/cases/` | **官方案例目录** — 每个子目录为一个完整案例（代码 + 说明 + 截图） |
 | `knowledge-base/frontend/cases/REFERENCE.md` | **参考速查** — 全局变量、常见陷阱、ESB 触发方式对比 |
 | `knowledge-base/frontend/19-frontend-module-system.md` | 模块导入导出、前置/异步加载、开发依赖、模板变量 |
 | `knowledge-base/frontend/20-frontend-plugins-controls.md` | 公共插件、第三方JS、weId判断、调试、代码屏蔽 |
@@ -227,10 +239,10 @@ E10 前端二开分为两种方式：
 3. 每种方案都给完整可运行代码
 4. 末尾给出选择建议
 
-**0. 优先检索真实案例库**：
-   - 先读 `knowledge-base/frontend/cases/INDEX.md` 查看案例列表
-   - 用需求关键词搜索案例代码：`grep -rni "关键词" knowledge-base/frontend/cases/ --include="*.js"`
-   - **如果找到相似案例 → 优先基于案例模板修改**，调整 weId、字段、接口地址等
+**0. 优先检索案例库**（mycase > cases）：
+   - **先查自有案例**：`grep -ni "关键词" knowledge-base/frontend/mycase/INDEX.md`，命中后直接复用
+   - **再查官方案例**：`grep -rni "关键词" knowledge-base/frontend/cases/ --include="*.js"`，仅作参考
+   - **如果找到相似案例 → 优先基于案例模板修改**，调整 weId、字段、接口地址等；自有案例（mycase）优先级高于官方（cases）
    - **如果未找到相似案例 → 继续步骤 1，在知识库文档中查找方案**
 
 1. **识别需求类型**：

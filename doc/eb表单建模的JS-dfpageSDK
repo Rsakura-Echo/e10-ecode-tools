@@ -1,0 +1,1432 @@
+
+ebdfpageSDK
+一、基础SDK
+1.1 getCurrUser
+获取当前登录用户信息
+1.2 API请求
+weappUtils.request
+1.3 调用全局遮罩
+weappUi.Spin.globalSpin
+1.4 message 弹框消息提醒
+weappUi.Dialog.message
+1.5 打开系统弹出框 Dialog
+weappUi.Dialog.confirm
+1.6 获取Url链接参数
+weappUtils.qs
+1.7 ebdfpageSDK 内置events事件
+1) on 挂载事件
+2) emit触发事件
+3) off解绑事件
+1.8 拦截复写页面跳转方法
+1.9 拦截消息提示框
+1.10 拦截EB批量弹出框的保存、确定按钮
+拦截EB批量弹出框的保存、确定按钮
+1.11 表格、表单按钮触发
+1.11.1 主动触发按钮点击事件
+1.11.2 触发隐藏按钮状态的方法
+1.11.3 触发右上角按钮禁用
+1.12 打开自定义弹框
+右侧滑出：slideOpenModal
+关闭弹框：closeCustomDialog
+多弹框
+二、EB表格视图SDK
+2.1.1 getListSDK 获取EB表格视图SDK实例
+2.1.2 getViewID 获取表格视图Id
+2.1.3 getObjID 获取查询列表对应EB表单ID
+2.1.3 getAppID
+获取表格视图对应应用ID
+2.1.4 getBaseFormID
+获取表格视图对应表单模块的表单ID，不常用
+2.1.5 getAppObjViewID
+获取表格视图对应应用ID、表单ID、列表ID
+2.1.6 isMobileList
+是否为移动端列表
+2.1.7 getUrlParams
+获取表格视图url上的参数值
+2.1.8 getListData
+获取表格视图数据
+2.1.9 getListDisplayData
+获取表格视图展示数据
+2.2.0 getListStore
+获取表格store
+2.2.1 getCheckedID
+获取选中的数据id数组
+2.2.2 getUnCheckedID
+获取当前页未选中的数据id
+2.2.3 clearChecked
+清除数据选中
+2.2.4 setAllChecked
+当页全选
+2.2.5 setCheckedKeys
+设置选中项id数组
+2.2.6 getListCheckedData
+获取选中的数据项
+2.2.7 reloadTable
+刷新列表
+2.2.8 customRenderData
+渲染自定义显示数据的函数
+2.2.9 customRenderHTML
+渲染自定义显示HTML的函数
+2.3.0 getExportApi 获取导出组件API
+参数说明
+2.3.1 获取表格批量弹出框中的内容
+2.3.2 通过代码块触发搜索
+2.3.3 表格搜索接口参数注入
+2.3.4 获取或修改表格右上角菜单数据
+2.3.5 triggerButtonAction触发按钮
+2.3.6 获取高级搜索/筛选的筛选条件的值
+2.3.7 表格视图自定义按钮触发方法
+三、EB表单视图SDK
+3.1.1 getCardSDK
+获取EB卡片SDK实例
+3.1.2 getObjId
+获取查询列表对应EB表单ID
+3.1.3 getBaseInfo
+获取表单基本信息
+3.1.4 getFormApi
+获取表单操作的api，如表单赋值，获取表单项数据
+3.1.5 getCardStore
+获取当前表单Store实例对象
+3.1.6 closePageBySlide
+关闭滑动窗口
+3.1.7 checkRight
+调用EB卡片数据权限校验接口
+3.1.8 checkCustomize
+拦截保存前校验
+3.1.9 doCardSave
+数据保存
+3.2.0 doCardTempSave
+数据暂存
+3.2.1 doCardSaveAndCreate
+保存并新建
+3.2.2 doCardSaveAndCopy
+保存并复制
+3.2.3 doCardEdit
+触发EB卡片编辑
+3.2.4 doCopyNew
+触发EB卡片复制
+3.2.5 doCardDelete
+触发EB卡片删除
+3.2.6 triggerButtonAction触发按钮
+3.2.7 getFormApi 获取formStore
+3.2.8 setProps 设置CardStore中的属性
+3.2.9 setExternalShareUrlProps 设置外部分享的链接参数
+3.3.0 自定义按钮触发方法
+3.3.1 刷新当前卡片
+四、 JavaScript API(按钮动作,行、列动作中的JavaScript动作中设置)
+4.1.1 getConfirmMessage 通过js打开消息确认框
+4.1.2 asyncFn 当前js动作放行，才继续向后执行
+4.1.3 throw 'break'
+4.1.4 外部单独执行eb的esb接口
+4.1.5 外部单独执行esb标准接口
+ebdfpageSDK
+一、基础SDK
+1.1 getCurrUser
+获取当前登录用户信息
+e.g.
+
+var user = ebdfpageSDK.getCurrUser();  //获取当前登录用户信息
+//或	
+window?.TEAMS?.currentUser
+返回信息：
+
+var info = {
+  "id": "123",
+  "name": "用户1",
+  //...
+}
+1.2 API请求
+weappUtils.request
+更多参数用法查看 weappUtils文档说明
+
+示例
+
+var request = window.weappUtils.request
+request({
+  url: 'xxx',
+  method: 'POST',//'POST'
+  data: {},
+  //headers: config.headers || {},
+}).then(res => {
+  console.log(res)
+})
+1.3 调用全局遮罩
+weappUi.Spin.globalSpin
+更多参数用法查看spin组件文档说明
+
+参数	说明	类型	是否必填	默认值
+color	旋转图标颜色	string	否	
+customRender	自定义渲染	(_: any, ele: ReactNode) => ReactNode	否	
+size	尺寸大小	small、large	否	
+spinning	是否显示	boolean	否	false
+style	样式	CSSProperties	否	
+text	加载文字	string	否	
+type	加载模式	circle、curve	否	
+wrapperClassName	最外层包裹样式	string	否	
+示例
+
+    var { globalSpin } = window.weappUi.Spin;
+//打开
+globalSpin.start()
+//globalSpin.start({text:'loading...'})
+//关闭
+globalSpin.end()
+1.4 message 弹框消息提醒
+weappUi.Dialog.message
+更多参数用法查看 dialog组件文档说明
+
+示例
+
+    var { Dialog, MDialog } = window.weappUi
+//PC
+Dialog.message({ type: 'success', content: 'xxxx', delay: 1000 })
+//PC 2
+var dlg = Dialog.message({ type: 'success', content: 'xxxx', delay: 0 });//不会主动关闭
+dlg.destroy();//关闭
+//mobile
+MDialog.toast({
+  type: 'success', // type: 'info', 'fail', 'success'
+  content: '这是一条提示信息, 3s 后主动消失',
+  mask: true
+});
+1.5 打开系统弹出框 Dialog
+weappUi.Dialog.confirm
+更多参数用法查看 dialog组件文档说明
+
+示例
+
+var { Dialog, MDialog } = window.weappUi;
+//PC
+Dialog.confirm({ type: 'success', content: 'xxxx', width: 600, height: 400 })
+//自定义顶部标题、底部按钮、文字、图标等,请参考文档Dialog.confirm 参数部分
+window.weappUi.Dialog.confirm({ getTitle: () => '123', content: 'xxxx', width: 600, height: 400 })
+//mobile
+var instanceZZY;
+MDialog.prompt({
+  title: "基本用法",
+  mask: true,
+  maskClosable: true,
+  message: "辅助信息类文字",
+  description: "说明性文字",
+  onClose: () => {
+  },
+  onOk: (value) => {
+    console.log(value)
+  },
+  getInstance: (ref) => {
+    instanceZZY = ref
+  },
+  prompt: false,
+  footer: [
+    {
+      key: 'cancel',
+      text: '关闭',
+      onPress: () => {
+        instanceZZY?.onClose?.()
+      },
+    }
+  ]
+})
+1.6 获取Url链接参数
+weappUtils.qs
+更多参数用法查看 weappUtils文档说明
+
+返回值
+
+//?param1=333&param2=444
+var searchData1 = {
+  param1: '123',
+  param2: '444'
+}
+//无utl参数
+var searchData2 = {}
+示例
+
+//xxx?param1=333&param2=444
+var search = location.search.split('?')[1];
+var urlParams = weappUtils.qs.parse(search)
+console.log(urlParams)
+1.7 ebdfpageSDK 内置events事件
+注意：挂载调用必须是同一个event对象,也可以直接使用全局的事件
+
+eventEmitter 事件处理 (e-cology.com.cn)
+
+1) on 挂载事件
+事件绑定，配合emit和off使用
+
+参数说明
+
+参数	类型	必需	说明
+eventName	string	是	要绑定的事件名称
+fn	Function	是	要绑定的函数，不要绑定匿名函数
+id	string	否	要绑定的自定义id
+示例
+
+var ebdfpageSDK = window.ebdfpageSDK;
+var onUrl = (params) => {
+  console.log()
+  widnow.open('https://www.baidu.com')
+}
+ebdfpageSDK.on('myFuncName', onUrl, 'demo');  //事件绑定，配合emit和off使用
+2) emit触发事件
+事件触发，配合on使用
+
+参数说明
+
+参数	类型	必需	说明
+eventName	string	是	要绑定的事件名称
+params	Function	是	要发送的数据
+id	string	否	要绑定的自定义id，如果有需和on中的id一致
+示例
+
+var ebdfpageSDK = window.ebdfpageSDK;
+var onUrl = () => {
+  widnow.open('https://www.baidu.com')
+}
+var params = { aaa: '111' }
+ebdfpageSDK.emit('myFuncName', params, 'demo');  //事件触发，配合on使用
+3) off解绑事件
+事件解绑，解绑on绑定的事件
+
+参数说明
+
+参数	类型	必需	说明
+eventName	string	是	要绑定的事件名称
+fn	Function	是	要解除绑定的函数
+id	string	否	要绑定的自定义id
+示例
+
+var ebdfpageSDK = window.ebdfpageSDK;
+var onUrl = (params) => {
+  console.log()
+  widnow.open('https://www.baidu.com')
+}
+//解绑有以下三种方式
+ebdfpageSDK.off('myFuncName'); //无绑定的id //事件解绑，解绑on绑定的事件
+ebdfpageSDK.off('myFuncName', onUrl, 'demo'); //有ID，解绑
+ebdfpageSDK.off('myFuncName', undefined, 'demo'); //有ID，解绑
+1.8 拦截复写页面跳转方法
+registerJumpLinkRewrite
+
+可以实现拦截复写跳转前参数，数据，地址等内容
+
+fn：实际跳转的方法 info：要跳转或打开的页面的信息数据
+
+props：主要寄存路由对象(match,location,history)，以及一些不固定的非页面数据，如按钮数据btnData，字段数据等
+
+ebdfpageSDK.registerJumpLinkRewrite((fn, info, props) => {
+  console.log(info, props)
+  /*{
+      "nameType": "fixed",
+      "name": "a",
+      "type": "fixed",
+      "value": "111"
+  }*/
+  var params = (info?.params || []).map((p) => {
+    if (p.name === 'a') {
+      return { ...p, value: 222 }
+    }
+    return p;
+  })
+  fn({ ...info, params }, props)
+})
+1.9 拦截消息提示框
+registerConfirmAction
+
+可以实现拦截并复写消息提示框的确认和取消行为；
+
+参数说明
+
+参数	类型	必需	说明
+isOkBtn	boolean	是	当前被触发的按钮，true确认按钮，false为取消按钮
+continueFn	Function	是	继续执行后续动作
+breakFn	Function	是	终止执行后续动作
+window.ebdfpageSDK?.registerConfirmAction((isOkBtn, continueFn, cancelFn) => {
+  if (isOkBtn) {
+    console.log('OK button click');
+    continueFn();// continue;
+  } else {
+    console.log('Cancel button click');
+    var flag = 0;
+    if (flag === 1) {
+      continueFn();// continue;
+    }
+    breakFn();// break;
+  }
+});
+1.10 拦截EB批量弹出框的保存、确定按钮
+registerBeforeBatchOptSave
+
+拦截EB批量弹出框的保存、确定按钮
+例如：
+
+开启了数据过滤的按钮，点击后打开的弹框
+批量编辑
+批量删除
+批量设置标签
+批量......
+// 注意，该函数会拦截所有批量弹出框的最后确认按钮，注意限制条件使用
+window.ebdfpageSDK.registerBeforeBatchOptSave((okFn, cancelFn, props) => {
+  console.log(props);
+  var flag = true; // 某自定义校验条件
+  if (flag) { // 如果符合，继续执行
+    okFn();
+  } else { // 否则关闭弹框，终止执行
+    cancelFn();
+  }
+});
+1.11 表格、表单按钮触发
+表单、表格均可触发右上角按钮，方法如下
+
+// sdk获取，如表单
+
+var sdk = window.ebdfpageSDK.getCardSDK();
+
+// sdk获取，如表格视图，新版数据列表暂不适用
+
+var sdk = window.ebdfpageSDK.getListSDK();
+1.11.1 主动触发按钮点击事件
+triggerTopButton
+
+在接口中，你可以通过按钮的data-id属性来识别按钮。这相当于执行E9扩展功能的id。
+
+你可以将扩展内容制作成自定义按钮，并通过以下方式触发它们：
+
+// 获取表单页面的SDK实例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+
+// 触发系统或自定义按钮，使用按钮的id
+
+sdk.triggerTopButton('762820349675487278'); // 示例按钮id
+
+// 触发系统按钮，直接传入按钮的名称
+
+sdk.triggerTopButton('edit'); // 只有系统按钮支持此方式
+1.11.2 触发隐藏按钮状态的方法
+controlBtnHidden
+
+在接口中，你可以通过按钮的data-id属性来识别按钮。这相当于执行E9扩展功能的id。
+
+注意，这是个trigger联动隐藏方法，如需默认隐藏按钮，可参考：https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/a0fdffdb-0e65-470b-b03a-b045b65039be
+
+参数说明
+
+参数	类型	必需	说明
+isHide	boolean	否	要触发的按钮id，默认为true，隐藏
+ids	boolean	否	要触发的按钮id，多个可用逗号分割，如不传，则默认为控制所有按钮
+返回值
+
+无
+
+// 触发隐藏
+sdk.controlBtnHidden(true, '762820349675487278'); // 示例按钮id
+
+// 触发显示
+sdk.controlBtnHidden(false, '762820349675487278'); // 示例按钮id
+
+// 触发右上角按钮全隐藏
+sdk.controlBtnHidden(true);
+1.11.3 触发右上角按钮禁用
+controlBtnDisabled
+
+注意，这是个trigger联动隐藏方法，如需默认禁用按钮，可参考：https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/a0fdffdb-0e65-470b-b03a-b045b65039be
+
+参数说明
+
+参数	类型	必需	说明
+isHide	boolean	否	要触发的按钮id，默认为true，隐藏
+返回值
+
+无
+
+// 禁用隐藏
+sdk.controlBtnDisabled(true);
+
+// 解除禁用
+sdk.controlBtnDisabled(false);
+1.12 打开自定义弹框
+openCustomDialog 支持基线240302
+
+说明：打开自定义的弹出框，该方法使用iframe解析
+
+参数说明
+
+interface ButtonProps {
+  id: string,
+  content: string,
+  callfun: Function | string
+}
+参数	类型	必需	说明
+dialogProps	DialogProps	是	继承Dialog组件属性，url为自定义属性，通过iframe解析传入的url
+buttons	Array	否	自定义按钮，Dialog的footer可覆盖该属性
+示例
+
+var buttons = [
+  {
+    id: 'btn1',
+    content: '保存',
+    callfun: () => {
+      // 自定义执行
+      console.log('保存');
+    },
+  },
+  { id: 'btn2', content: '刷新', callfun: 'ebdfListSdk.reloadTable' },
+  { id: 'btn333', content: '关闭', callfun: 'base.ebdfpageSDK.closeCustomDialog' },
+];
+var dialogProps = {
+  // Dialog组件的一些属性
+  title: '自定义弹框',
+  style: { width: 300, height: 600 },
+  url: '/sp/ebdfpage/list/886379180080168972',
+};
+// 打开方法
+var dlg = window.ebdfpageSDK.openCustomDialog(dialogProps, buttons);
+// 关闭方法1
+dlg.destroy();
+// 关闭方法2
+ebdfpageSDK.closeCustomDialog();
+右侧滑出：slideOpenModal
+关闭弹框：closeCustomDialog
+// 右侧滑出，也可以给openCustomDialog的dialogProps传入{placement: 'right'}
+ebdfpageSDK.slideOpenModal(dialogProps, buttons);
+// 关闭弹框
+ebdfpageSDK.closeCustomDialog();
+多弹框
+// 还可以指定弹出框id，打开多个弹框，并关闭指定弹框
+var dialogProps = {
+  // Dialog组件的一些属性
+  title: '自定义弹框1',
+  style: { width: 300, height: 600 },
+  url: '/sp/ebdfpage/list/886379180080168972',
+  id: 'ebDialog1'
+};
+var dialogProps2 = {
+  // Dialog组件的一些属性
+  title: '自定义弹框2',
+  style: { width: 800, height: 400 },
+  url: '/sp/ebdfpage/list/886379180080168973',
+  id: 'ebDialog2'
+};
+
+var dlg1 = ebdfpageSDK.openCustomDialog(dialogProps);
+var dlg2 = ebdfpageSDK.openCustomDialog(dialogProps2);
+// 关闭方法1
+dlg1.destroy();
+// 关闭方法2
+ebdfpageSDK.closeCustomDialog('ebDialog2')
+二、EB表格视图SDK
+2.1.1 getListSDK 获取EB表格视图SDK实例
+参数说明
+
+参数	类型	必需	说明
+viewId	string	否	要获取SDK实例的EB表格视图id,默认为空，获取当前表格视图
+返回值 获取EB卡片SDK实例 示例
+
+不传，默认获取最新渲染的表格视图的SDK实例
+
+var ebdfListSDK = window.ebdfpageSDK.getListSDK();
+存在多个表格视图时，传入viewId可获取EB表格视图指定表格视图的SDK实例，视图需在当前页面存在
+
+var viewId = '900404275505643528';//要获取SDK实例的EB表格视图id
+var ebdfListSDK = window.ebdfpageSDK.getListSDK(viewId);
+如默认页面不存在多个卡片，可直接使用window.ebdfListSdk
+
+console.log(window.ebdfListSDK)
+2.1.2 getViewID 获取表格视图Id
+返回值
+
+获取表格视图Id 例如：'900404275505643528'
+
+如单页地址/sp/ebdfpage/list/900404275505643528,则viewId为900404275505643528
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var viewId = ebdfListSdk.getViewID();  //获取表格视图Id
+console.log(viewId)
+2.1.3 getObjID 获取查询列表对应EB表单ID
+返回值
+
+获取查询列表对应EB表单ID 例如：'886379175877476352',接口返回值中通常叫objID
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getListSDK();
+var objId = getListSDK.getObjID();  //获取查询列表对应EB表单ID
+console.log(objId)
+2.1.3 getAppID
+获取表格视图对应应用ID
+返回值
+
+获取表格视图对应应用ID 例如：'846327987424141315'
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var appId = ebdfListSdk.getAppID();  //获取表格视图对应应用ID
+console.log(appId)
+2.1.4 getBaseFormID
+获取表格视图对应表单模块的表单ID，不常用
+返回值
+
+获取表格视图对应表单模块的表单ID，不常用 例如：'123'
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var formId = ebdfListSdk.getBaseFormID();  //获取表格视图对应表单模块的表单ID，不常用
+console.log(formId)
+2.1.5 getAppObjViewID
+获取表格视图对应应用ID、表单ID、列表ID
+返回值
+
+获取表格视图对应应用ID、表单ID、列表ID 例如：
+
+{
+  "appId": "846327987424141315",
+  "objId": "900404271160344576",
+  "viewId": "900404275505643528"
+}
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var idInfo = ebdfListSdk.getAppObjViewID();  //获取表格视图对应应用ID、表单ID、列表ID
+console.log(idInfo)
+//{ appId:'123', objId:'234', viewId:'345' }
+2.1.6 isMobileList
+是否为移动端列表
+返回值
+
+是否为移动端列表 例如：'123'
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var isMobile = ebdfListSdk.isMobileList();  //判断当前表格是否为移动端列表
+console.log(isMobile)
+// false 否,PC
+// true 是,移动端
+2.1.7 getUrlParams
+获取表格视图url上的参数值
+返回值
+
+获取表格视图url上的参数值 例如：
+
+{
+  id:'123'
+}
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var searchParams = ebdfListSdk.getUrlParams();  //获取表格视图url上的参数值
+console.log(searchParams)
+2.1.8 getListData
+获取表格视图数据
+返回值
+
+获取表格视图数据值 例如：
+
+[
+  {
+    "field_1": "单行文本",
+    "field_9": "6475647249345559175",
+    "create_time": 1661758356000,
+    "ebrecord_rowkey": "766902295272054785",
+    "form_data_id": "766902260801683456"
+  }
+]
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var datas = ebdfListSdk.getListData();  //获取当页表格json数据，不包含生成的显示格式
+2.1.9 getListDisplayData
+获取表格视图展示数据
+参数说明
+
+无
+
+返回值
+
+获取表格视图展示数据 例如：
+
+[{
+  field_1: "单行文本",
+  field_2Action: "",
+  field_9: "选项3",
+  field_9Action: "",
+  ebrecord_rowkey: "766902295272054785",
+  form_data_id: "766902260801683456",
+}]
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var datas = ebdfListSdk.getListDisplayData();  //获取当页表格json数据，包含生成的显示格式
+2.2.0 getListStore
+获取表格store
+参数说明
+
+无
+
+返回值
+
+获取表格store 例如：
+
+TableViewStore
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var tableViewStore = ebdfListSdk.getListStore();  //获取表格store
+2.2.1 getCheckedID
+获取选中的数据id数组
+参数说明
+
+无
+
+返回值
+
+获取选中的数据id 例如：['123','234']
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var ids = ebdfListSdk.getCheckedID();  //获取选中的数据id
+console.log(ids)
+2.2.2 getUnCheckedID
+获取当前页未选中的数据id
+参数说明
+
+无
+
+返回值
+
+获取当前页未选中的数据id
+
+例如：['567','789']
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var ids = ebdfListSdk.getUnCheckedID();  //获取当前页未选中的数据id
+console.log(ids)
+2.2.3 clearChecked
+清除数据选中
+参数说明
+
+无
+
+返回值
+
+无
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.clearChecked();  //清除数据选中
+2.2.4 setAllChecked
+当页全选
+参数说明
+
+无
+
+返回值
+
+无
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.setAllChecked();  //当页全选，选中当前分页下的所有主表数据
+2.2.5 setCheckedKeys
+设置选中项id数组
+参数说明
+
+参数	类型	必需	说明
+ids	string[]	是	数据id的数组，如['123','234']
+返回值
+
+无
+
+示例
+
+ebdfListSdk.setCheckedKeys(['123','234']); //数据'123','234'会被选中
+// 如取消'123'，需要重新设置选中项
+ebdfListSdk.setCheckedKeys(['234']); //则只有数据'234'会被选中
+2.2.6 getListCheckedData
+获取选中的数据项
+参数说明
+
+参数	类型	必需	说明
+isDisplayData	boolean	否	获取数据格式为displayData,默认true
+返回值
+
+获取选中的数据项
+
+例如：[{ebrecord_rowkey:'123'}]
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var displayDatas = ebdfListSdk.getListCheckedData();  //获取选中的数据项,默认displayData格式
+// var datas = ebdfListSdk.getListCheckedData(false);  //获取选中的数据项
+console.log(displayDatas)
+2.2.7 reloadTable
+刷新列表
+参数说明
+
+无
+
+返回值
+
+无
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.reloadTable();  //刷新列表
+2.2.8 customRenderData
+渲染自定义显示数据的函数
+参数说明
+
+参数	类型	必需	说明
+dataHandler	function	是	处理数据用的钩子函数
+dataHandler参数	类型	说明
+fieldId	string	列字段key
+data	AnyObj	目标字段数据
+type	'table','grid','group'	视图类型(移动端不支持group)
+otherInfo	AnyObj	其他数据信息
+返回值
+
+无
+
+示例
+
+由于业务持续迭代，该方法目前已不适用于2025基线后的大部分场景
+
+/**
+ * @function dataHandler 处理数据用的钩子函数
+ * @param fieldId [string] 列字段key
+ * @param value 目标字段数据
+ * @param type ['table'|'grid'|'group'] 视图类型'table':表格视图; 'grid':网格视图; 'group':分组列表;
+ * @param otherInfo 其他字段信息，如位置/行序号/列字段信息/行数据 不同类型视图返回有差异
+ * */
+var dataHandler = (fieldId, value, type, otherInfo) => {
+    if (type === 'table') {
+      if (fieldId === 'field_1') {
+        return '123'
+      }
+    }
+    return value;
+  }
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.customRenderData(dataHandler);  //渲染自定义显示数据的函数
+2.2.9 customRenderHTML
+渲染自定义显示HTML的函数
+参数说明
+
+参数	类型	必需	说明
+renderHandler	function	是	自定义渲染内容显示的钩子函数
+钩子函数参数	类型	说明
+fieldId	string	列字段key
+value	any	目标字段数据
+type	'table','grid','group'	视图类型(移动端不支持group)
+dom	React.ReactNode	修改前的表格内容
+otherInfo	AnyObj	其他数据信息，如行数据
+返回值
+
+无
+
+示例
+
+/**
+ * @function renderHandler 自定义渲染内容显示的钩子函数
+ * @param fieldId [string] 列字段key
+ * @param value 目标字段数据
+ * @param type ['table'|'grid'|'group'] 视图类型'table':表格视图; 'grid':网格视图; 'group':分组列表;
+ * @param dom 修改前的表格内容
+ * @param otherInfo 其他字段信息，如位置/行序号/列字段信息/行数据 不同类型视图返回有差异
+ * */
+var renderHandler = (fieldId, value, type, dom, otherInfo) => {
+    if (type === 'table') {
+      if (fieldId === 'field_1') {
+        return <div className='custom-cls'>{dom}</div>
+      }
+      if (fieldId === 'field_2') {
+        return type;
+      }
+      if (fieldId === 'field_3') {
+        return React.createElement('div', { className: 'custom-cls' }, dom)
+      }
+    }
+    return dom;
+  }
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.customRenderHTML(renderHandler);  //渲染自定义显示HTML的函数
+推荐用法
+
+// 放在ecode中，viewId是表格Id
+weappUtils.regOvProps('weappEbdfpage', 'TList', (props) => {
+  if (props.tableViewStore.viewId === '1126869989796036609') { //自定义限制条件
+    console.log('#####', props, ebdfListSdk);
+    ebdfListSdk.customRenderHTML(() => {
+      return '1231233';
+    });
+  }
+  return props;
+});
+2.3.0 getExportApi 获取导出组件API
+参数说明
+返回值
+
+interface IExportApi {
+  doInitExport: (name?: string) => void,//直接触发导出操作 doInitExport('导出名称')
+  getExpFileData: () => Promise<any>, //触发获取导出数据的接口
+  onSure: () => void,//导出弹框确认键
+  onClear: () => void,//导出弹框取消键
+  setDlgVisible: (visible: boolean) => void,//设置弹框显示隐藏
+  setExportFormDatas: (data: any) => void,//设置导出数据
+  setVisible: (visible: boolean) => void,
+}
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+var apis = ebdfListSdk.getExportApi();
+apis.doInitExport('excel1');//直接触发导出操作，导出名称为excel1
+2.3.1 获取表格批量弹出框中的内容
+if (window.ebdfpageSDK) {
+  var sdk = window.ebdfpageSDK;
+  if (sdk.getListSDK()) {
+    var listSDK = sdk.getListSDK();
+    // 批量弹出框Store信息，弹框信息都在这个里面
+    var { batchOperationStore } = listSDK.getListStore();
+    //获取选中项
+    var selectedRows = batchOperationStore.selectedRows.slice()
+    //获取选中项id
+    var ids = batchOperationStore.getSelectedIds;
+  }
+}
+2.3.2 通过代码块触发搜索
+场景：通过自定义按钮触发搜索
+
+var onFilterSearch = () => {
+  try {
+    if (window.ebdfpageSDK) {
+      var sdk = window.ebdfpageSDK;
+      var listStore = sdk.getListSDK().getListStore();
+      var datas = listStore.viewHeaderStore.searchAdvancedStore.getSearchValue();//获取高级搜索的值
+      listStore.onSearch(datas, 'fromSearchPanel');//触发高级搜索
+      listStore.viewHeaderStore.onVisibleChange(false);//关闭高级搜索弹框
+      listStore.filterSearch();//触发筛选
+    }
+  } catch (e) {
+    console.log('error', e)
+  }
+}
+onFilterSearch();//执行
+2.3.3 表格搜索接口参数注入
+场景：类似于url中的参数，加入到请求中去
+
+//表格代码块注册执行钩子 
+if (window.ebdfpageSDK) {
+  var sdk = window.ebdfpageSDK;
+  var listStore = sdk.getListSDK().getListStore();
+  var params = listStore.searchParams;//获取历史的搜索参数
+  listStore.setState({
+    searchParams: { ...params, "aaa": "111" }//搜索参数注入
+  })
+}
+//接口触发后，参数将被注入
+2.3.4 获取或修改表格右上角菜单数据
+if (window.ebdfpageSDK) {
+  var sdk = window.ebdfpageSDK;
+  var { viewHeaderStore } = sdk.getListStore();
+  var menus = mobx.toJS(viewHeaderStore.rightMenus);
+  console.log(menus);
+  viewHeaderStore.setState({
+    rightMenu: [], // 可参照现有menu，构造新的menu
+  });
+}
+2.3.5 triggerButtonAction触发按钮
+最低基线版本 10.0.2312.01
+
+参数说明
+
+参数	类型	必需	说明
+buttonId	string	是	要触发的按钮id或系统按钮的buttonKey
+返回值
+
+无
+
+示例
+
+var ebdfListSdk = window.ebdfpageSDK.getListSDK();
+ebdfListSdk.triggerButtonAction(buttonId);  //触发EB按钮，需要前台有按钮信息返回
+2.3.6 获取高级搜索/筛选的筛选条件的值
+示例
+
+ebdfListSdk.getFilterSearchDatas();// 筛选条件的值
+ebdfListSdk.getAdQuickSearchDatas();// 快捷和高级搜索的值
+2.3.7 表格视图自定义按钮触发方法
+见 1.11
+
+三、EB表单视图SDK
+3.1.1 getCardSDK
+获取EB卡片SDK实例
+参数说明
+
+参数	类型	必需	说明
+objId	string	否	要获取SDK实例的EB表单id,默认为空，获取当前卡片
+返回值 获取EB卡片SDK实例 示例
+
+不传，默认获取最新渲染的表单卡片的SDK实例
+
+var cardSDK = window.ebdfpageSDK.getCardSDK();
+多个表单，可指定表单
+
+var dataId = '900404275505643528';//要获取SDK实例的EB表格数据id
+//传入dataId可获取EB表单视图对应dataId的SDK实例，视图需在当前页面存在
+var cardSDK = window.ebdfpageSDK.getCardSDK(dataId);
+如默认页面不存在多个表单卡片，可直接使用window.ebdFormSdk
+
+console.log(window.ebdFormSdk)
+3.1.2 getObjId
+获取查询列表对应EB表单ID
+参数说明
+
+无
+
+返回值
+
+获取查询列表对应EB表单ID，例如：'123'
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var objId = ebdFormSdk.getObjID();  //获取查询列表对应EB表单ID
+3.1.3 getBaseInfo
+获取表单基本信息
+参数说明
+
+无
+
+返回值
+
+获取表单基本信息，如类型，id等 如：
+
+var info = {
+  objid: "833320528434774016", // EB表单id
+  type: "0", // 0显示显示布局，1新建布局，2编辑布局
+  dataid: "839933725816045568", // 数据id
+  id: "839933725816045568", // 数据id
+  fromRecycle: false, // 是否为回收站数据
+  compId: "833320537217646596",
+  isFlow: false, // 是否为流程表单
+  requestId: "0",
+  workflowId: "0", // 流程id
+  formdataid: "839933725816045568"
+}
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var baseInfo = ebdFormSdk.getBaseInfo();  //获取表单基本信息，如类型，id等
+3.1.4 getFormApi
+获取表单操作的api，如表单赋值，获取表单项数据
+参数说明
+
+无
+
+返回值
+
+底层表单SDK
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var weformApi = ebdFormSdk.getFormApi();  //获取表单操作的api，获取的API为底层表单API，文档请参考表单设计器中的表单代码块
+3.1.5 getCardStore
+获取当前表单Store实例对象
+参数说明
+
+无
+
+返回值
+
+获取当前表单Store实例对象
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var baseInfo = ebdFormSdk.getBaseInfo();  //获取表单基本信息，如类型，id等
+3.1.6 closePageBySlide
+关闭滑动窗口
+参数说明
+
+无
+
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.closePageBySlide();  //关闭滑动窗口
+3.1.7 checkRight
+调用EB卡片数据权限校验接口
+参数说明
+
+参数	类型	必需	说明
+rightType	RightType	是	校验的类型，'0':新建保存是否有权限，'2'编辑保存，'3'删除,'6'流程编辑'7'流程删除
+objId	string	是	表单id
+dataId	string	否	数据id
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var rightType = '0';//新建
+var objId = '123';//对应的表单id
+var dataId = '';
+ebdFormSdk.checkRight(rightType, objId, dataId);  //调用EB卡片数据权限校验
+3.1.8 checkCustomize
+拦截保存前校验
+参数说明
+
+参数	类型	必需	说明
+checkFunc	Function	是	该函数接收一个resolve，并返回一个标记，标记是否进行后续的表单保存
+resolve说明：
+
+checkFunc参数	类型	必需	说明
+resolve	Function	是	true继续保存,false不保存
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var checkFunc = (resolve, info) => {
+  console.log(info);//按钮和保存类型信息，如判断是暂存
+  //...some ajax request，请参考weappUtils.request的API
+  weappUtils.request({
+    url: 'aaa',
+    method: 'post',
+    data: {}
+  }).then((res) => {
+    if (res?.flag === true) {
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  }).catch((e) => {
+    resolve(false);
+  })
+
+}
+ebdFormSdk.checkCustomize(checkFunc);  //拦截表单保存前验证
+3.1.9 doCardSave
+数据保存
+参数说明
+
+参数	类型	必需	说明
+successFn	Function	否	保存成功后的回调函数
+failFn	Function	否	失败后的回调函数
+refreshCard	Boolean	否	保存成功后是否刷新表单卡片
+formProps	Object	否	表单保存接口的属性，如需跳过必填校验，可传入 {isRequired:false}
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var successFn = () => {
+  console.log(ebdFormSdk.getBaseInfo())
+}
+var failFn = () => {
+  console.log('fail')
+}
+var refreshCard = true;
+ebdFormSdk.doCardSave(successFn, failFn, refreshCard);  //调用EB卡片数据保存
+  
+//ebdFormSdk.doCardSave(successFn, failFn, refreshCard, {isRequired:false});// 250801基线起支持
+  
+3.2.0 doCardTempSave
+数据暂存
+参数说明
+
+参数	类型	必需	说明
+successFn	Function	否	保存成功后的回调函数
+failFn	Function	否	失败后的回调函数
+refreshCard	Boolean	否	保存成功后是否刷新表单卡片
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var successFn = () => {
+  console.log(ebdFormSdk.getBaseInfo())
+}
+var failFn = () => {
+  console.log('fail')
+}
+var refreshCard = true;
+ebdFormSdk.doCardTempSave(successFn, failFn, refreshCard);  //调用EB卡片数据暂存
+3.2.1 doCardSaveAndCreate
+保存并新建
+参数说明
+
+参数	类型	必需	说明
+successFn	Function	否	保存成功后的回调函数
+failFn	Function	否	失败后的回调函数
+refreshCard	Boolean	否	保存成功后是否刷新表单卡片
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var successFn = () => {
+  console.log(ebdFormSdk.getBaseInfo())
+}
+var failFn = () => {
+  console.log('fail')
+}
+var refreshCard = true;
+ebdFormSdk.doCardSaveAndCreate(successFn, failFn, refreshCard);  //调用EB卡片数据保存并新建接口
+3.2.2 doCardSaveAndCopy
+保存并复制
+参数说明
+
+参数	类型	必需	说明
+successFn	Function	否	保存成功后的回调函数
+failFn	Function	否	失败后的回调函数
+refreshCard	Boolean	否	保存成功后是否刷新表单卡片
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+var successFn = () => {
+  console.log(ebdFormSdk.getBaseInfo())
+}
+var failFn = () => {
+  console.log('fail')
+}
+var refreshCard = true;
+ebdFormSdk.doCardSaveAndCopy(successFn, failFn, refreshCard);  //调用EB卡片数据保存并复制接口
+3.2.3 doCardEdit
+触发EB卡片编辑
+参数说明 无
+
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.doCardEdit();  //触发EB卡片编辑
+3.2.4 doCopyNew
+触发EB卡片复制
+参数说明 无
+
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.doCopyNew();  //触发EB卡片复制
+3.2.5 doCardDelete
+触发EB卡片删除
+参数说明
+
+无
+
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.doCardDelete();  //触发EB卡片删除接口
+3.2.6 triggerButtonAction触发按钮
+最低基线版本 10.0.2312.01
+
+参数说明
+
+参数	类型	必需	说明
+buttonId	string	是	要触发的按钮id
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.triggerButtonAction(buttonId);  //触发EB按钮，需要前台有按钮信息返回
+3.2.7 getFormApi 获取formStore
+参数说明
+
+无
+
+返回值
+
+CardStore.formStore
+
+3.2.8 setProps 设置CardStore中的属性
+参数说明
+
+参数	类型	必需	说明
+cardProps	AnyObj	是	要触发属性对象如{quickButtonNumberLimit:2}
+返回值
+
+无
+
+示例
+
+var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+ebdFormSdk.setProps({ quickButtonNumberLimit: 2 });// 设置表单布局顶部显示的快捷按钮数量（小于等于后台设置的显示在右上角的按钮总数）
+3.2.9 setExternalShareUrlProps 设置外部分享的链接参数
+最低基线版本 10.0.2404.01
+
+// 例如设置在外部分享按钮系统动作前，加一个JavaScript动作
+asyncFn((resolve, reject) => {
+  ajax().then((res) => {
+    if (res) {
+      ebdFormSdk.setExternalShareUrlProps({ subLayoutMultiId: res.subLayoutMultiId });
+      resolve();
+    } else {
+      reject();
+    }
+  }).catch(() => {
+    reject();
+  });
+});
+3.3.0 自定义按钮触发方法
+见 1.11
+
+3.3.1 刷新当前卡片
+var cardSDK = window.ebdfpageSDK.getCardSDK();
+//支持俩俩参数forceReload: boolean = true, otherParams?: any
+cardSDK.reloadCard()
+
+四、 JavaScript API(按钮动作,行、列动作中的JavaScript动作中设置)
+无法在控制台中直接执行
+
+4.1.1 getConfirmMessage 通过js打开消息确认框
+//1. 直接提示文本内容进行确认
+getConfirmMessage('要提示的信息')
+//2.自定义提示内容
+getConfirmMessage({
+  title: string,//标题
+  okText: string,//确认按钮文字
+  onOk: () => {
+    // 成功的回调
+  },
+  cancelText: string,//取消按钮文字
+  onCancel: () => {
+    // 点击取消的回调
+  },
+  content: string,//弹框提示信息内容
+})
+4.1.2 asyncFn 当前js动作放行，才继续向后执行
+最低基线版本 10.0.2312.02
+
+该动作可以实现，调用或者执行内容后，阻塞后续动作，等通知放行后才继续执行后续动作
+
+asyncFn((resolve, reject) => {
+  console.log('执行了');
+  weappUtils.request({
+    url: '/url',
+    method: 'POST',
+    data: {}
+  }).then((res) => { // 调用自定义接口，或其他行为
+    if (res && res.flag) {
+      resolve();// 成功，通知执行下一个动作
+    } else {
+      reject();// 失败或取消，中断后续动作，通知状态清除
+    }
+  }).catch(() => {
+    reject();// 异常，中断后续动作，通知状态清除
+  });
+});
+例如：配合表单保存按钮
+
+asyncFn((resolve, reject) => {
+  var ebdFormSdk = window.ebdfpageSDK.getCardSDK();
+  var successFn = () => {
+    console.log(ebdFormSdk.getBaseInfo())
+    resolve();// 成功，通知执行下一个动作
+  }
+  var failFn = () => {
+    console.log('fail')
+    reject();// 失败或取消，中断后续动作，通知状态清除
+  }
+  var refreshCard = true;
+  ebdFormSdk.doCardSave(successFn, failFn, refreshCard);  //调用EB卡片数据保存
+});
+4.1.3 throw 'break'
+调用执行动作中断
+
+该方法支持较低版本使用，
+
+使用方法：
+
+在按钮JavaScript中抛出该字段，将手动制造一个中断信号，阻止后面的动作执行。
+
+weapp-ebdfpage-1.12.0之后可以使用asyncFn替代
+
+4.1.4 外部单独执行eb的esb接口
+案例：https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/2bf04bb1-facb-4847-a3cb-7904c77501c8
+
+weappUtils.request({
+  url: '/api/ebuilder/form/esb/runEsb',
+  method: 'POST',
+  data: {
+    dataIds: '',//数据id
+    esbActionIds: '',//EB按钮上配置的按钮动作ID
+  },
+})
+4.1.5 外部单独执行esb标准接口
+参数说明
+
+参数	类型	必需	说明
+esbFlowId	string	是	动作流Id
+mainParams	object	否	主表参数
+detailParams	Array	否	明细参数,根据数组下标来表示是明细1还是2等等
+返回值
+
+返回Promise对象
+
+const mainParams = {
+    name: "张三", 
+    sex: "男", 
+    idCardNumber: "340123198503625026"        
+}
+const detailParams = [
+    [
+        {
+            learningExperience: "1996/09/01-1999/07/30就读于清华大学附属中学-初中部" 
+        }        
+    ], //明细1
+    [
+        {
+            learningExperience: "1999/09/01-2002/07/30就读于清华大学附属中学-高中部" 
+        }        
+    ], //明细2
+    // ...
+]
+ebdfpageSDK.callEsbFlow("1586999223341314049", mainParams, detailParams).then(res => {
+  // ......
+});
